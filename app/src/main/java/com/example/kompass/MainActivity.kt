@@ -71,6 +71,7 @@ fun NavButtons() {
             .padding(1.dp),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
@@ -92,7 +93,7 @@ fun NavButtons() {
 fun CategoryBtn(text: String, color: Color) {
     Box(
         modifier = Modifier
-            .width(180.dp)
+            .width(160.dp)
             .height(320.dp)
             .background(color, shape = RoundedCornerShape(8.dp))
             .clickable { println("$text button Clicked") },
@@ -101,7 +102,8 @@ fun CategoryBtn(text: String, color: Color) {
         Text(
             text = text,
             color = Color.White,
-            fontSize = 18.sp
+            fontSize = 18.sp,
+            textAlign = TextAlign.Center
         )
     }
 }

@@ -75,21 +75,21 @@ fun NavButtons() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SquareButton("Product Info", Color.Black)
-            SquareButton("Installation", Color.Black)
+            CategoryBtn("Product Info", Color.Black)
+            CategoryBtn("Installation", Color.Black)
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SquareButton("Logistics & Delivery", Color.Black)
-            SquareButton("Policy", Color.Black)
+            CategoryBtn("Logistics & Delivery", Color.Black)
+            CategoryBtn("Policy", Color.Black)
         }
     }
 }
 
 @Composable
-fun SquareButton(text: String, color: Color) {
+fun CategoryBtn(text: String, color: Color) {
     Box(
         modifier = Modifier
             .width(180.dp)

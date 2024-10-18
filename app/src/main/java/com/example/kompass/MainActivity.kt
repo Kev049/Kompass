@@ -101,20 +101,6 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     )
-                    // DropdownMenu for suggestions
-                    DropdownMenu(
-                        expanded = expanded && filteredSuggestions.isNotEmpty(),
-                        onDismissRequest = { expanded = false }
-                    ) {
-                        filteredSuggestions.forEach { suggestion ->
-                            DropdownMenuItem(onClick = {
-                                searchQuery = suggestion // Set the clicked suggestion
-                                expanded = false // Hide dropdown
-                            }) {
-                                Text(suggestion)
-                            }
-                        }
-                    }
                 },
                 bottomBar = {
                     BottomAppBar(
@@ -137,6 +123,21 @@ class MainActivity : ComponentActivity() {
                     contentAlignment = Alignment.Center
                 ) {
                     NavButtons()
+
+                    // DropdownMenu for suggestions
+                    DropdownMenu(
+                        expanded = expanded && filteredSuggestions.isNotEmpty(),
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        filteredSuggestions.forEach { suggestion ->
+                            DropdownMenuItem(onClick = {
+                                searchQuery = suggestion // Set the clicked suggestion
+                                expanded = false // Hide dropdown
+                            }, text = {
+                                Text(suggestion)
+                            })
+                        }
+                    }
                 }
             }
         }

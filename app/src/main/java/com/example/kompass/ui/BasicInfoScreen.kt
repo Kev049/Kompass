@@ -21,6 +21,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -44,6 +46,7 @@ fun BasicInfoScreen(
                     contentColor = Color.Yellow,
                     modifier = Modifier
                         .height(72.dp)
+                        .topBorder(Color.White, 0.5f)
                 ) {
                     NavBarButtons2()
                 }
@@ -189,6 +192,20 @@ private fun NavBarBtn2(text: String) {
     }
 }
 
+
+fun Modifier.topBorder(
+    color: Color,
+    height: Float,
+) = this.drawWithContent {
+    drawContent()
+    drawLine(
+        color = color,
+        start = Offset(0f, 0f),
+        end = Offset(size.width, 0f),
+        strokeWidth = height,
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun InfoScreenPreview() {
@@ -197,3 +214,4 @@ private fun InfoScreenPreview() {
         )
     }
 }
+

@@ -64,7 +64,8 @@ fun BasicInfoScreen(
 }
 
 @Composable
-private fun InfoButtons() {
+private fun InfoButtons(
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -90,7 +91,10 @@ private fun InfoButtons() {
 }
 
 @Composable
-fun CategoryBtn2(text: String, color: Color) {
+fun CategoryBtn2(
+    text: String,
+    color: Color)
+{
 
     val drawableMap = mapOf(
         "Product Specifics" to R.drawable.spec,
@@ -208,7 +212,8 @@ fun Modifier.topBorder(
 
 @Preview(showBackground = true)
 @Composable
-private fun InfoScreenPreview() {
+private fun InfoScreenPreview(
+) {
     KompassTheme {
         BasicInfoScreen(
         )

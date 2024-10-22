@@ -67,7 +67,7 @@ fun BasicInfoScreen(
                     CategoryItem.Dimensions, CategoryItem.Contents,
                     CategoryItem.Specific, CategoryItem.Materials
                 )
-                NavButtons(categories)
+                NavButtons(categories, {})
             }
         }
 }

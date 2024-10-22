@@ -41,9 +41,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.kompass.ui.BasicInfoScreen
 
 enum class KompassScreen() {
-    Start
+    Home,
+    Basic
 }
 
 class MainActivity : ComponentActivity() {
@@ -51,89 +53,118 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ScaffoldCreation()
-        }
-    }
-
-    @Composable
-    private fun ScaffoldCreation() {
-        val categories = listOf(
-            CategoryItem.Basic, CategoryItem.Logistics,
-            CategoryItem.Sustainability, CategoryItem.Documents
-        )
-
-        KompassTheme {
-            Scaffold(
-                containerColor = BgBlack,
-                bottomBar = {
-                    BottomAppBar(
-                        containerColor = Color.Black,
-                        contentColor = Color.Yellow,
-                        modifier = Modifier
-                            .height(82.dp)
-                            .topBorder(Color.White, 0.5f)
-                    ) {
-                        NavBarButtons()
-                    }
-                }
-            ) { innerPadding ->
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding), // Avoid overlap with BottomAppBar
-                    contentAlignment = Alignment.Center
-                ) {
-                    NavButtons(categories)
-                }
+            KompassTheme {
+                KompassApp()
             }
         }
-    }
-
-    @Preview(showBackground = true)
-    @Composable
-    fun MobileAppPreview() {
-        ScaffoldCreation();
     }
 }
 
 @Composable
-fun KompassApp(
-    navController: NavHostController = rememberNavController()
+private fun KompassApp(
+    navController: NavHostController = rememberNavController(),
+    categories: List<CategoryItem> = listOf(
+        CategoryItem.Basic, CategoryItem.Logistics,
+        CategoryItem.Sustainability, CategoryItem.Documents
+    )
 ) {
     Scaffold(
+        containerColor = BgBlack,
         bottomBar = {
             BottomAppBar(
-                containerColor = Color.Blue,
-                contentColor = Color.Yellow,) {
+                containerColor = Color.Black,
+                contentColor = Color.Yellow,
+                modifier = Modifier
+                    .height(82.dp)
+                    .topBorder(Color.White, 0.5f)
+            ) {
                 NavBarButtons()
             }
         }
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = KompassScreen.Start.name,
-            modifier = Modifier.padding(innerPadding)
+            startDestination = KompassScreen.Home.name
         ) {
-            composable(route = KompassScreen.Start.name) {
-                MainScreen(
-                    modifier = Modifier.fillMaxSize()
+            composable(KompassScreen.Home.name) {
+                HomeScreen(
+                    innerPadding = innerPadding,
+                    categories = categories,
+                    onBasicButtonClicked =  {
+                        navController.navigate(KompassScreen.Basic.name)
+                    }
                 )
+            }
+            composable(KompassScreen.Basic.name) {
+                BasicInfoScreen()
             }
         }
     }
 }
 
+@Preview(showBackground = true)
 @Composable
-fun MainScreen(
-    modifier: Modifier
+fun MobileAppPreview() {
+    KompassApp();
+}
+
+@Composable
+fun HomeScreen(
+    innerPadding: PaddingValues,
+    categories: List<CategoryItem>,
+    onBasicButtonClicked: () -> Unit
 ) {
     Box(
-        modifier = modifier, // Avoid overlap with BottomAppBar
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(innerPadding), // Avoid overlap with BottomAppBar
         contentAlignment = Alignment.Center
     ) {
-        NavButtons()
+        NavButtons(
+            categories,
+            onBasicButtonClicked
+        )
     }
 }
+
+//@Composable
+//fun KompassApp(
+//    navController: NavHostController = rememberNavController()
+//) {
+//    Scaffold(
+//        bottomBar = {
+//            BottomAppBar(
+//                containerColor = Color.Blue,
+//                contentColor = Color.Yellow,) {
+//                NavBarButtons()
+//            }
+//        }
+//    ) { innerPadding ->
+//        NavHost(
+//            navController = navController,
+//            startDestination = KompassScreen.Start.name,
+//            modifier = Modifier.padding(innerPadding)
+//        ) {
+//            composable(route = KompassScreen.Start.name) {
+//                //MainScreen(
+//                //    modifier = Modifier.fillMaxSize()
+//                //)
+//            }
+//        }
+//    }
+//}
+
+//@Composable
+//fun MainScreen(
+//    modifier: Modifier
+//) {
+//    Box(
+//        modifier = modifier, // Avoid overlap with BottomAppBar
+//        contentAlignment = Alignment.Center
+//    ) {
+//        NavButtons()
+//    }
+//}
 
 @Composable
 fun NavBarButtons() {
@@ -166,7 +197,10 @@ private fun NavBarButton(navBarItem: NavBarItem) {
 }
 
 @Composable
-fun NavButtons(categories : List<CategoryItem>) {
+fun NavButtons(
+    categories : List<CategoryItem>,
+    onFirstButtonClicked: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -178,29 +212,30 @@ fun NavButtons(categories : List<CategoryItem>) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            CategoryButton(categories[0])
-            CategoryButton(categories[1])
+            CategoryButton(categories[0], onFirstButtonClicked)
+            CategoryButton(categories[1], {})
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            CategoryButton(categories[2])
-            CategoryButton(categories[3])
+            CategoryButton(categories[2], {})
+            CategoryButton(categories[3], {})
         }
     }
 }
 
 @Composable
 fun CategoryButton(
-    categoryItem: CategoryItem, )
-{
+    categoryItem: CategoryItem,
+    onClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .width(160.dp)
             .height(320.dp)
             .background(IkeaBlue, shape = RoundedCornerShape(8.dp))
-            .clickable { println("${categoryItem.description} button Clicked") },
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Column(

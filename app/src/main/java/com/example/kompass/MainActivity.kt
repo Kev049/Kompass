@@ -96,7 +96,9 @@ private fun KompassApp(
                 )
             }
             composable(KompassScreen.Basic.name) {
-                BasicInfoScreen()
+                BasicInfoScreen(
+                    innerPadding = innerPadding
+                )
             }
         }
     }

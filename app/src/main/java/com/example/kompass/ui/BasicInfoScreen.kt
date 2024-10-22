@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,34 +43,20 @@ import com.example.kompass.ui.theme.BgBlack
 
 @Composable
 fun BasicInfoScreen(
+    innerPadding: PaddingValues
 ) {
-        Scaffold(
-            containerColor = BgBlack,
-            bottomBar = {
-                BottomAppBar(
-                    containerColor = Color.Black,
-                    contentColor = Color.Yellow,
-                    modifier = Modifier
-                        .height(72.dp)
-                        .topBorder(Color.White, 0.5f)
-                ) {
-                    NavBarButtons()
-                }
-            }
-        ) { innerPadding ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding), // Avoid overlap with BottomAppBar
-                contentAlignment = Alignment.Center
-            ) {
-                val categories = listOf(
-                    CategoryItem.Dimensions, CategoryItem.Contents,
-                    CategoryItem.Specific, CategoryItem.Materials
-                )
-                NavButtons(categories, {})
-            }
-        }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(innerPadding), // Avoid overlap with BottomAppBar
+        contentAlignment = Alignment.Center
+    ) {
+        val categories = listOf(
+            CategoryItem.Dimensions, CategoryItem.Contents,
+            CategoryItem.Specific, CategoryItem.Materials
+        )
+        NavButtons(categories, {})
+    }
 }
 
 
@@ -116,6 +103,7 @@ private fun InfoScreenPreview(
 ) {
     KompassTheme {
         BasicInfoScreen(
+            PaddingValues()
         )
     }
 }

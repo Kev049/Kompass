@@ -53,7 +53,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview
 @Composable
 fun KompassApp(
     navController: NavHostController = rememberNavController()

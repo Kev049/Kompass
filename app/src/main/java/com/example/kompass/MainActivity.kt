@@ -4,6 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -85,14 +89,17 @@ private fun KompassApp(
         bottomBar = {
             BottomAppBar(
                 containerColor = Color.Black,
-                contentColor = Color.Yellow,
                 modifier = Modifier
                     .height(100.dp)
                     .topBorder(Color.White, 0.5f),
             ) {
                 NavBarButtons(
-                    onNavigate = { screen ->
-                        navController.navigate(screen.name)
+                    onNavigate = {
+                        screen ->
+                        if(navController.currentDestination?.route !== screen.name){
+                            navController.navigate(screen.name)
+                        }
+
                     }
                 )
             }
@@ -100,7 +107,9 @@ private fun KompassApp(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = KompassScreen.Home.name
+            startDestination = KompassScreen.Home.name,
+            enterTransition = { fadeIn(initialAlpha = 0.4f) },
+            exitTransition = { fadeOut(animationSpec = tween(durationMillis = 250)) }
         ) {
             composable(KompassScreen.Home.name) {
                 HomeScreen(
@@ -201,8 +210,9 @@ fun NavBarButtons(
     ) {
         NavBarButton(NavBarItem.Home) { onNavigate(KompassScreen.Home) }
         NavBarButton(NavBarItem.QR) { onNavigate(KompassScreen.Home) }
-        NavBarButton(NavBarItem.User) { onNavigate(KompassScreen.Home) }
         NavBarButton(NavBarItem.Search) { onNavigate(KompassScreen.Home) }
+        NavBarButton(NavBarItem.User) { onNavigate(KompassScreen.Home) }
+
     }
 }
 
@@ -221,7 +231,7 @@ private fun NavBarButton(
         Image(
             painter = painterResource(id = navBarItem.icon),
             contentDescription = "${navBarItem.description} icon",
-            modifier = Modifier.size(32.dp)
+            modifier = Modifier.size(28.dp)
         )
     }
 }
@@ -265,7 +275,7 @@ fun CategoryButton(
         modifier = Modifier
             .width(150.dp)
             .height(300.dp)
-            .background(IkeaBlue, shape = RoundedCornerShape(8.dp))
+            .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
@@ -288,6 +298,7 @@ fun CategoryButton(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .height(60.dp)
+                    .width(140.dp)
                     .wrapContentHeight(align = Alignment.CenterVertically),
             )
         }

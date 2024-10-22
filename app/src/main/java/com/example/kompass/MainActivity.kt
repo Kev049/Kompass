@@ -2,6 +2,7 @@ package com.example.kompass
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.Scroller
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -9,6 +10,7 @@ import androidx.annotation.PluralsRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,7 +37,14 @@ import androidx.compose.ui.unit.sp
 import com.example.kompass.ui.theme.BgBlack
 import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.ui.theme.KompassTheme
-import java.util.Locale.Category
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+
+enum class KompassScreen() {
+    Start
+}
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,6 +93,45 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun MobileAppPreview() {
         ScaffoldCreation();
+    }
+}
+
+@Composable
+fun KompassApp(
+    navController: NavHostController = rememberNavController()
+) {
+    Scaffold(
+        bottomBar = {
+            BottomAppBar(
+                containerColor = Color.Blue,
+                contentColor = Color.Yellow,) {
+                NavBarButtons()
+            }
+        }
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = KompassScreen.Start.name,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable(route = KompassScreen.Start.name) {
+                MainScreen(
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun MainScreen(
+    modifier: Modifier
+) {
+    Box(
+        modifier = modifier, // Avoid overlap with BottomAppBar
+        contentAlignment = Alignment.Center
+    ) {
+        NavButtons()
     }
 }
 

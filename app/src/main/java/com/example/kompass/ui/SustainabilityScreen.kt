@@ -13,7 +13,7 @@ import com.example.kompass.CategoryItem
 import com.example.kompass.NavButtons
 
 @Composable
-fun BasicInfoScreen(
+fun SustainabilityScreen(
     innerPadding: PaddingValues
 ) {
     Box(
@@ -23,8 +23,8 @@ fun BasicInfoScreen(
         contentAlignment = Alignment.Center
     ) {
         val categories = listOf(
-            CategoryItem.Dimensions, CategoryItem.Contents,
-            CategoryItem.Specific, CategoryItem.Materials
+            CategoryItem.SubSustainability, CategoryItem.Description,
+            CategoryItem.Materials,
         )
         NavButtons(categories) {}
     }
@@ -32,7 +32,7 @@ fun BasicInfoScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewBasicInfoScreen() {
+fun PreviewSustainabilityScreen() {
     val defaultPadding = PaddingValues(0.dp)
-    BasicInfoScreen(innerPadding = defaultPadding)
+    SustainabilityScreen(innerPadding = defaultPadding)
 }

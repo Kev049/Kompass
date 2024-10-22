@@ -87,8 +87,8 @@ private fun KompassApp(
                 containerColor = Color.Black,
                 contentColor = Color.Yellow,
                 modifier = Modifier
-                    .height(82.dp)
-                    .topBorder(Color.White, 0.5f)
+                    .height(100.dp)
+                    .topBorder(Color.White, 0.5f),
             ) {
                 NavBarButtons(
                     onNavigate = { screen ->
@@ -263,8 +263,8 @@ fun CategoryButton(
 ) {
     Box(
         modifier = Modifier
-            .width(160.dp)
-            .height(320.dp)
+            .width(150.dp)
+            .height(300.dp)
             .background(IkeaBlue, shape = RoundedCornerShape(8.dp))
             .clickable { onClick() },
         contentAlignment = Alignment.Center
@@ -277,7 +277,7 @@ fun CategoryButton(
 
                 painter = painterResource(id = categoryItem.icon),
                 contentDescription = "${categoryItem.description} icon",
-                modifier = Modifier.size(110.dp)
+                modifier = Modifier.size(90.dp)
                     .padding(bottom = 8.dp),
                 contentScale = ContentScale.Fit
             )

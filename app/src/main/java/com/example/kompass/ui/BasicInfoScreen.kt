@@ -30,7 +30,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.kompass.CategoryItem
+import com.example.kompass.NavBarButtons
+import com.example.kompass.NavBarItem
+import com.example.kompass.NavButtons
 import com.example.kompass.R
+import com.example.kompass.topBorder
 import com.example.kompass.ui.theme.KompassTheme
 import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.ui.theme.BgBlack
@@ -48,7 +53,7 @@ fun BasicInfoScreen(
                         .height(72.dp)
                         .topBorder(Color.White, 0.5f)
                 ) {
-                    NavBarButtons2()
+                    NavBarButtons()
                 }
             }
         ) { innerPadding ->
@@ -58,83 +63,42 @@ fun BasicInfoScreen(
                     .padding(innerPadding), // Avoid overlap with BottomAppBar
                 contentAlignment = Alignment.Center
             ) {
-                InfoButtons()
+                val categories = listOf(
+                    CategoryItem.Dimensions, CategoryItem.Contents,
+                    CategoryItem.Specific, CategoryItem.Materials
+                )
+                NavButtons(categories)
             }
         }
 }
 
-@Composable
-private fun InfoButtons(
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(1.dp),
-        verticalArrangement = Arrangement.SpaceEvenly
-    ) {
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            CategoryBtn2("Product Specifics", IkeaBlue)
-            CategoryBtn2("Installation", IkeaBlue)
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            CategoryBtn2("Dimensions", IkeaBlue)
-            CategoryBtn2("Materials & Care", IkeaBlue)
-        }
-    }
-}
 
 @Composable
 fun CategoryBtn2(
-    text: String,
-    color: Color)
+    categoryItem: CategoryItem, )
 {
-
-    val drawableMap = mapOf(
-        "Product Specifics" to R.drawable.spec,
-        "Installation" to R.drawable.contents,
-        "Dimensions" to R.drawable.dimensions,
-        "Materials & Care" to R.drawable.materials
-    )
-
-    val drawableId = drawableMap[text]
-
     Box(
         modifier = Modifier
             .width(160.dp)
             .height(320.dp)
-            .background(color, shape = RoundedCornerShape(8.dp))
-            .clickable { println("$text button Clicked") },
+            .background(IkeaBlue, shape = RoundedCornerShape(8.dp))
+            .clickable { println("${categoryItem.description} button Clicked") },
         contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally, // Center-align items horizontally
             verticalArrangement = Arrangement.Center // Center-align items vertically
         ) {
-            if (drawableId != null) {  // Check if drawableId is valid
                 Image(
-                    painter = painterResource(id = drawableId),
-                    contentDescription = "$text icon",
+
+                    painter = painterResource(id = categoryItem.icon),
+                    contentDescription = "${categoryItem.description} icon",
                     modifier = Modifier.size(110.dp)
                         .padding(bottom = 8.dp),
                     contentScale = ContentScale.Fit
                 )
-            } else {
-                // Fallback in case drawable is not found
-                Text(
-                    text = text,
-                    modifier = Modifier.size(50.dp),
-                    textAlign = TextAlign.Center
-                )
-            }
             Text(
-                text = text,
+                text = categoryItem.description,
                 color = Color.White,
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
@@ -144,70 +108,6 @@ fun CategoryBtn2(
             )
         }
     }
-}
-
-
-@Composable
-private fun NavBarButtons2() {
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        NavBarBtn2("home")
-        NavBarBtn2("qr")
-        NavBarBtn2("user")
-        NavBarBtn2("search")
-    }
-}
-
-@Composable
-private fun NavBarBtn2(text: String) {
-
-    val navbarDrawableMap = mapOf(
-        "home" to R.drawable.home,
-        "qr" to R.drawable.qr,
-        "user" to R.drawable.user,
-        "search" to R.drawable.search
-    )
-
-    val navbarDrawableId = navbarDrawableMap[text]
-    Box(
-        modifier = Modifier
-            .width(100.dp)
-            .height(52.dp)
-            .clickable { println("$text button Clicked") },
-        contentAlignment = Alignment.Center
-    ) {
-        if (navbarDrawableId != null) {  // Check if drawableId is valid
-            Image(
-                painter = painterResource(id = navbarDrawableId),
-                contentDescription = "$text icon",
-                modifier = Modifier.size(38.dp)
-            )
-        } else {
-            // Fallback in case drawable is not found
-            Text(
-                text = text,
-                modifier = Modifier.size(50.dp),
-                textAlign = TextAlign.Center
-            )
-        }
-    }
-}
-
-
-fun Modifier.topBorder(
-    color: Color,
-    height: Float,
-) = this.drawWithContent {
-    drawContent()
-    drawLine(
-        color = color,
-        start = Offset(0f, 0f),
-        end = Offset(size.width, 0f),
-        strokeWidth = height,
-    )
 }
 
 @Preview(showBackground = true)

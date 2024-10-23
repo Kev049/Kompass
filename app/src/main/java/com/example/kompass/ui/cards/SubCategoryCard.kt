@@ -33,31 +33,18 @@ fun SubCategoryCard(
     screenWidth: Int,
     screenHeight: Int
     ) {
+    val paddingBetweenCards = 8
     val cardWidth = (screenWidth/2 - 10)
     val cardHeight = (screenHeight*0.12)
-    println(cardWidth)
-//    Card(
-//        modifier = modifier
-//            .size(150.dp, 200.dp), // Fixed size for the card
-//        shape = RoundedCornerShape(12.dp),
-//        elevation = CardDefaults.cardElevation(8.dp),
-//        colors = CardDefaults.cardColors(containerColor = Color.White)
-//    ) {
     Box(
         modifier = Modifier
+            .padding()
             .width(cardWidth.dp)
             .height(cardHeight.dp)
-            //.width(150.dp)
-            //.height(150.dp)
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
             .clickable {},
         contentAlignment = Alignment.Center
     ) {
-//        Column(
-//            modifier = Modifier.fillMaxSize(),
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            verticalArrangement = Arrangement.SpaceBetween
-//        )
         Row(
             modifier = Modifier.fillMaxSize(), // Fill the card size
             verticalAlignment = Alignment.CenterVertically // Center items vertically
@@ -69,6 +56,7 @@ fun SubCategoryCard(
                 contentDescription = subcategory.description,
                 modifier = Modifier
                     //.fillMaxWidth()
+                    .padding(2.dp)
                     .width((cardWidth*0.4).dp)
                     .height((cardHeight*0.8).dp)
                     .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
@@ -82,6 +70,7 @@ fun SubCategoryCard(
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
+                    .padding(2.dp)
                     .width((cardWidth - 10).dp)
                     .height((cardHeight).dp)
                     .wrapContentHeight(align = Alignment.CenterVertically),

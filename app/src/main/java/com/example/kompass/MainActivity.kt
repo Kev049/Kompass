@@ -160,45 +160,6 @@ fun HomeScreen(
     }
 }
 
-//@Composable
-//fun KompassApp(
-//    navController: NavHostController = rememberNavController()
-//) {
-//    Scaffold(
-//        bottomBar = {
-//            BottomAppBar(
-//                containerColor = Color.Blue,
-//                contentColor = Color.Yellow,) {
-//                NavBarButtons()
-//            }
-//        }
-//    ) { innerPadding ->
-//        NavHost(
-//            navController = navController,
-//            startDestination = KompassScreen.Start.name,
-//            modifier = Modifier.padding(innerPadding)
-//        ) {
-//            composable(route = KompassScreen.Start.name) {
-//                //MainScreen(
-//                //    modifier = Modifier.fillMaxSize()
-//                //)
-//            }
-//        }
-//    }
-//}
-
-//@Composable
-//fun MainScreen(
-//    modifier: Modifier
-//) {
-//    Box(
-//        modifier = modifier, // Avoid overlap with BottomAppBar
-//        contentAlignment = Alignment.Center
-//    ) {
-//        NavButtons()
-//    }
-//}
-
 @Composable
 fun NavBarButtons(
     onNavigate: (KompassScreen) -> Unit

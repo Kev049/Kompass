@@ -6,5 +6,6 @@ import androidx.annotation.StringRes
 data class SubCategory(
     //@StringRes val title: Int,
     @DrawableRes val imageResId : Int,
+    val name : String,
     val description : String
 )

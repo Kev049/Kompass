@@ -27,7 +27,15 @@ import com.example.kompass.R
 import com.example.kompass.ui.theme.IkeaBlue
 
 @Composable
-fun SubCategoryCard(subcategory: SubCategory, modifier: Modifier = Modifier) {
+fun SubCategoryCard(
+    subcategory: SubCategory,
+    modifier: Modifier = Modifier,
+    screenWidth: Int,
+    screenHeight: Int
+    ) {
+    val cardWidth = (screenWidth/2 - 10)
+    val cardHeight = (screenHeight*0.12)
+    println(cardWidth)
 //    Card(
 //        modifier = modifier
 //            .size(150.dp, 200.dp), // Fixed size for the card
@@ -37,37 +45,45 @@ fun SubCategoryCard(subcategory: SubCategory, modifier: Modifier = Modifier) {
 //    ) {
     Box(
         modifier = Modifier
-            .width(150.dp)
-            .height(150.dp)
+            .width(cardWidth.dp)
+            .height(cardHeight.dp)
+            //.width(150.dp)
+            //.height(150.dp)
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
-            .clickable {  },
+            .clickable {},
         contentAlignment = Alignment.Center
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
+//        Column(
+//            modifier = Modifier.fillMaxSize(),
 //            horizontalAlignment = Alignment.CenterHorizontally,
 //            verticalArrangement = Arrangement.SpaceBetween
-        ) {
+//        )
+        Row(
+            modifier = Modifier.fillMaxSize(), // Fill the card size
+            verticalAlignment = Alignment.CenterVertically // Center items vertically
+        )
+        {
             // Image
             Image(
                 painter = painterResource(id = subcategory.imageResId),
                 contentDescription = subcategory.description,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(120.dp)
+                    //.fillMaxWidth()
+                    .width((cardWidth*0.4).dp)
+                    .height((cardHeight*0.8).dp)
                     .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
                 contentScale = ContentScale.Crop
             )
             // Text
             Text(
-                text = subcategory.description, //denna är skriven ganska annorlunda från tutorial
+                text = subcategory.name, //denna är skriven ganska annorlunda från tutorial
                 //text = subCategoryItem.description,
-                color = Color.Black,
+                color = Color.White,
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .height(60.dp)
-                    .width(140.dp)
+                    .width((cardWidth - 10).dp)
+                    .height((cardHeight).dp)
                     .wrapContentHeight(align = Alignment.CenterVertically),
             )
         }
@@ -77,5 +93,5 @@ fun SubCategoryCard(subcategory: SubCategory, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun SubCategoryCardPreview(){
-    SubCategoryCard(SubCategory(R.drawable.navbar_home,"Whaddup?"))
+    SubCategoryCard(SubCategory(R.drawable.navbar_home, "TestName","Whaddup?"), modifier = Modifier.padding(0.dp),320, 668)
 }

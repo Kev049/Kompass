@@ -1,6 +1,7 @@
 package com.example.kompass
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -24,6 +25,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -85,6 +87,9 @@ private fun KompassApp(
         CategoryItem.MainSustainability, CategoryItem.Documents
     )
 ) {
+    val config = LocalConfiguration.current
+    val screenWidth = config.screenWidthDp
+    val screenHeight = config.screenHeightDp
     Scaffold(
         containerColor = BgBlack,
         bottomBar = {
@@ -134,7 +139,7 @@ private fun KompassApp(
                 DocumentsScreen(innerPadding = innerPadding)
             }
             composable(KompassScreen.ProdCategory.name){
-                ScrollableProdCategoryScreen(innerPadding = innerPadding, navController)
+                ScrollableProdCategoryScreen(innerPadding = innerPadding, navController, screenWidth, screenHeight)
             }
         }
     }

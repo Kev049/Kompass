@@ -39,7 +39,7 @@ fun SubCategoryCard(subcategory: SubCategory, modifier: Modifier = Modifier) {
             // Image
             Image(
                 painter = painterResource(id = subcategory.imageResId),
-                contentDescription = subcategory.title,
+                contentDescription = subcategory.description,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(120.dp)

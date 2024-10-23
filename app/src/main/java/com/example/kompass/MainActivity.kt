@@ -39,6 +39,7 @@ import androidx.navigation.compose.composable
 import com.example.kompass.ui.BasicInfoScreen
 import com.example.kompass.ui.DocumentsScreen
 import com.example.kompass.ui.LogisticsScreen
+import com.example.kompass.ui.ScrollableProdCategoryScreen
 import com.example.kompass.ui.SustainabilityScreen
 
 enum class KompassScreen {
@@ -47,6 +48,7 @@ enum class KompassScreen {
     Logistics,
     MainSustainability,
     Documents,
+    ProdCategory,
     Specific,
     Dimensions,
     Contents,
@@ -131,6 +133,9 @@ private fun KompassApp(
             composable(KompassScreen.Documents.name) {
                 DocumentsScreen(innerPadding = innerPadding)
             }
+            composable(KompassScreen.ProdCategory.name){
+                ScrollableProdCategoryScreen(innerPadding = innerPadding, navController)
+            }
         }
     }
 }
@@ -159,45 +164,6 @@ fun HomeScreen(
         )
     }
 }
-
-//@Composable
-//fun KompassApp(
-//    navController: NavHostController = rememberNavController()
-//) {
-//    Scaffold(
-//        bottomBar = {
-//            BottomAppBar(
-//                containerColor = Color.Blue,
-//                contentColor = Color.Yellow,) {
-//                NavBarButtons()
-//            }
-//        }
-//    ) { innerPadding ->
-//        NavHost(
-//            navController = navController,
-//            startDestination = KompassScreen.Start.name,
-//            modifier = Modifier.padding(innerPadding)
-//        ) {
-//            composable(route = KompassScreen.Start.name) {
-//                //MainScreen(
-//                //    modifier = Modifier.fillMaxSize()
-//                //)
-//            }
-//        }
-//    }
-//}
-
-//@Composable
-//fun MainScreen(
-//    modifier: Modifier
-//) {
-//    Box(
-//        modifier = modifier, // Avoid overlap with BottomAppBar
-//        contentAlignment = Alignment.Center
-//    ) {
-//        NavButtons()
-//    }
-//}
 
 @Composable
 fun NavBarButtons(
@@ -283,7 +249,6 @@ fun CategoryButton(
             verticalArrangement = Arrangement.Center // Center-align items vertically
         ) {
             Image(
-
                 painter = painterResource(id = categoryItem.icon),
                 contentDescription = "${categoryItem.description} icon",
                 modifier = Modifier.size(90.dp)
@@ -303,6 +268,7 @@ fun CategoryButton(
         }
     }
 }
+
 
 
 sealed class NavBarItem(val icon: Int, val description: String) {
@@ -352,5 +318,45 @@ private fun Modifier.topBorder(
         strokeWidth = height,
     )
 }
+
+//@Composable
+//fun KompassApp(
+//    navController: NavHostController = rememberNavController()
+//) {
+//    Scaffold(
+//        bottomBar = {
+//            BottomAppBar(
+//                containerColor = Color.Blue,
+//                contentColor = Color.Yellow,) {
+//                NavBarButtons()
+//            }
+//        }
+//    ) { innerPadding ->
+//        NavHost(
+//            navController = navController,
+//            startDestination = KompassScreen.Start.name,
+//            modifier = Modifier.padding(innerPadding)
+//        ) {
+//            composable(route = KompassScreen.Start.name) {
+//                //MainScreen(
+//                //    modifier = Modifier.fillMaxSize()
+//                //)
+//            }
+//        }
+//    }
+//}
+
+//@Composable
+//fun MainScreen(
+//    modifier: Modifier
+//) {
+//    Box(
+//        modifier = modifier, // Avoid overlap with BottomAppBar
+//        contentAlignment = Alignment.Center
+//    ) {
+//        NavButtons()
+//    }
+//}
+
 
 

@@ -29,7 +29,6 @@ fun BasicInfoScreen(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 private fun InfoScreenPreview(

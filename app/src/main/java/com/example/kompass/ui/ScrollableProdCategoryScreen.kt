@@ -9,12 +9,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.kompass.CategoryItem
 import com.example.kompass.NavButtons
 
 @Composable
 fun ScrollableProdCategoryScreen(
-    innerPadding: PaddingValues
+    innerPadding: PaddingValues,
+    navController: NavController
 ) {
     Box(
         modifier = Modifier
@@ -22,17 +25,17 @@ fun ScrollableProdCategoryScreen(
             .padding(innerPadding),
         contentAlignment = Alignment.Center
     ) {
-        val categories = listOf(
-            CategoryItem.Availability, CategoryItem.Location,
-            CategoryItem.Delivery, CategoryItem.History
-        )
-        NavButtons(categories) {}
+//        val categories = listOf(
+//            CategoryItem.Availability, CategoryItem.Location,
+//            CategoryItem.Delivery, CategoryItem.History
+//        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewScrollableProdCategoryScreen() {
+    val navController = rememberNavController();
     val defaultPadding = PaddingValues(0.dp)
-    ScrollableProdCategoryScreen(innerPadding = defaultPadding)
+    ScrollableProdCategoryScreen(innerPadding = defaultPadding, navController = navController)
 }

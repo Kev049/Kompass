@@ -13,6 +13,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.kompass.CategoryItem
 import com.example.kompass.NavButtons
+import com.example.kompass.types.SubCategory
+import com.example.kompass.ui.cards.SubCategoryCard
 
 @Composable
 fun ScrollableProdCategoryScreen(

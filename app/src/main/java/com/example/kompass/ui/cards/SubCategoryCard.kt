@@ -20,21 +20,33 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import com.example.kompass.types.SubCategory
+import androidx.compose.ui.platform.LocalContext
+import com.example.kompass.R
+import com.example.kompass.ui.theme.IkeaBlue
 
 @Composable
 fun SubCategoryCard(subcategory: SubCategory, modifier: Modifier = Modifier) {
-    Card(
-        modifier = modifier
-            .size(150.dp, 200.dp), // Fixed size for the card
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(8.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+//    Card(
+//        modifier = modifier
+//            .size(150.dp, 200.dp), // Fixed size for the card
+//        shape = RoundedCornerShape(12.dp),
+//        elevation = CardDefaults.cardElevation(8.dp),
+//        colors = CardDefaults.cardColors(containerColor = Color.White)
+//    ) {
+    Box(
+        modifier = Modifier
+            .width(150.dp)
+            .height(150.dp)
+            .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
+            .clickable {  },
+        contentAlignment = Alignment.Center
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            verticalArrangement = Arrangement.SpaceBetween
         ) {
             // Image
             Image(
@@ -47,16 +59,23 @@ fun SubCategoryCard(subcategory: SubCategory, modifier: Modifier = Modifier) {
                 contentScale = ContentScale.Crop
             )
             // Text
-//            Text(
-//                text = subCategoryItem.description,
-//                color = Color.White,
-//                fontSize = 18.sp,
-//                textAlign = TextAlign.Center,
-//                modifier = Modifier
-//                    .height(60.dp)
-//                    .width(140.dp)
-//                    .wrapContentHeight(align = Alignment.CenterVertically),
-//            )
+            Text(
+                text = subcategory.description, //denna är skriven ganska annorlunda från tutorial
+                //text = subCategoryItem.description,
+                color = Color.Black,
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .height(60.dp)
+                    .width(140.dp)
+                    .wrapContentHeight(align = Alignment.CenterVertically),
+            )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SubCategoryCardPreview(){
+    SubCategoryCard(SubCategory(R.drawable.navbar_home,"Whaddup?"))
 }

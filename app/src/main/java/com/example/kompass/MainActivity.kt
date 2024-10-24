@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,28 +40,16 @@ import androidx.navigation.compose.composable
 import com.example.kompass.ui.BasicInfoScreen
 import com.example.kompass.ui.DocumentsScreen
 import com.example.kompass.ui.LogisticsScreen
+import com.example.kompass.ui.ScrollableProdCategoryScreen
 import com.example.kompass.ui.SustainabilityScreen
 
 enum class KompassScreen {
     Home,
     Basic,
     Logistics,
-    MainSustainability,
+    Sustainability,
     Documents,
-    Specific,
-    Dimensions,
-    Contents,
-    Material,
-    Availability,
-    Location,
-    Delivery,
-    History,
-    SubSustainability,
-    Description,
-    Manual,
-    Installation,
-    Safety,
-    Policy
+    ProdCategory,
 }
 
 class MainActivity : ComponentActivity() {
@@ -78,11 +67,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun KompassApp(
     navController: NavHostController = rememberNavController(),
-    categories: List<CategoryItem> = listOf(
-        CategoryItem.Basic, CategoryItem.Logistics,
-        CategoryItem.MainSustainability, CategoryItem.Documents
-    )
 ) {
+    val config = LocalConfiguration.current
+    val screenWidth = config.screenWidthDp
+    val screenHeight = config.screenHeightDp
     Scaffold(
         containerColor = BgBlack,
         bottomBar = {
@@ -98,7 +86,6 @@ private fun KompassApp(
                         if(navController.currentDestination?.route !== screen.name){
                             navController.navigate(screen.name)
                         }
-
                     }
                 )
             }
@@ -113,23 +100,45 @@ private fun KompassApp(
             composable(KompassScreen.Home.name) {
                 HomeScreen(
                     innerPadding = innerPadding,
-                    categories = categories,
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
                     }
                 )
             }
             composable(KompassScreen.Basic.name) {
-                BasicInfoScreen(innerPadding = innerPadding)
+                BasicInfoScreen(
+                    innerPadding = innerPadding,
+                    onNavigate = { screen ->
+                        navController.navigate(screen.name)
+                    }
+                )
             }
             composable(KompassScreen.Logistics.name) {
-                LogisticsScreen(innerPadding = innerPadding)
+                LogisticsScreen(
+                    innerPadding = innerPadding,
+                    onNavigate = { screen ->
+                        navController.navigate(screen.name)
+                    }
+                )
             }
-            composable(KompassScreen.MainSustainability.name) {
-                SustainabilityScreen(innerPadding = innerPadding)
+            composable(KompassScreen.Sustainability.name) {
+                SustainabilityScreen(
+                    innerPadding = innerPadding,
+                    onNavigate = { screen ->
+                        navController.navigate(screen.name)
+                    }
+                )
             }
             composable(KompassScreen.Documents.name) {
-                DocumentsScreen(innerPadding = innerPadding)
+                DocumentsScreen(
+                    innerPadding = innerPadding,
+                    onNavigate = { screen ->
+                        navController.navigate(screen.name)
+                    }
+                )
+            }
+            composable(KompassScreen.ProdCategory.name){
+                ScrollableProdCategoryScreen(innerPadding = innerPadding, navController, screenWidth, screenHeight)
             }
         }
     }
@@ -144,7 +153,6 @@ fun MobileAppPreview() {
 @Composable
 fun HomeScreen(
     innerPadding: PaddingValues,
-    categories: List<CategoryItem>,
     onNavigate: (KompassScreen) -> Unit
 ) {
     Box(
@@ -153,8 +161,7 @@ fun HomeScreen(
             .padding(innerPadding), // Avoid overlap with BottomAppBar
         contentAlignment = Alignment.Center
     ) {
-        NavButtons(
-            categories = categories,
+        PlaceMainButtons(
             onNavigate = onNavigate
         )
     }
@@ -172,7 +179,6 @@ fun NavBarButtons(
         NavBarButton(NavBarItem.QR) { onNavigate(KompassScreen.Home) }
         NavBarButton(NavBarItem.Search) { onNavigate(KompassScreen.Home) }
         NavBarButton(NavBarItem.User) { onNavigate(KompassScreen.Home) }
-
     }
 }
 
@@ -197,8 +203,7 @@ private fun NavBarButton(
 }
 
 @Composable
-fun NavButtons(
-    categories: List<CategoryItem>,
+private fun PlaceMainButtons(
     onNavigate: (KompassScreen) -> Unit
 ) {
     Column(
@@ -211,32 +216,30 @@ fun NavButtons(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            CategoryButton(categories[0]) { onNavigate(categories[0].screenName) }
-            CategoryButton(categories[1]) { onNavigate(categories[1].screenName) }
+            MainButton(CategoryItem.Basic, onNavigate = onNavigate)
+            MainButton(CategoryItem.Logistics, onNavigate = onNavigate)
         }
-
-        //Show either 1 or 2 buttons depending on the number of categories
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = if (categories.size == 3) Arrangement.Center else Arrangement.SpaceEvenly
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            CategoryButton(categories[2]) { onNavigate(categories[2].screenName) }
-            if (categories.size > 3) CategoryButton(categories[3]) { onNavigate(categories[3].screenName) }
+            MainButton(CategoryItem.Sustainability, onNavigate = onNavigate)
+            MainButton(CategoryItem.Documents, onNavigate = onNavigate)
         }
     }
 }
 
 @Composable
-fun CategoryButton(
+fun MainButton(
     categoryItem: CategoryItem,
-    onClick: () -> Unit
+    onNavigate: (KompassScreen) -> Unit
 ) {
     Box(
         modifier = Modifier
             .width(150.dp)
             .height(300.dp)
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
-            .clickable { onClick() },
+            .clickable { onNavigate(categoryItem.route) },
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -244,7 +247,6 @@ fun CategoryButton(
             verticalArrangement = Arrangement.Center // Center-align items vertically
         ) {
             Image(
-
                 painter = painterResource(id = categoryItem.icon),
                 contentDescription = "${categoryItem.description} icon",
                 modifier = Modifier.size(90.dp)
@@ -265,7 +267,6 @@ fun CategoryButton(
     }
 }
 
-
 sealed class NavBarItem(val icon: Int, val description: String) {
     data object Home : NavBarItem(R.drawable.navbar_home, "home")
     data object QR : NavBarItem(R.drawable.navbar_qr, "qr")
@@ -274,31 +275,32 @@ sealed class NavBarItem(val icon: Int, val description: String) {
 }
 
 // fin kod endast
-sealed class CategoryItem(val icon: Int, val description: String, val screenName: KompassScreen) {
+sealed class CategoryItem(val icon: Int, val description: String, val route: KompassScreen) {
 
     data object Basic : CategoryItem(R.drawable.menu_main_info, "Basic Information", KompassScreen.Basic)
     data object Logistics : CategoryItem(R.drawable.menu_main_logistics, "Logistics", KompassScreen.Logistics)
-    data object MainSustainability : CategoryItem(R.drawable.menu_main_sustainability, "Sustainability & Design", KompassScreen.MainSustainability)
+    data object Sustainability : CategoryItem(R.drawable.menu_main_sustainability, "Sustainability & Design", KompassScreen.Sustainability)
     data object Documents : CategoryItem(R.drawable.menu_main_documents, "Documents & Policy", KompassScreen.Documents)
+}
 
-    data object Specific : CategoryItem(R.drawable.menu_basic_spec, "Product Specifics", KompassScreen.Specific)
-    data object Contents : CategoryItem(R.drawable.menu_basic_contents, "Contents", KompassScreen.Contents)
-    data object Dimensions : CategoryItem(R.drawable.menu_basic_dimensions, "Dimensions", KompassScreen.Dimensions)
-    data object Materials : CategoryItem(R.drawable.menu_basic_materials, "Materials & Care", KompassScreen.Material)
+sealed class SubButtonItem(val icon: Int, val description: String) {
+    data object Specific : SubButtonItem(R.drawable.menu_basic_spec, "Product Specifics")
+    data object Contents : SubButtonItem(R.drawable.menu_basic_contents, "Contents")
+    data object Dimensions : SubButtonItem(R.drawable.menu_basic_dimensions, "Dimensions")
+    data object Materials : SubButtonItem(R.drawable.menu_basic_materials, "Materials & Care")
 
-    data object Availability : CategoryItem(R.drawable.menu_logistics_availability, "Availability", KompassScreen.Availability)
-    data object Location : CategoryItem(R.drawable.menu_logistics_location, "In-Store Location", KompassScreen.Location)
-    data object Delivery : CategoryItem(R.drawable.menu_logistics_delivery, "Delivery Options", KompassScreen.Delivery)
-    data object History : CategoryItem(R.drawable.menu_logistics_history, "Product History", KompassScreen.History)
+    data object Availability : SubButtonItem(R.drawable.menu_logistics_availability, "Availability")
+    data object Location : SubButtonItem(R.drawable.menu_logistics_location, "In-Store Location")
+    data object Delivery : SubButtonItem(R.drawable.menu_logistics_delivery, "Delivery Options")
+    data object History : SubButtonItem(R.drawable.menu_logistics_history, "Product History")
 
-    data object SubSustainability : CategoryItem(R.drawable.menu_main_sustainability, "Sustainability", KompassScreen.SubSustainability)
-    data object Description : CategoryItem(R.drawable.menu_sustainability_description, "Description", KompassScreen.Description)
+    data object Sustainability : SubButtonItem(R.drawable.menu_main_sustainability, "Sustainability")
+    data object Description : SubButtonItem(R.drawable.menu_sustainability_description, "Description")
 
-    data object Manual : CategoryItem(R.drawable.menu_documents_manual, "Manual", KompassScreen.Manual)
-    data object Installation : CategoryItem(R.drawable.menu_documents_installation, "Installation", KompassScreen.Installation)
-    data object Safety : CategoryItem(R.drawable.menu_documents_safety, "Safety", KompassScreen.Safety)
-    data object Policy : CategoryItem(R.drawable.menu_documents_policy, "Policies", KompassScreen.Policy)
-
+    data object Manual : SubButtonItem(R.drawable.menu_documents_manual, "Manual")
+    data object Installation : SubButtonItem(R.drawable.menu_documents_installation, "Installation")
+    data object Safety : SubButtonItem(R.drawable.menu_documents_safety, "Safety")
+    data object Policy : SubButtonItem(R.drawable.menu_documents_policy, "Policies")
 }
 
 private fun Modifier.topBorder(
@@ -313,5 +315,7 @@ private fun Modifier.topBorder(
         strokeWidth = height,
     )
 }
+
+
 
 

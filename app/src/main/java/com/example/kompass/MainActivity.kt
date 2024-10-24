@@ -41,6 +41,7 @@ import com.example.kompass.ui.BasicInfoScreen
 import com.example.kompass.ui.DocumentsScreen
 import com.example.kompass.ui.LogisticsScreen
 import com.example.kompass.ui.ScrollableProdCategoryScreen
+import com.example.kompass.ui.SearchScreen
 import com.example.kompass.ui.SustainabilityScreen
 
 enum class KompassScreen {
@@ -50,6 +51,7 @@ enum class KompassScreen {
     Sustainability,
     Documents,
     ProdCategory,
+    Search,
 }
 
 class MainActivity : ComponentActivity() {
@@ -140,6 +142,9 @@ private fun KompassApp(
             composable(KompassScreen.ProdCategory.name){
                 ScrollableProdCategoryScreen(innerPadding = innerPadding, navController, screenWidth, screenHeight)
             }
+            composable(KompassScreen.Search.name) {
+                SearchScreen(innerPadding = innerPadding)
+            }
         }
     }
 }
@@ -177,7 +182,7 @@ fun NavBarButtons(
     ) {
         NavBarButton(NavBarItem.Home) { onNavigate(KompassScreen.Home) }
         NavBarButton(NavBarItem.QR) { onNavigate(KompassScreen.Home) }
-        NavBarButton(NavBarItem.Search) { onNavigate(KompassScreen.Home) }
+        NavBarButton(NavBarItem.Search) { onNavigate(KompassScreen.Search) }
         NavBarButton(NavBarItem.User) { onNavigate(KompassScreen.Home) }
     }
 }

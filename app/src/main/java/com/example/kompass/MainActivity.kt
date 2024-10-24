@@ -141,6 +141,7 @@ private fun KompassApp(
             composable(KompassScreen.ProdCategory.name){
                 ScrollableProdCategoryScreen(innerPadding = innerPadding, navController, screenWidth, screenHeight)
             }
+
         }
     }
 }

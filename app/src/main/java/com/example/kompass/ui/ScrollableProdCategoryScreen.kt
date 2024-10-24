@@ -31,11 +31,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import com.example.kompass.data.Datasource
 
-
 @Composable
 fun ScrollableProdCategoryScreen(
     innerPadding: PaddingValues,
     navController: NavController,
+    //navigateTo: (route: String) -> Unit,
     screenWidth: Int,
     screenHeight: Int
 ) {
@@ -58,6 +58,7 @@ fun SubCategoryList(
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
         modifier = Modifier.fillMaxSize()
         //contentPadding = PaddingValues(8.dp)
@@ -67,6 +68,7 @@ fun SubCategoryList(
                 subcategory = subcategory,
                 screenWidth = screenWidth,
                 screenHeight = screenHeight,
+                //navigator = NavController,
                 modifier = Modifier.padding(8.dp)
                  // Padding between cards
             )
@@ -83,7 +85,7 @@ fun SubCategoryApp(
     Surface(
         modifier = Modifier
             //.fillMaxSize()
-            .statusBarsPadding()
+            //.statusBarsPadding()
             .padding(
                 PaddingValues()
             ),
@@ -104,6 +106,5 @@ fun PreviewScrollableProdCategoryScreen() {
 
     ScrollableProdCategoryScreen(defaultPadding, navController = navController, 320, 668)
 }
-
 
 //ScrollableProdCategoryScreen(innerPadding = defaultPadding, navController = navController, 320, 668)

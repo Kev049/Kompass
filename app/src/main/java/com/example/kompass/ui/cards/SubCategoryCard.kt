@@ -35,7 +35,7 @@ fun SubCategoryCard(
     ) {
     val paddingBetweenCards = 8
     val cardWidth = (screenWidth/2 - 10)
-    val cardHeight = (screenHeight*0.12)
+    val cardHeight = (screenHeight*0.14)
     Box(
         modifier = Modifier
             .padding()

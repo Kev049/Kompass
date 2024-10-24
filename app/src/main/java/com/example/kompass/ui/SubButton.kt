@@ -40,7 +40,7 @@ fun SubButton(
             .height(300.dp)
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
             //TODO: Navigate to product screen and pass right category
-            .clickable { onNavigate(KompassScreen.Home) },
+            .clickable { onNavigate(KompassScreen.ProdCategory) },
         contentAlignment = Alignment.Center
     ) {
         Column(

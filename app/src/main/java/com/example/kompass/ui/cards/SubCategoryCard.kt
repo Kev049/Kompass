@@ -23,6 +23,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import com.example.kompass.types.SubCategory
 import androidx.compose.ui.platform.LocalContext
+import com.example.kompass.KompassScreen
 import com.example.kompass.R
 import com.example.kompass.ui.theme.IkeaBlue
 
@@ -31,7 +32,8 @@ fun SubCategoryCard(
     subcategory: SubCategory,
     modifier: Modifier = Modifier,
     screenWidth: Int,
-    screenHeight: Int
+    screenHeight: Int,
+    onNavigate: (KompassScreen) -> Unit
     ) {
     val paddingBetweenCards = 8
     val cardWidth = (screenWidth/2 - 10)
@@ -42,7 +44,7 @@ fun SubCategoryCard(
             .width(cardWidth.dp)
             .height(cardHeight.dp)
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
-            .clickable {},
+            .clickable {onNavigate(KompassScreen.Home)}, //TODO: Byt ut .Home mot något som är rätt
         contentAlignment = Alignment.Center
     ) {
         Row(
@@ -57,9 +59,9 @@ fun SubCategoryCard(
                 modifier = Modifier
                     //.fillMaxWidth()
                     .padding(2.dp)
-                    .width((cardWidth*0.4).dp)
-                    .height((cardHeight*0.8).dp)
-                    .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
+                    .width((cardWidth*0.4).dp) //frågan är om bilden borde vara en fixed storlek
+                    .height((cardHeight*0.8).dp),
+                    //.clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
                 contentScale = ContentScale.Crop
             )
             // Text
@@ -79,8 +81,8 @@ fun SubCategoryCard(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun SubCategoryCardPreview(){
-    SubCategoryCard(SubCategory(R.drawable.navbar_home, "TestName","Whaddup?"), modifier = Modifier.padding(0.dp),320, 668)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun SubCategoryCardPreview(){
+//    SubCategoryCard(SubCategory(R.drawable.navbar_home, "TestName","Whaddup?"), modifier = Modifier.padding(0.dp),320, 668)
+//}

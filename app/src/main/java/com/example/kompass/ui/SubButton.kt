@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -31,6 +32,7 @@ import com.example.kompass.ui.theme.IkeaBlue
 
 @Composable
 fun SubButton(
+
     subButtonItem: SubButtonItem,
     onNavigate: (KompassScreen) -> Unit
 ) {
@@ -40,7 +42,7 @@ fun SubButton(
             .height(300.dp)
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
             //TODO: Navigate to product screen and pass right category
-            .clickable { onNavigate(KompassScreen.Home) },
+            .clickable { onNavigate(KompassScreen.ProdCategory) },
         contentAlignment = Alignment.Center
     ) {
         Column(

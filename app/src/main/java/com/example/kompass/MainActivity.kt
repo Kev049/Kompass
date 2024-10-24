@@ -1,7 +1,6 @@
 package com.example.kompass
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -51,20 +50,6 @@ enum class KompassScreen {
     Sustainability,
     Documents,
     ProdCategory,
-    Specific,
-    Dimensions,
-    Contents,
-    Material,
-    Availability,
-    Location,
-    Delivery,
-    History,
-    SubSustainability,
-    Description,
-    Manual,
-    Installation,
-    Safety,
-    Policy
 }
 
 class MainActivity : ComponentActivity() {
@@ -155,7 +140,6 @@ private fun KompassApp(
             composable(KompassScreen.ProdCategory.name){
                 ScrollableProdCategoryScreen(innerPadding = innerPadding, navController, screenWidth, screenHeight)
             }
-
         }
     }
 }
@@ -332,44 +316,6 @@ private fun Modifier.topBorder(
     )
 }
 
-//@Composable
-//fun KompassApp(
-//    navController: NavHostController = rememberNavController()
-//) {
-//    Scaffold(
-//        bottomBar = {
-//            BottomAppBar(
-//                containerColor = Color.Blue,
-//                contentColor = Color.Yellow,) {
-//                NavBarButtons()
-//            }
-//        }
-//    ) { innerPadding ->
-//        NavHost(
-//            navController = navController,
-//            startDestination = KompassScreen.Start.name,
-//            modifier = Modifier.padding(innerPadding)
-//        ) {
-//            composable(route = KompassScreen.Start.name) {
-//                //MainScreen(
-//                //    modifier = Modifier.fillMaxSize()
-//                //)
-//            }
-//        }
-//    }
-//}
-
-//@Composable
-//fun MainScreen(
-//    modifier: Modifier
-//) {
-//    Box(
-//        modifier = modifier, // Avoid overlap with BottomAppBar
-//        contentAlignment = Alignment.Center
-//    ) {
-//        NavButtons()
-//    }
-//}
 
 
 

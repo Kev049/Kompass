@@ -1,12 +1,15 @@
 package com.example.kompass.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,13 +25,18 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.sp
 import com.example.kompass.KompassScreen
+import com.example.kompass.R
 import com.example.kompass.data.Datasource
 
 @Composable
@@ -36,13 +44,14 @@ fun ScrollableProdCategoryScreen(
     innerPadding: PaddingValues,
     screenWidth: Int,
     screenHeight: Int,
+    imageResId: Int?,
     onNavigate: (KompassScreen) -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize(),
         contentAlignment = Alignment.TopCenter
-    ) { SubCategoryApp(screenWidth, screenHeight, innerPadding, onNavigate)
+    ) { SubCategoryApp(screenWidth, screenHeight, innerPadding, imageResId, onNavigate)
     }
 }
 
@@ -78,8 +87,10 @@ fun SubCategoryApp(
     screenWidth: Int,
     screenHeight: Int,
     innerPadding: PaddingValues,
+    imageResId: Int?,
     onNavigate: (KompassScreen) -> Unit
 ){
+    val imageId = imageResId ?: R.drawable.navbar_home
     //val layoutDirection = LocalLayoutDirection.current
     Surface(
         modifier = Modifier
@@ -88,11 +99,48 @@ fun SubCategoryApp(
                 innerPadding
             ),
     ) {
-        SubCategoryList(
-            subCategoryList = Datasource().loadSubCategories(),
-            screenWidth = screenWidth,
-            screenHeight = screenHeight,
-            onNavigate = onNavigate
+        Column(modifier = Modifier.fillMaxSize()) {
+            // Add the header area above the SubCategoryList
+            Header(
+                screenWidth = screenWidth,
+                imageId
+            )
+            // Add a divider below the header
+            HorizontalDivider(
+                color = Color.Gray,
+                thickness = 1.dp,
+                modifier = Modifier.fillMaxWidth()
+            )
+            SubCategoryList(
+                subCategoryList = Datasource().loadSubCategories(),
+                screenWidth = screenWidth,
+                screenHeight = screenHeight,
+                onNavigate = onNavigate
+            )
+        }
+    }
+}
+@Composable
+fun Header(screenWidth: Int, imageResId: Int) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp), // Adjust the padding as needed
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween // Space between the text and image
+    ) {
+        Text(
+            text = "Categories", // Replace with your desired text
+            fontSize = 24.sp,
+            //style = MaterialTheme.typography.h6, // Adjust text style as needed
+            modifier = Modifier.weight(1f) // Ensure the text takes up remaining space on the left
+        )
+
+        // Image on the right
+        Image(
+            painter = painterResource(id = imageResId), // Replace with your image resource
+            contentDescription = "Header Image",
+            modifier = Modifier.size(64.dp) // Adjust the size of the image as needed
         )
     }
 }

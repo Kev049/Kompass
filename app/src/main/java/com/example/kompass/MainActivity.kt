@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -31,6 +32,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.kompass.ui.theme.BgBlack
 import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.ui.theme.KompassTheme
@@ -43,6 +46,10 @@ import com.example.kompass.ui.DocumentsScreen
 import com.example.kompass.ui.LogisticsScreen
 import com.example.kompass.ui.ScrollableProdCategoryScreen
 import com.example.kompass.ui.SustainabilityScreen
+import com.example.kompass.ui.shared.SharedRecentImage
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+
 
 enum class KompassScreen {
     Home,
@@ -54,6 +61,8 @@ enum class KompassScreen {
 }
 
 class MainActivity : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -67,8 +76,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun KompassApp(
+    //myViewModel: SharedRecentImage,
     navController: NavHostController = rememberNavController(),
 ) {
+    val sharedRecentImage: SharedRecentImage = viewModel()
+    val recentImage by sharedRecentImage.recentImage.collectAsState()
     val config = LocalConfiguration.current
     val screenWidth = config.screenWidthDp
     val screenHeight = config.screenHeightDp
@@ -85,6 +97,10 @@ private fun KompassApp(
                     onNavigate = {
                         screen ->
                         if(navController.currentDestination?.route !== screen.name){
+                            // reset most recent image to none (is displayed in the categories screen)
+                            if(screen.name == KompassScreen.Home.name){
+                                sharedRecentImage.setRecentImage(null)
+                            }
                             navController.navigate(screen.name)
                         }
                     }
@@ -102,7 +118,9 @@ private fun KompassApp(
                 HomeScreen(
                     innerPadding = innerPadding,
                     onNavigate = { screen ->
-                        navController.navigate(screen.name)
+                        val categoryItem = screen.toCategoryItem()
+                        categoryItem?.let { sharedRecentImage.setRecentImage(categoryItem.icon) }
+                        navController.navigate(screen.name);
                     }
                 )
             }
@@ -110,6 +128,8 @@ private fun KompassApp(
                 BasicInfoScreen(
                     innerPadding = innerPadding,
                     onNavigate = { screen ->
+                        //println(screen)
+                        //sharedRecentImage.setRecentImage()
                         navController.navigate(screen.name)
                     }
                 )
@@ -143,6 +163,7 @@ private fun KompassApp(
                     innerPadding = innerPadding,
                     screenWidth,
                     screenHeight,
+                    imageResId = recentImage, //TODO: byt ut
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
                     }
@@ -258,7 +279,8 @@ fun MainButton(
             Image(
                 painter = painterResource(id = categoryItem.icon),
                 contentDescription = "${categoryItem.description} icon",
-                modifier = Modifier.size(90.dp)
+                modifier = Modifier
+                    .size(90.dp)
                     .padding(bottom = 8.dp),
                 contentScale = ContentScale.Fit
             )
@@ -275,6 +297,28 @@ fun MainButton(
         }
     }
 }
+
+// to get the categoryItem from a screen, isn't it beautiful?
+fun KompassScreen.toCategoryItem(): CategoryItem? {
+    return when (this) {
+        KompassScreen.Basic -> CategoryItem.Basic
+        KompassScreen.Logistics -> CategoryItem.Logistics
+        KompassScreen.Sustainability -> CategoryItem.Sustainability
+        KompassScreen.Documents -> CategoryItem.Documents
+        else -> null
+    }
+}
+
+//// to get the SubButtonItem from a screen
+//fun KompassScreen.toSubButtonItem(): SubButtonItem? {
+//    return when (this) {
+//        KompassScreen.Basic -> CategoryItem.Basic
+//        KompassScreen.Logistics -> CategoryItem.Logistics
+//        KompassScreen.Sustainability -> CategoryItem.Sustainability
+//        KompassScreen.Documents -> CategoryItem.Documents
+//        else -> null
+//    }
+//}
 
 sealed class NavBarItem(val icon: Int, val description: String) {
     data object Home : NavBarItem(R.drawable.navbar_home, "home")

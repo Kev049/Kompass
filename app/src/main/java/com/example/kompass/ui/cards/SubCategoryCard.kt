@@ -62,7 +62,7 @@ fun SubCategoryCard(
                     .width((cardWidth*0.4).dp) //frågan är om bilden borde vara en fixed storlek
                     .height((cardHeight*0.8).dp),
                     //.clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Fit
             )
             // Text
             Text(

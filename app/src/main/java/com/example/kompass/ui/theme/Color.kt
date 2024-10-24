@@ -12,4 +12,5 @@ val Pink40 = Color(0xFF7D5260)
 
 val IkeaBlue = Color(0xFF0058A3)
 val IkeaDarkBlue = Color(0xFF00305C)
+val IkeaYellow = Color(0xFFFBD914)
 val BgBlack = Color(0xFF121212)

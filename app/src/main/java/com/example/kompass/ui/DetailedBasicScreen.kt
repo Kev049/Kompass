@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -24,23 +25,26 @@ import androidx.compose.ui.unit.sp
 import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.R
 import com.example.kompass.ui.theme.IkeaDarkBlue
+import com.example.kompass.ui.theme.IkeaYellow
 
 @Composable
-fun DetailedScreen() {
+fun DetailedBasicScreen(
+    fontColor: Color = Color.White
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(1.dp,10.dp,1.dp,1.dp),
         verticalArrangement = Arrangement.Top
     ) {
-        InfoBar(Color.Black)
-        NavHeader()
-        ContentBody(Color.Black)
+        InfoBar(fontColor)
+        NavHeader(R.drawable.t, navCollection = { NavCollection() })
+        ContentBody(fontColor)
     }
 }
 
 @Composable
-fun ContentBody(
+private fun ContentBody(
     textColor: Color
 ) {
     Column(
@@ -77,7 +81,10 @@ fun ContentBody(
 }
 
 @Composable
-private fun NavHeader() {
+fun NavHeader(
+    productImage: Int,
+    navCollection: @Composable () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -93,7 +100,7 @@ private fun NavHeader() {
             contentAlignment = Alignment.Center
         ) {
             Image(
-                painter = painterResource(R.drawable.t),
+                painter = painterResource(productImage),
                 contentDescription = "placeholder",
                 modifier = Modifier
                     .size(150.dp)
@@ -107,13 +114,13 @@ private fun NavHeader() {
                 .height(200.dp)
                 .padding(vertical = 20.dp)
         ) {
-            NavCollection()
+            navCollection()
         }
     }
 }
 
 @Composable
-private fun InfoBar(
+fun InfoBar(
     textColor: Color
 ) {
     Row(
@@ -199,7 +206,7 @@ fun NavCollection() {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SmallNavButton(R.drawable.menu_basic_spec)
+            SmallNavButton(R.drawable.menu_basic_dimensions, IkeaYellow, ColorFilter.tint(IkeaBlue))
             SmallNavButton(R.drawable.menu_basic_contents)
         }
         Row(
@@ -207,7 +214,7 @@ fun NavCollection() {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SmallNavButton(R.drawable.menu_basic_dimensions)
+            SmallNavButton(R.drawable.menu_basic_spec)
             SmallNavButton(R.drawable.menu_basic_materials)
         }
     }
@@ -215,13 +222,15 @@ fun NavCollection() {
 
 @Composable
 fun SmallNavButton(
-    img: Int
+    img: Int,
+    color: Color = IkeaBlue,
+    iconColor: ColorFilter = ColorFilter.tint(Color.White)
 ) {
     Box(
         modifier = Modifier
             .width(60.dp)
             .height(60.dp)
-            .background(IkeaBlue, shape = RoundedCornerShape(10.dp)),
+            .background(color, shape = RoundedCornerShape(10.dp)),
         contentAlignment = Alignment.Center
     ) {
         Image(
@@ -229,13 +238,14 @@ fun SmallNavButton(
             contentDescription = "placeholder",
             modifier = Modifier.size(90.dp)
                 .padding(5.dp),
-            contentScale = ContentScale.Fit
+            contentScale = ContentScale.Fit,
+            colorFilter = iconColor
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun DetailedPreview() {
-    DetailedScreen()
+fun DetailedBasicPreview() {
+    DetailedBasicScreen(Color.Black)
 }

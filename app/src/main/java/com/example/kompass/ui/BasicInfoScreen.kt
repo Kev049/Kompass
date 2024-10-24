@@ -1,40 +1,59 @@
 package com.example.kompass.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.kompass.CategoryItem
-import com.example.kompass.NavButtons
+import androidx.compose.ui.unit.dp
+import com.example.kompass.KompassScreen
+import com.example.kompass.SubButtonItem
 
 @Composable
 fun BasicInfoScreen(
-    innerPadding: PaddingValues
+    innerPadding: PaddingValues,
+    onNavigate: (KompassScreen) -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(innerPadding), // Avoid overlap with BottomAppBar
         contentAlignment = Alignment.Center
-    ) {
-        val categories = listOf(
-            CategoryItem.Dimensions, CategoryItem.Contents,
-            CategoryItem.Specific, CategoryItem.Materials
-        )
-        NavButtons(categories, {})
+    ){
+        Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(1.dp),
+        verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                SubButton(SubButtonItem.Dimensions, onNavigate = onNavigate)
+                SubButton(SubButtonItem.Contents, onNavigate = onNavigate)
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                SubButton(SubButtonItem.Specific, onNavigate = onNavigate)
+                SubButton(SubButtonItem.Materials, onNavigate = onNavigate)
+            }
+        }
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
-private fun InfoScreenPreview(
-) {
-    BasicInfoScreen(
-            PaddingValues()
-        )
+fun PreviewBasicInfoScreen() {
+    val defaultPadding = PaddingValues(0.dp)
+    BasicInfoScreen(innerPadding = defaultPadding) {}
 }

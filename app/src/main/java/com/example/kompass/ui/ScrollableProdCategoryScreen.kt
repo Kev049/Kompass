@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.kompass.CategoryItem
-import com.example.kompass.NavButtons
 import com.example.kompass.types.SubCategory
 import com.example.kompass.ui.cards.SubCategoryCard
 import androidx.compose.foundation.lazy.items
@@ -44,7 +43,7 @@ fun ScrollableProdCategoryScreen(
             .fillMaxSize()
             .padding(innerPadding),
         contentAlignment = Alignment.TopCenter
-    ) { SubCategoryApp(screenWidth, screenHeight)
+    ) { SubCategoryApp(screenWidth, screenHeight, innerPadding)
     }
 }
 
@@ -79,7 +78,8 @@ fun SubCategoryList(
 @Composable
 fun SubCategoryApp(
     screenWidth: Int,
-    screenHeight: Int
+    screenHeight: Int,
+    innerPadding: PaddingValues
 ){
     //val layoutDirection = LocalLayoutDirection.current
     Surface(
@@ -87,7 +87,7 @@ fun SubCategoryApp(
             //.fillMaxSize()
             //.statusBarsPadding()
             .padding(
-                PaddingValues()
+                innerPadding
             ),
     ) {
         SubCategoryList(

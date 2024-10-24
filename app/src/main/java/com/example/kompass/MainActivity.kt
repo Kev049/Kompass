@@ -50,21 +50,7 @@ enum class KompassScreen {
     Logistics,
     Sustainability,
     Documents,
-    ProdCategory,
-    Specific,
-    Dimensions,
-    Contents,
-    Material,
-    Availability,
-    Location,
-    Delivery,
-    History,
-    SubSustainability,
-    Description,
-    Manual,
-    Installation,
-    Safety,
-    Policy
+    ProdCategory
 }
 
 class MainActivity : ComponentActivity() {
@@ -153,7 +139,8 @@ private fun KompassApp(
                 )
             }
             composable(KompassScreen.ProdCategory.name){
-                ScrollableProdCategoryScreen(innerPadding = innerPadding, navController, screenWidth, screenHeight)
+                ScrollableProdCategoryScreen(innerPadding = innerPadding,
+                    navController, screenWidth, screenHeight)
             }
 
         }

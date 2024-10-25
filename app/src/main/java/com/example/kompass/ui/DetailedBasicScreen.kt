@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.R
+import com.example.kompass.ui.theme.BgBlack
 import com.example.kompass.ui.theme.IkeaDarkBlue
 import com.example.kompass.ui.theme.IkeaYellow
 
@@ -101,7 +103,7 @@ fun NavHeader(
             modifier = Modifier
                 .width(150.dp)
                 .height(200.dp)
-                .padding(vertical = 20.dp),
+                .padding(vertical = 10.dp),
             contentAlignment = Alignment.Center
         ) {
             Image(
@@ -117,7 +119,7 @@ fun NavHeader(
             modifier = Modifier
                 .width(150.dp)
                 .height(200.dp)
-                .padding(vertical = 20.dp)
+                .padding(vertical = 7.5.dp)
         ) {
             navCollection()
         }
@@ -204,12 +206,48 @@ fun InfoBar(
 }
 
 @Composable
+fun NavButton(
+    icon: Int,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .width(50.dp)
+            .height(50.dp)
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = icon),
+            contentDescription = "navigate",
+            modifier = Modifier.size(32.dp)
+        )
+    }
+}
+
+@Composable
 fun NavCollection() {
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(BgBlack, shape = RoundedCornerShape(15.dp)),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            NavButton(R.drawable.vector_left, {})
+            Image(
+                painter = painterResource(id = R.drawable.menu_main_info),
+                contentDescription = "navigate",
+                modifier = Modifier.size(32.dp)
+            )
+            NavButton(R.drawable.vector_right, {})
+        }
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -237,8 +275,8 @@ fun SmallNavButton(
 ) {
     Box(
         modifier = Modifier
-            .width(60.dp)
-            .height(60.dp)
+            .width(55.dp)
+            .height(55.dp)
             .background(color, shape = RoundedCornerShape(10.dp)),
         contentAlignment = Alignment.Center
     ) {

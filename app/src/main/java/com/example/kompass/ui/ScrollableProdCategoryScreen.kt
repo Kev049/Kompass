@@ -20,10 +20,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.kompass.CategoryItem
 import com.example.kompass.types.SubCategory
 import com.example.kompass.ui.cards.SubCategoryCard
-import androidx.compose.foundation.lazy.items
-import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.layout.asPaddingValues

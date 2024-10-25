@@ -1,7 +1,6 @@
 package com.example.kompass
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -45,6 +44,7 @@ import com.example.kompass.ui.BasicInfoScreen
 import com.example.kompass.ui.DocumentsScreen
 import com.example.kompass.ui.LogisticsScreen
 import com.example.kompass.ui.ScrollableProdCategoryScreen
+import com.example.kompass.ui.SearchScreen
 import com.example.kompass.ui.SustainabilityScreen
 import com.example.kompass.ui.shared.SharedRecentImage
 import androidx.compose.runtime.collectAsState
@@ -61,7 +61,8 @@ enum class KompassScreen {
     Logistics,
     Sustainability,
     Documents,
-    ProdCategory
+    ProdCategory,
+    Search
 }
 
 class MainActivity : ComponentActivity() {
@@ -182,7 +183,9 @@ private fun KompassApp(
                     }
                 )
             }
-
+            composable(KompassScreen.Search.name) {
+                SearchScreen(innerPadding = innerPadding)
+            }
         }
     }
 
@@ -227,7 +230,7 @@ fun NavBarButtons(
     ) {
         NavBarButton(NavBarItem.Home) { onNavigate(KompassScreen.Home) }
         NavBarButton(NavBarItem.QR) { onNavigate(KompassScreen.Home) }
-        NavBarButton(NavBarItem.Search) { onNavigate(KompassScreen.Home) }
+        NavBarButton(NavBarItem.Search) { onNavigate(KompassScreen.Search) }
         NavBarButton(NavBarItem.User) { onNavigate(KompassScreen.Home) }
     }
 }

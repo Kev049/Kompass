@@ -150,7 +150,7 @@ fun InfoBar(
             Text(
                 text = productName,
                 color = textColor,
-                fontSize = 30.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight(700),
                 fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
                 textAlign = TextAlign.Center,
@@ -161,7 +161,7 @@ fun InfoBar(
             Text(
                 text = productNumber,
                 color = textColor,
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight(700),
                 fontFamily = FontFamily(Font(R.font.noto_sans_light)),
                 textAlign = TextAlign.Center,

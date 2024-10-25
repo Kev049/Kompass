@@ -54,6 +54,7 @@ import com.example.kompass.CategoryItem.Documents
 import com.example.kompass.CategoryItem.Logistics
 import com.example.kompass.CategoryItem.Sustainability
 import com.example.kompass.ui.SpecificCategoryScreen
+import com.example.kompass.ui.ProductListScreen
 
 
 enum class KompassScreen {
@@ -62,6 +63,7 @@ enum class KompassScreen {
     Logistics,
     Sustainability,
     Documents,
+    ProductList,
     ProdCategory,
     Search,
     SpecificCategory
@@ -179,6 +181,15 @@ private fun KompassApp(
                     innerPadding = innerPadding,
                     screenWidth,
                     screenHeight,
+                    imageResId = recentImage,
+                    onNavigate = { screen ->
+                        navController.navigate(screen.name)
+                    }
+                )
+            }
+            composable(KompassScreen.ProductList.name){
+                ProductListScreen(
+                    innerPadding = innerPadding,
                     imageResId = recentImage,
                     onNavigate = { screen ->
                         navController.navigate(screen.name)

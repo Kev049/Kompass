@@ -32,7 +32,6 @@ import com.example.kompass.ui.theme.IkeaBlue
 
 @Composable
 fun SubButton(
-
     subButtonItem: SubButtonItem,
     onItemClicked: (SubButtonItem) -> Unit,
     onNavigate: (KompassScreen) -> Unit

@@ -116,6 +116,7 @@ fun SubCategoryApp(
         }
     }
 }
+
 @Composable
 fun Header(screenWidth: Int, imageResId: Int) {
     Row(

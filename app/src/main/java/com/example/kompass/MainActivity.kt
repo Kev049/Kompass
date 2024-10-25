@@ -49,6 +49,10 @@ import com.example.kompass.ui.SustainabilityScreen
 import com.example.kompass.ui.shared.SharedRecentImage
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import com.example.kompass.CategoryItem.Basic
+import com.example.kompass.CategoryItem.Documents
+import com.example.kompass.CategoryItem.Logistics
+import com.example.kompass.CategoryItem.Sustainability
 
 
 enum class KompassScreen {
@@ -61,8 +65,6 @@ enum class KompassScreen {
 }
 
 class MainActivity : ComponentActivity() {
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -76,9 +78,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun KompassApp(
-    //myViewModel: SharedRecentImage,
     navController: NavHostController = rememberNavController(),
 ) {
+    val categoryItemMap = mutableMapOf<Any, CategoryItem>()
+    initializeCategoryItemMap(categoryItemMap)
     val sharedRecentImage: SharedRecentImage = viewModel()
     val recentImage by sharedRecentImage.recentImage.collectAsState()
     val config = LocalConfiguration.current
@@ -97,7 +100,7 @@ private fun KompassApp(
                     onNavigate = {
                         screen ->
                         if(navController.currentDestination?.route !== screen.name){
-                            // reset most recent image to none (is displayed in the categories screen)
+                            // reset most recent image to null (is displayed in the categories screen)
                             if(screen.name == KompassScreen.Home.name){
                                 sharedRecentImage.setRecentImage(null)
                             }
@@ -118,7 +121,7 @@ private fun KompassApp(
                 HomeScreen(
                     innerPadding = innerPadding,
                     onNavigate = { screen ->
-                        val categoryItem = screen.toCategoryItem()
+                        val categoryItem = categoryItemMap.get(screen)
                         categoryItem?.let { sharedRecentImage.setRecentImage(categoryItem.icon) }
                         navController.navigate(screen.name);
                     }
@@ -128,8 +131,13 @@ private fun KompassApp(
                 BasicInfoScreen(
                     innerPadding = innerPadding,
                     onNavigate = { screen ->
-                        //println(screen)
-                        //sharedRecentImage.setRecentImage()
+//                        val categoryItem = categoryItemMap.get(Basic)
+//                        categoryItem?.let {
+//                            categoryItem.SubButtonList
+//                            sharedRecentImage.setRecentImage(categoryItem.icon)
+//                        }
+                        println(screen)
+                        //categoryItem?.let { sharedRecentImage.setRecentImage(categoryItem.icon) }
                         navController.navigate(screen.name)
                     }
                 )
@@ -172,7 +180,28 @@ private fun KompassApp(
 
         }
     }
+
 }
+fun initializeCategoryItemMap(categoryItemMap: MutableMap<Any, CategoryItem>){
+    CategoryItem.getAllItems().forEach { item ->
+        // Replace `item.description` with any unique key of your choice.
+        categoryItemMap[item.route] = item
+    }
+}
+
+//fun createSubButtonItemMap(subButtonList: List<SubButtonItem>){
+//    val subButtonItemMap: MutableMap<Any, SubButtonItem>
+//    subButtonList.forEach{ item ->
+//        subButtonItemMap[] = item
+//    }
+//}
+//fun initializeSubButtonItemMap(subButtonItemMap: MutableMap<Any, SubButtonItem>){
+//    SubButtonItem.getAllItems().forEach { item ->
+//        // Replace `item.description` with any unique key of your choice.
+//        SategoryItemMap[item] = item
+//    }
+//}
+
 
 @Preview(showBackground = true)
 @Composable
@@ -298,28 +327,6 @@ fun MainButton(
     }
 }
 
-// to get the categoryItem from a screen, isn't it beautiful?
-fun KompassScreen.toCategoryItem(): CategoryItem? {
-    return when (this) {
-        KompassScreen.Basic -> CategoryItem.Basic
-        KompassScreen.Logistics -> CategoryItem.Logistics
-        KompassScreen.Sustainability -> CategoryItem.Sustainability
-        KompassScreen.Documents -> CategoryItem.Documents
-        else -> null
-    }
-}
-
-//// to get the SubButtonItem from a screen
-//fun KompassScreen.toSubButtonItem(): SubButtonItem? {
-//    return when (this) {
-//        KompassScreen.Basic -> CategoryItem.Basic
-//        KompassScreen.Logistics -> CategoryItem.Logistics
-//        KompassScreen.Sustainability -> CategoryItem.Sustainability
-//        KompassScreen.Documents -> CategoryItem.Documents
-//        else -> null
-//    }
-//}
-
 sealed class NavBarItem(val icon: Int, val description: String) {
     data object Home : NavBarItem(R.drawable.navbar_home, "home")
     data object QR : NavBarItem(R.drawable.navbar_qr, "qr")
@@ -328,12 +335,17 @@ sealed class NavBarItem(val icon: Int, val description: String) {
 }
 
 // fin kod endast
-sealed class CategoryItem(val icon: Int, val description: String, val route: KompassScreen) {
+sealed class CategoryItem(val icon: Int, val description: String, val route: KompassScreen, val SubButtonList: List<SubButtonItem> ) {
 
-    data object Basic : CategoryItem(R.drawable.menu_main_info, "Basic Information", KompassScreen.Basic)
-    data object Logistics : CategoryItem(R.drawable.menu_main_logistics, "Logistics", KompassScreen.Logistics)
-    data object Sustainability : CategoryItem(R.drawable.menu_main_sustainability, "Sustainability & Design", KompassScreen.Sustainability)
-    data object Documents : CategoryItem(R.drawable.menu_main_documents, "Documents & Policy", KompassScreen.Documents)
+    data object Basic : CategoryItem(R.drawable.menu_main_info, "Basic Information", KompassScreen.Basic, SubButtonItem.getBasicItems())
+    data object Logistics : CategoryItem(R.drawable.menu_main_logistics, "Logistics", KompassScreen.Logistics, SubButtonItem.getLogisticsItems())
+    data object Sustainability : CategoryItem(R.drawable.menu_main_sustainability, "Sustainability & Design", KompassScreen.Sustainability, SubButtonItem.getSustainabilityItems())
+    data object Documents : CategoryItem(R.drawable.menu_main_documents, "Documents & Policy", KompassScreen.Documents, SubButtonItem.getDocumentItems())
+
+    companion object {
+        // Function to retrieve all instances of CategoryItem
+        fun getAllItems(): List<CategoryItem> = listOf(Basic, Logistics, Sustainability, Documents)
+    }
 }
 
 sealed class SubButtonItem(val icon: Int, val description: String) {
@@ -354,6 +366,13 @@ sealed class SubButtonItem(val icon: Int, val description: String) {
     data object Installation : SubButtonItem(R.drawable.menu_documents_installation, "Installation")
     data object Safety : SubButtonItem(R.drawable.menu_documents_safety, "Safety")
     data object Policy : SubButtonItem(R.drawable.menu_documents_policy, "Policies")
+
+    companion object {
+        fun getBasicItems(): List<SubButtonItem> = listOf(Specific, Contents,Dimensions, Materials)
+        fun getLogisticsItems(): List<SubButtonItem> = listOf(Availability, Location, Delivery, History)
+        fun getSustainabilityItems(): List<SubButtonItem> = listOf(Sustainability, Description)
+        fun getDocumentItems(): List<SubButtonItem> = listOf(Manual, Installation, Safety, Policy)
+    }
 }
 
 private fun Modifier.topBorder(

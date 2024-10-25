@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.kompass.R
 import com.example.kompass.ui.theme.IkeaBlue
+import com.example.kompass.ui.theme.IkeaDarkBlue
 import com.example.kompass.ui.theme.IkeaYellow
 
 @Composable
@@ -89,22 +90,22 @@ private fun StoreAvaliabilityColumn() {
 
     ) {
         StoreBox(
-            "IKEA Gothenburg Bollocks",
+            "IKEA Gothenburg Bäckebol",
             "Transportgatan 23, Hisings Backa",
-            "Store - 19 avaliable",
-            "Click & collect - Avaliable"
+            "Store - 19 available",
+            "Click & collect - Available"
         )
         StoreBox(
             "IKEA Gothenburg Kållered",
             "Ekenleden 4, Kållered",
-            "Store - 14 avaliable",
-            "Click & collect - Avaliable"
+            "Store - 14 available",
+            "Click & collect - Available"
         )
         StoreBox(
             "IKEA Borlänge",
             "Norra Backagatan 1, Borlänge",
-            "Store - 23 avaliable",
-            "Click & collect - Avaliable"
+            "Store - 23 available",
+            "Click & collect - Unavailable"
         )
     }
 }
@@ -120,7 +121,7 @@ private fun StoreBox(
         modifier = Modifier
             .fillMaxWidth()
             .height(120.dp)
-            .background(IkeaBlue, shape = RoundedCornerShape(10.dp))
+            .background(IkeaDarkBlue, shape = RoundedCornerShape(10.dp))
     ) {
         Text(
             text = storeName,

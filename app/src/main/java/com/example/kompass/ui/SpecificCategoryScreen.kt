@@ -57,6 +57,7 @@ fun SpecificCategoryApp(
     screenHeight: Int,
     innerPadding: PaddingValues,
     imageResId: Int?,
+    //title: String, TODO: Ska lägga till
     onNavigate: (KompassScreen) -> Unit
 ){
     val imageId = imageResId ?: R.drawable.navbar_home

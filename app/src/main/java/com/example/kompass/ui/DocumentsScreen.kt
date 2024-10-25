@@ -19,6 +19,7 @@ import com.example.kompass.SubButtonItem
 @Composable
 fun DocumentsScreen(
     innerPadding: PaddingValues,
+    onItemClicked: (SubButtonItem) -> Unit,
     onNavigate: (KompassScreen) -> Unit
 ) {
     Box(
@@ -37,15 +38,15 @@ fun DocumentsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Manual, onNavigate = onNavigate)
-                SubButton(SubButtonItem.Installation, onNavigate = onNavigate)
+                SubButton(SubButtonItem.Manual, onNavigate = onNavigate, onItemClicked = onItemClicked)
+                SubButton(SubButtonItem.Installation, onNavigate = onNavigate, onItemClicked = onItemClicked)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Safety, onNavigate = onNavigate)
-                SubButton(SubButtonItem.Policy, onNavigate = onNavigate)
+                SubButton(SubButtonItem.Safety, onNavigate = onNavigate, onItemClicked = onItemClicked)
+                SubButton(SubButtonItem.Policy, onNavigate = onNavigate, onItemClicked = onItemClicked)
             }
         }
     }
@@ -55,5 +56,5 @@ fun DocumentsScreen(
 @Composable
 fun PreviewDocumentsScreen() {
     val defaultPadding = PaddingValues(0.dp)
-    DocumentsScreen(innerPadding = defaultPadding) {}
+    DocumentsScreen(innerPadding = defaultPadding, onItemClicked = {}, onNavigate = {})
 }

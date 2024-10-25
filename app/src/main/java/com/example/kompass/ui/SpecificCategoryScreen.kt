@@ -36,54 +36,28 @@ import com.example.kompass.R
 import com.example.kompass.data.Datasource
 
 @Composable
-fun ScrollableProdCategoryScreen(
+fun SpecificCategoryScreen(
     innerPadding: PaddingValues,
     screenWidth: Int,
     screenHeight: Int,
     imageResId: Int?,
     onNavigate: (KompassScreen) -> Unit
-) {
+){
     Box(
         modifier = Modifier
             .fillMaxSize(),
         contentAlignment = Alignment.TopCenter
-    ) { SubCategoryApp(screenWidth, screenHeight, innerPadding, imageResId, onNavigate)
+    ) { SpecificCategoryApp(screenWidth, screenHeight, innerPadding, imageResId, onNavigate)
     }
 }
 
 @Composable
-fun SubCategoryList(
-    subCategoryList: List<SubCategory>,
-    screenWidth: Int,
-    screenHeight: Int,
-    onNavigate: (KompassScreen) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
-        modifier = Modifier.fillMaxSize()
-    ) {
-        items(subCategoryList) { subcategory ->
-            SubCategoryCard(
-                subcategory = subcategory,
-                screenWidth = screenWidth,
-                screenHeight = screenHeight,
-                onNavigate = onNavigate,
-                modifier = Modifier.padding(8.dp)
-            )
-        }
-    }
-}
-
-@Composable
-fun SubCategoryApp(
+fun SpecificCategoryApp(
     screenWidth: Int,
     screenHeight: Int,
     innerPadding: PaddingValues,
     imageResId: Int?,
+    //title: String, TODO: Ska lägga till
     onNavigate: (KompassScreen) -> Unit
 ){
     val imageId = imageResId ?: R.drawable.navbar_home
@@ -100,7 +74,7 @@ fun SubCategoryApp(
             Header(
                 screenWidth = screenWidth,
                 imageId,
-                "Categories"
+                "placeholder"
             )
             // Add a divider below the header
             HorizontalDivider(
@@ -108,7 +82,7 @@ fun SubCategoryApp(
                 thickness = 1.dp,
                 modifier = Modifier.fillMaxWidth()
             )
-            SubCategoryList(
+            SubCategoryList( //TODO: Byt ut detta sen
                 subCategoryList = Datasource().loadSubCategories(),
                 screenWidth = screenWidth,
                 screenHeight = screenHeight,
@@ -117,38 +91,3 @@ fun SubCategoryApp(
         }
     }
 }
-@Composable
-fun Header(screenWidth: Int, imageResId: Int, title: String) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp), // Adjust the padding as needed
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween // Space between the text and image
-    ) {
-        Text(
-            text = title, // Replace with your desired text
-            fontSize = 24.sp,
-            //style = MaterialTheme.typography.h6, // Adjust text style as needed
-            modifier = Modifier.weight(1f) // Ensure the text takes up remaining space on the left
-        )
-
-        // Image on the right
-        Image(
-            painter = painterResource(id = imageResId), // Replace with your image resource
-            contentDescription = "Header Image",
-            modifier = Modifier.size(64.dp) // Adjust the size of the image as needed
-        )
-    }
-}
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewScrollableProdCategoryScreen() {
-//    val navController = rememberNavController();
-//    val defaultPadding = PaddingValues(0.dp)
-//
-//    ScrollableProdCategoryScreen(defaultPadding, navController = navController, 320, 668)
-//}
-
-//ScrollableProdCategoryScreen(innerPadding = defaultPadding, navController = navController, 320, 668)

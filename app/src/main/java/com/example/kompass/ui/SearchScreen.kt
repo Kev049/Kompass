@@ -68,7 +68,7 @@ fun SearchBar(
             textFieldValue = newValue
             onQueryChange(newValue.text)
         },
-        placeholder = { Text("Search...") },
+        placeholder = { Text("Search for product or category...") },
         modifier = modifier
             .fillMaxWidth()
             .onFocusChanged { focusState ->
@@ -110,21 +110,6 @@ fun SearchItemList(
     }
 }
 
-@Composable
-fun SearchBar(
-    query: String,
-    onQueryChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    TextField(
-        value = query,
-        onValueChange = onQueryChange,
-        placeholder = { Text("Search...") },
-        modifier = modifier
-            .fillMaxWidth(),
-        singleLine = true
-    )
-}
 
 enum class SearchResultSource {
     NAME,

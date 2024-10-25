@@ -1,36 +1,42 @@
 package com.example.kompass.ui
 
-import androidx.compose.foundation.Image
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.R
-import com.example.kompass.ui.theme.IkeaDarkBlue
+import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.ui.theme.IkeaYellow
 
 @Composable
 fun DetailedLogisticsScreen(
-    fontColor: Color = Color.White
+    fontColor: Color = Color.White,
+    productImage: Int,
+    productName: String,
+    productNumber: String,
+    productCategory: String,
+    productPrice: Int
 ) {
     Column(
         modifier = Modifier
@@ -38,8 +44,8 @@ fun DetailedLogisticsScreen(
             .padding(1.dp,10.dp,1.dp,1.dp),
         verticalArrangement = Arrangement.Top
     ) {
-        InfoBar(fontColor)
-        NavHeader(R.drawable.t, navCollection = { NavCollection2() })
+        InfoBar(fontColor, productName, productNumber, productCategory, productPrice)
+        NavHeader(productImage, navCollection = { NavCollection2() })
         ContentBody(fontColor)
     }
 }
@@ -83,7 +89,7 @@ private fun StoreAvaliabilityColumn() {
 
     ) {
         StoreBox(
-            "IKEA Gothenburg Bäckebol",
+            "IKEA Gothenburg Bollocks",
             "Transportgatan 23, Hisings Backa",
             "Store - 19 avaliable",
             "Click & collect - Avaliable"
@@ -196,5 +202,12 @@ fun NavCollection2() {
 @Preview(showBackground = true)
 @Composable
 fun DetailedLogisticsPreview() {
-    DetailedLogisticsScreen(Color.Black)
+    DetailedLogisticsScreen(
+        Color.Black,
+        R.drawable.t,
+        "Problem??",
+        "1337.420.69",
+        "Sussy baka",
+        1337
+    )
 }

@@ -136,7 +136,7 @@ private fun KompassApp(
 //                            categoryItem.SubButtonList
 //                            sharedRecentImage.setRecentImage(categoryItem.icon)
 //                        }
-                        println(screen)
+
                         //categoryItem?.let { sharedRecentImage.setRecentImage(categoryItem.icon) }
                         navController.navigate(screen.name)
                     }

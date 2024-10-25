@@ -19,7 +19,8 @@ import com.example.kompass.SubButtonItem
 @Composable
 fun BasicInfoScreen(
     innerPadding: PaddingValues,
-    onNavigate: (KompassScreen) -> Unit
+    onNavigate: (KompassScreen) -> Unit,
+    onItemClicked: (SubButtonItem) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -55,5 +56,10 @@ fun BasicInfoScreen(
 @Composable
 fun PreviewBasicInfoScreen() {
     val defaultPadding = PaddingValues(0.dp)
-    BasicInfoScreen(innerPadding = defaultPadding) {}
+    BasicInfoScreen(innerPadding = defaultPadding,
+    onNavigate = {},
+    onItemClicked = { item ->
+        println("Clicked on: ${item.description}")
+    }
+    )
 }

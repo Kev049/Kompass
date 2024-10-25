@@ -53,6 +53,7 @@ import com.example.kompass.CategoryItem.Basic
 import com.example.kompass.CategoryItem.Documents
 import com.example.kompass.CategoryItem.Logistics
 import com.example.kompass.CategoryItem.Sustainability
+import com.example.kompass.ui.SpecificCategoryScreen
 
 
 enum class KompassScreen {
@@ -62,7 +63,8 @@ enum class KompassScreen {
     Sustainability,
     Documents,
     ProdCategory,
-    Search
+    Search,
+    SpecificCategory
 }
 
 class MainActivity : ComponentActivity() {
@@ -185,6 +187,17 @@ private fun KompassApp(
             }
             composable(KompassScreen.Search.name) {
                 SearchScreen(innerPadding = innerPadding)
+            }
+            composable(KompassScreen.SpecificCategory.name){
+                SpecificCategoryScreen(
+                    innerPadding = innerPadding,
+                    screenWidth,
+                    screenHeight,
+                    imageResId = recentImage,
+                    onNavigate = { screen ->
+                        navController.navigate(screen.name)
+                    }
+                )
             }
         }
     }

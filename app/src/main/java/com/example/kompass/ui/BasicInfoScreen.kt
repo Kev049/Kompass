@@ -19,6 +19,7 @@ import com.example.kompass.SubButtonItem
 @Composable
 fun BasicInfoScreen(
     innerPadding: PaddingValues,
+    onItemClicked: (SubButtonItem) -> Unit,
     onNavigate: (KompassScreen) -> Unit
 ) {
     Box(
@@ -37,15 +38,15 @@ fun BasicInfoScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Dimensions, onNavigate = onNavigate)
-                SubButton(SubButtonItem.Contents, onNavigate = onNavigate)
+                SubButton(SubButtonItem.Dimensions, onNavigate = onNavigate, onItemClicked = onItemClicked)
+                SubButton(SubButtonItem.Contents, onNavigate = onNavigate, onItemClicked = onItemClicked)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Specific, onNavigate = onNavigate)
-                SubButton(SubButtonItem.Materials, onNavigate = onNavigate)
+                SubButton(SubButtonItem.Specific, onNavigate = onNavigate, onItemClicked = onItemClicked)
+                SubButton(SubButtonItem.Materials, onNavigate = onNavigate, onItemClicked = onItemClicked)
             }
         }
     }
@@ -55,5 +56,10 @@ fun BasicInfoScreen(
 @Composable
 fun PreviewBasicInfoScreen() {
     val defaultPadding = PaddingValues(0.dp)
-    BasicInfoScreen(innerPadding = defaultPadding) {}
+    BasicInfoScreen(innerPadding = defaultPadding,
+    onNavigate = {},
+    onItemClicked = { item ->
+        println("Clicked on: ${item.description}")
+        }
+    )
 }

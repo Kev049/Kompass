@@ -1,5 +1,6 @@
 package com.example.kompass.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.kompass.R
+import com.example.kompass.ui.theme.BgBlack
 import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.ui.theme.IkeaDarkBlue
 import com.example.kompass.ui.theme.IkeaYellow
@@ -178,9 +182,25 @@ private fun StoreBox(
 fun NavCollection2() {
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(BgBlack, shape = RoundedCornerShape(15.dp)),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            NavButton(R.drawable.vector_left, {})
+            Image(
+                painter = painterResource(id = R.drawable.menu_main_logistics),
+                contentDescription = "navigate",
+                modifier = Modifier.size(32.dp)
+            )
+            NavButton(R.drawable.vector_right, {})
+        }
         Row(
             modifier = Modifier
                 .fillMaxWidth(),

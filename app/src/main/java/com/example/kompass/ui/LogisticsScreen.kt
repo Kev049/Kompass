@@ -19,6 +19,7 @@ import com.example.kompass.SubButtonItem
 @Composable
 fun LogisticsScreen(
     innerPadding: PaddingValues,
+    onItemClicked: (SubButtonItem) -> Unit,
     onNavigate: (KompassScreen) -> Unit
 ) {
     Box(
@@ -37,15 +38,15 @@ fun LogisticsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Availability, onNavigate = onNavigate)
-                SubButton(SubButtonItem.Location, onNavigate = onNavigate)
+                SubButton(SubButtonItem.Availability, onNavigate = onNavigate, onItemClicked = onItemClicked)
+                SubButton(SubButtonItem.Location, onNavigate = onNavigate, onItemClicked = onItemClicked)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Delivery, onNavigate = onNavigate)
-                SubButton(SubButtonItem.History, onNavigate = onNavigate)
+                SubButton(SubButtonItem.Delivery, onNavigate = onNavigate, onItemClicked = onItemClicked)
+                SubButton(SubButtonItem.History, onNavigate = onNavigate, onItemClicked = onItemClicked)
             }
         }
     }
@@ -55,5 +56,5 @@ fun LogisticsScreen(
 @Composable
 fun PreviewLogisticsScreen() {
     val defaultPadding = PaddingValues(0.dp)
-    LogisticsScreen(innerPadding = defaultPadding) {}
+    LogisticsScreen(innerPadding = defaultPadding, onItemClicked = {}, onNavigate = {})
 }

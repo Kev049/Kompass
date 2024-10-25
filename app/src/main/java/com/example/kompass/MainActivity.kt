@@ -130,21 +130,20 @@ private fun KompassApp(
             composable(KompassScreen.Basic.name) {
                 BasicInfoScreen(
                     innerPadding = innerPadding,
+                    onItemClicked = {itemName ->
+                        sharedRecentImage.setRecentImage(itemName.icon)
+                    },
                     onNavigate = { screen ->
-//                        val categoryItem = categoryItemMap.get(Basic)
-//                        categoryItem?.let {
-//                            categoryItem.SubButtonList
-//                            sharedRecentImage.setRecentImage(categoryItem.icon)
-//                        }
-
-                        //categoryItem?.let { sharedRecentImage.setRecentImage(categoryItem.icon) }
                         navController.navigate(screen.name)
-                    }
+                    },
                 )
             }
             composable(KompassScreen.Logistics.name) {
                 LogisticsScreen(
                     innerPadding = innerPadding,
+                    onItemClicked = {itemName ->
+                        sharedRecentImage.setRecentImage(itemName.icon)
+                    },
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
                     }
@@ -153,6 +152,9 @@ private fun KompassApp(
             composable(KompassScreen.Sustainability.name) {
                 SustainabilityScreen(
                     innerPadding = innerPadding,
+                    onItemClicked = {itemName ->
+                        sharedRecentImage.setRecentImage(itemName.icon)
+                    },
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
                     }
@@ -161,6 +163,9 @@ private fun KompassApp(
             composable(KompassScreen.Documents.name) {
                 DocumentsScreen(
                     innerPadding = innerPadding,
+                    onItemClicked = {itemName ->
+                        sharedRecentImage.setRecentImage(itemName.icon)
+                    },
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
                     }
@@ -171,7 +176,7 @@ private fun KompassApp(
                     innerPadding = innerPadding,
                     screenWidth,
                     screenHeight,
-                    imageResId = recentImage, //TODO: byt ut
+                    imageResId = recentImage,
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
                     }
@@ -188,20 +193,6 @@ fun initializeCategoryItemMap(categoryItemMap: MutableMap<Any, CategoryItem>){
         categoryItemMap[item.route] = item
     }
 }
-
-//fun createSubButtonItemMap(subButtonList: List<SubButtonItem>){
-//    val subButtonItemMap: MutableMap<Any, SubButtonItem>
-//    subButtonList.forEach{ item ->
-//        subButtonItemMap[] = item
-//    }
-//}
-//fun initializeSubButtonItemMap(subButtonItemMap: MutableMap<Any, SubButtonItem>){
-//    SubButtonItem.getAllItems().forEach { item ->
-//        // Replace `item.description` with any unique key of your choice.
-//        SategoryItemMap[item] = item
-//    }
-//}
-
 
 @Preview(showBackground = true)
 @Composable
@@ -387,45 +378,3 @@ private fun Modifier.topBorder(
         strokeWidth = height,
     )
 }
-
-//@Composable
-//fun KompassApp(
-//    navController: NavHostController = rememberNavController()
-//) {
-//    Scaffold(
-//        bottomBar = {
-//            BottomAppBar(
-//                containerColor = Color.Blue,
-//                contentColor = Color.Yellow,) {
-//                NavBarButtons()
-//            }
-//        }
-//    ) { innerPadding ->
-//        NavHost(
-//            navController = navController,
-//            startDestination = KompassScreen.Start.name,
-//            modifier = Modifier.padding(innerPadding)
-//        ) {
-//            composable(route = KompassScreen.Start.name) {
-//                //MainScreen(
-//                //    modifier = Modifier.fillMaxSize()
-//                //)
-//            }
-//        }
-//    }
-//}
-
-//@Composable
-//fun MainScreen(
-//    modifier: Modifier
-//) {
-//    Box(
-//        modifier = modifier, // Avoid overlap with BottomAppBar
-//        contentAlignment = Alignment.Center
-//    ) {
-//        NavButtons()
-//    }
-//}
-
-
-

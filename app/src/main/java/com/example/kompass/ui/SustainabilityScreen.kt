@@ -19,6 +19,7 @@ import com.example.kompass.SubButtonItem
 @Composable
 fun SustainabilityScreen(
     innerPadding: PaddingValues,
+    onItemClicked: (SubButtonItem) -> Unit,
     onNavigate: (KompassScreen) -> Unit
 ) {
     Box(
@@ -37,22 +38,22 @@ fun SustainabilityScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Sustainability, onNavigate = onNavigate)
-                SubButton(SubButtonItem.Description, onNavigate = onNavigate)
+                SubButton(SubButtonItem.Sustainability, onNavigate = onNavigate, onItemClicked = onItemClicked)
+                SubButton(SubButtonItem.Description, onNavigate = onNavigate, onItemClicked = onItemClicked)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                SubButton(SubButtonItem.Materials, onNavigate = onNavigate)
+                SubButton(SubButtonItem.Materials, onNavigate = onNavigate, onItemClicked = onItemClicked)
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewSustainabilityScreen() {
-    val defaultPadding = PaddingValues(0.dp)
-    SustainabilityScreen(innerPadding = defaultPadding) {}
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewSustainabilityScreen() {
+//    val defaultPadding = PaddingValues(0.dp)
+//    SustainabilityScreen(innerPadding = defaultPadding) {}
+//}

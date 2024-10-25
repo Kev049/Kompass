@@ -32,6 +32,7 @@ import com.example.kompass.ui.theme.IkeaBlue
 @Composable
 fun SubButton(
     subButtonItem: SubButtonItem,
+    onItemClicked: (SubButtonItem) -> Unit,
     onNavigate: (KompassScreen) -> Unit
 ) {
     Box(
@@ -40,7 +41,8 @@ fun SubButton(
             .height(300.dp)
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
             //TODO: Navigate to product screen and pass right category
-            .clickable { onNavigate(KompassScreen.ProdCategory) },
+            .clickable { onItemClicked(subButtonItem)
+                onNavigate(KompassScreen.ProdCategory) },
         contentAlignment = Alignment.Center
     ) {
         Column(

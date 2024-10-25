@@ -14,12 +14,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.kompass.types.SearchItemInfo
+import com.example.kompass.types.ProductItem
 import com.example.kompass.ui.theme.IkeaBlue
+import com.example.kompass.ui.theme.IkeaDarkBlue
 
 @Composable
 fun SearchItemCard(
-    searchItem: SearchItemInfo,
+    searchItem: ProductItem,
     modifier: Modifier = Modifier,
     onCardClick: (String) -> Unit
 ) {
@@ -27,7 +28,7 @@ fun SearchItemCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(80.dp)
-            .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
+            .background(IkeaDarkBlue, shape = RoundedCornerShape(12.dp))
             .clickable { onCardClick(searchItem.name) }
             .padding(8.dp), // Add some padding to the Row
         verticalAlignment = Alignment.CenterVertically

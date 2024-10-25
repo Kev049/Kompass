@@ -1,8 +1,11 @@
 package com.example.kompass.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
@@ -10,13 +13,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.kompass.data.SearchItemSource
-import com.example.kompass.types.SearchItemInfo
+import com.example.kompass.types.ProductItem
 import com.example.kompass.ui.cards.SearchItemCard
+import com.example.kompass.ui.theme.BgBlack
 
 
 @Composable
@@ -35,9 +41,12 @@ fun SearchScreen(innerPadding: PaddingValues) {
         contentAlignment = Alignment.TopCenter
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BgBlack)
         ) {
             SearchBar(
+                modifier = Modifier.padding(10.dp, 20.dp, 10.dp, 10.dp),
                 query = searchQuery,
                 onQueryChange = { searchQuery = it },
                 onFocusChange = { textFieldFocusState = it }
@@ -53,6 +62,7 @@ fun SearchScreen(innerPadding: PaddingValues) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(
     query: String,
@@ -71,6 +81,12 @@ fun SearchBar(
         placeholder = { Text("Search for product or category...") },
         modifier = modifier
             .fillMaxWidth()
+            .border(
+                width = 1.dp,
+                color = Color.Gray,
+                shape = RoundedCornerShape(24.dp)
+            )
+            .background(Color.Transparent, shape = RoundedCornerShape(24.dp))
             .onFocusChanged { focusState ->
                 onFocusChange(focusState.isFocused)
             },
@@ -80,7 +96,13 @@ fun SearchBar(
         ),
         keyboardActions = KeyboardActions(
             onDone = { /* Handle Done action */ }
-        )
+        ),
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            cursorColor = Color.Gray
+        ),
     )
 
     // Ensure the cursor is at the end of the text
@@ -119,12 +141,12 @@ enum class SearchResultSource {
 }
 
 data class FilteredSearchResult(
-    val item: SearchItemInfo,
+    val item: ProductItem,
     val source: SearchResultSource
 )
 
 fun filterSearchItems(
-    items: List<SearchItemInfo>,
+    items: List<ProductItem>,
     query: String
 ): List<FilteredSearchResult> {
     if (query.isBlank()) return emptyList()
@@ -141,4 +163,12 @@ fun filterSearchItems(
         }
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewSearchScreen() {
+    val defaultPadding = PaddingValues(0.dp)
+    SearchScreen(innerPadding = defaultPadding)
+}
+
 

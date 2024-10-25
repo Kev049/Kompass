@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,7 +23,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.example.kompass.R
 import com.example.kompass.ui.theme.BgBlack
 import com.example.kompass.ui.theme.IkeaBlue
+import com.example.kompass.ui.theme.IkeaDarkBlue
 import com.example.kompass.ui.theme.IkeaYellow
 
 @Composable
@@ -43,6 +44,7 @@ fun DetailedSustainabilityScreen(
 ) {
     Column(
         modifier = Modifier
+            .background(BgBlack)
             .fillMaxSize()
             .padding(1.dp,10.dp,1.dp,1.dp),
         verticalArrangement = Arrangement.Top
@@ -64,14 +66,20 @@ private fun ContentBody(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.Start
     ) {
-        InfoEntry(
-            "Co2 Emissions",
-            "Lorem Ipsum Yada-Yada",
+        EmissionEntry(
+            "Carbon Emissions",
+            12,
+            textColor
+        )
+        MaterialsEntry(
+            "Origin of Materials",
+            "Wood",
+            "Sweden",
             textColor
         )
         InfoEntry(
-            "Materials and origin",
-            "Wood, Birch - Sweden\nSteel - Germany",
+            "Recyclability",
+            "The product is 100% recyclable",
             textColor
         )
     }
@@ -87,8 +95,7 @@ private fun InfoEntry(
         text = title,
         color = textColor,
         fontSize = 25.sp,
-        fontWeight = FontWeight(700),
-        fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
+        fontFamily = FontFamily(Font(R.font.noto_sans_medium)),
         textAlign = TextAlign.Center,
         modifier = Modifier
             .wrapContentWidth()
@@ -98,21 +105,190 @@ private fun InfoEntry(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(120.dp)
-            .background(IkeaBlue, shape = RoundedCornerShape(10.dp))
+            .height(24.dp)
+            .background(IkeaDarkBlue, shape = RoundedCornerShape(10.dp)),
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
             text = description,
             color = textColor,
-            fontSize = 18.sp,
-            fontWeight = FontWeight(700),
+            fontSize = 14.sp,
             fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
             textAlign = TextAlign.Left,
             modifier = Modifier
                 .wrapContentWidth()
                 .wrapContentHeight(align = Alignment.CenterVertically)
-                .padding(7.dp),
+                .padding(10.dp,0.dp,0.dp,0.dp),
         )
+    }
+}
+
+@Composable
+private fun MaterialsEntry(
+    title: String,
+    materialText: String,
+    originText: String,
+    textColor: Color
+){
+    Text(
+        text = title,
+        color = textColor,
+        fontSize = 24.sp,
+        fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
+        textAlign = TextAlign.Center,
+        modifier = Modifier
+            .wrapContentWidth()
+            .wrapContentHeight(align = Alignment.CenterVertically)
+            .padding(0.dp,10.dp,0.dp,0.dp),
+    )
+    Column {
+        MaterialListItem(materialText, originText, textColor, true)
+        MaterialListItem("Steel", originText, textColor, false)
+        MaterialListItem("Plastic", "Norway", textColor, true)
+    }
+}
+
+@Composable
+fun MaterialListItem(
+    materialText: String,
+    originText: String,
+    textColor: Color,
+    hasBackground: Boolean
+){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(24.dp)
+            .then(
+                if (hasBackground) {
+                    Modifier.background(IkeaDarkBlue, shape = RoundedCornerShape(10.dp))
+                } else {
+                    Modifier
+                }
+            ),
+        verticalArrangement = Arrangement.Center
+    ){
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 5.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .wrapContentWidth(),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = materialText,
+                    color = textColor,
+                    fontSize = 14.sp,
+                    fontFamily = FontFamily(Font(R.font.noto_sans_medium)),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .wrapContentHeight(align = Alignment.CenterVertically),
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .wrapContentWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.End
+            ) {
+                Text(
+                    text = originText,
+                    color = textColor,
+                    fontSize = 14.sp,
+                    fontFamily = FontFamily(Font(R.font.noto_sans)),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .wrapContentHeight(align = Alignment.CenterVertically),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun EmissionEntry(
+    title: String,
+    emissionAmount: Int,
+    textColor: Color
+){
+    Text(
+        text = title,
+        color = textColor,
+        fontSize = 24.sp,
+        fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
+        textAlign = TextAlign.Center,
+        modifier = Modifier
+            .wrapContentWidth()
+            .wrapContentHeight(align = Alignment.CenterVertically)
+            .padding(0.dp,10.dp,0.dp,0.dp),
+    )
+    Column {
+        EmissionListItem(emissionAmount, textColor)
+    }
+}
+
+@Composable
+fun EmissionListItem(
+    emissionAmount: Int,
+    textColor: Color,
+){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(24.dp)
+            .background(IkeaDarkBlue, shape = RoundedCornerShape(10.dp)),
+        verticalArrangement = Arrangement.Center
+    ){
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 5.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .wrapContentWidth(),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "CO₂ Emissions",
+                    color = textColor,
+                    fontSize = 14.sp,
+                    fontFamily = FontFamily(Font(R.font.noto_sans_medium)),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .wrapContentHeight(align = Alignment.CenterVertically),
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .wrapContentWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.End
+            ) {
+                Text(
+                    text = "$emissionAmount tonnes" ,
+                    color = textColor,
+                    fontSize = 14.sp,
+                    fontFamily = FontFamily(Font(R.font.noto_sans)),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .wrapContentHeight(align = Alignment.CenterVertically),
+                )
+            }
+        }
     }
 }
 
@@ -161,11 +337,11 @@ fun NavCollection3() {
 @Composable
 fun DetailedSustainabilityPreview() {
     DetailedSustainabilityScreen(
-        Color.Black,
+        Color.White,
         R.drawable.t,
-        "Problem??",
-        "1337.420.69",
-        "Sussy baka",
-        1337
+        "Placeholder",
+        "100.130.35",
+        "Placeholder",
+        1000
     )
 }

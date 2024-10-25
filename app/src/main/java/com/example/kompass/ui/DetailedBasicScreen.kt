@@ -29,7 +29,12 @@ import com.example.kompass.ui.theme.IkeaYellow
 
 @Composable
 fun DetailedBasicScreen(
-    fontColor: Color = Color.White
+    fontColor: Color = Color.White,
+    productImage: Int,
+    productName: String,
+    productNumber: String,
+    productCategory: String,
+    productPrice: Int
 ) {
     Column(
         modifier = Modifier
@@ -37,8 +42,8 @@ fun DetailedBasicScreen(
             .padding(1.dp,10.dp,1.dp,1.dp),
         verticalArrangement = Arrangement.Top
     ) {
-        InfoBar(fontColor)
-        NavHeader(R.drawable.t, navCollection = { NavCollection() })
+        InfoBar(fontColor, productName, productNumber, productCategory, productPrice)
+        NavHeader(productImage, navCollection = { NavCollection() })
         ContentBody(fontColor)
     }
 }
@@ -121,7 +126,11 @@ fun NavHeader(
 
 @Composable
 fun InfoBar(
-    textColor: Color
+    textColor: Color,
+    productName: String,
+    productNumber: String,
+    productCategory: String,
+    productPrice: Int
 ) {
     Row(
         modifier = Modifier
@@ -137,7 +146,7 @@ fun InfoBar(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "PROBLEM??",
+                text = productName,
                 color = textColor,
                 fontSize = 30.sp,
                 fontWeight = FontWeight(700),
@@ -148,7 +157,7 @@ fun InfoBar(
                     .wrapContentHeight(align = Alignment.CenterVertically),
             )
             Text(
-                text = "1337.420.69",
+                text = productNumber,
                 color = textColor,
                 fontSize = 20.sp,
                 fontWeight = FontWeight(700),
@@ -168,7 +177,7 @@ fun InfoBar(
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = "Sussy baka",
+                text = productCategory,
                 color = textColor,
                 fontSize = 20.sp,
                 fontWeight = FontWeight(700),
@@ -179,7 +188,7 @@ fun InfoBar(
                     .wrapContentHeight(align = Alignment.CenterVertically),
             )
             Text(
-                text = "en njure:-",
+                text = "$productPrice:-",
                 color = textColor,
                 fontSize = 18.sp,
                 fontWeight = FontWeight(700),
@@ -247,5 +256,12 @@ fun SmallNavButton(
 @Preview(showBackground = true)
 @Composable
 fun DetailedBasicPreview() {
-    DetailedBasicScreen(Color.Black)
+    DetailedBasicScreen(
+        Color.Black,
+        R.drawable.t,
+        "Problem??",
+        "1337.420.69",
+        "Sussy baka",
+        1337
+    )
 }

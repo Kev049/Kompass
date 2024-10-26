@@ -17,7 +17,10 @@ enum class Category {
     PETS,
     PLANTS_AND_CULTIVATION,
     STORAGE,
-    TEXTILES;
+    TEXTILES,
+
+
+    ;
 
     // Example: "KITCHEN_AND_HOUSEHOLD_APPLIANCES" --> "Kitchen & household appliances"
     fun toDisplayName(): String {

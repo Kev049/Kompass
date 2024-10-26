@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.kompass.KompassScreen
 import com.example.kompass.R
-import com.example.kompass.data.Datasource
+import com.example.kompass.data.CategorySource
 import com.example.kompass.types.Category
 
 @Composable
@@ -66,8 +66,8 @@ fun SubCategoryApp(
                 modifier = Modifier.fillMaxWidth()
             )
             CategoryList(
-                //categoryList = Datasource().loadSubCategories(),
-                categoryDataList = Datasource().loadCategories(),
+                categoryDataList = CategorySource().loadSubCategories(),
+                //categoryDataList = CategorySource().loadCategories(),
                 screenWidth = screenWidth,
                 screenHeight = screenHeight,
                 onNavigate = onNavigate,

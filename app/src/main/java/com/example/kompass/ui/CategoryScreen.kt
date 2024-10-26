@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.kompass.KompassScreen
 import com.example.kompass.R
-import com.example.kompass.data.Datasource
+import com.example.kompass.data.CategorySource
 import com.example.kompass.types.Category
 import com.example.kompass.types.CategoryData
 import com.example.kompass.ui.cards.CategoryCard
@@ -107,7 +107,7 @@ fun CategoryApp(
                 modifier = Modifier.fillMaxWidth()
             )
             CategoryList(
-                categoryDataList = Datasource().loadCategories(),
+                categoryDataList = CategorySource().loadCategories(),
                 screenWidth = screenWidth,
                 screenHeight = screenHeight,
                 onNavigate = onNavigate,

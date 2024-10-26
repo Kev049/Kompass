@@ -7,7 +7,7 @@ data class ProductItem(
     val articleNr: String,
     val productDescription: String,
     val price: Int,
-    val category: String,
+    val category: Category,
     val dimension: DimensionInfo,
     val sustainability: SustainabilityInfo,
     @DrawableRes val imageResId: Int

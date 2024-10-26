@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.kompass.KompassScreen
 import com.example.kompass.R
 import com.example.kompass.data.SearchItemSource
+import com.example.kompass.types.Category
 import com.example.kompass.types.ProductItem
 import com.example.kompass.ui.cards.SearchItemCard
 
@@ -33,9 +34,12 @@ import com.example.kompass.ui.cards.SearchItemCard
 fun ProductListScreen(
     innerPadding: PaddingValues,
     imageResId: Int?,
-    onNavigate: (KompassScreen) -> Unit
+    onNavigate: (KompassScreen) -> Unit,
+    category: Category
 ) {
-    val productItems = SearchItemSource().loadSearchItems()
+    val productItems = getSearchItemsByCategory(SearchItemSource().loadSearchItems(), category)
+
+    //val productItems = SearchItemSource().loadSearchItems()
     val imageId = imageResId ?: R.drawable.navbar_home
     Box(
         modifier = Modifier
@@ -47,7 +51,8 @@ fun ProductListScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             ProductHeader(
-                imageId
+                imageId,
+                headerText = category.toDisplayName()
             )
             // Add a divider below the header
             HorizontalDivider(
@@ -79,16 +84,19 @@ fun ProductList(
 }
 
 @Composable
-private fun ProductHeader(imageResId: Int) {
+private fun ProductHeader(
+    imageResId: Int,
+    headerText: String
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp), // Adjust the padding as needed
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween // Space between the text and image
+        horizontalArrangement = Arrangement.SpaceBetween // Space between the text and image,
     ) {
         Text(
-            text = "Furniture", // Replace with your desired text
+            text = headerText, // Replace with your desired text
             fontSize = 24.sp,
             color = Color.White,
             //style = MaterialTheme.typography.h6, // Adjust text style as needed
@@ -108,5 +116,5 @@ private fun ProductHeader(imageResId: Int) {
 @Composable
 fun PreviewProductListScreen() {
     val defaultPadding = PaddingValues(0.dp)
-    ProductListScreen(innerPadding = defaultPadding, imageResId = R.drawable.navbar_home, onNavigate = {})
+    ProductListScreen(innerPadding = defaultPadding, imageResId = R.drawable.navbar_home, onNavigate = {}, category = Category.NONE)
 }

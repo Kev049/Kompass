@@ -3,14 +3,28 @@ package com.example.kompass.ui
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
@@ -25,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import com.example.kompass.KompassScreen
 import com.example.kompass.SecondaryButtonItem
 import com.example.kompass.data.SearchItemSource
+import com.example.kompass.types.Category
 import com.example.kompass.types.ProductItem
 import com.example.kompass.ui.cards.SearchCardOverlay
 import com.example.kompass.ui.cards.SearchItemCard
@@ -201,7 +216,7 @@ fun filterSearchItems(
 
     return items.mapNotNull { item ->
         val isNameMatch = item.name.contains(query, ignoreCase = true)
-        val isCategoryMatch = item.category.contains(query, ignoreCase = true)
+        val isCategoryMatch = item.category.toDisplayName().contains(query, ignoreCase = true)
 
         when {
             isNameMatch && isCategoryMatch -> FilteredSearchResult(item, SearchResultSource.BOTH)
@@ -210,6 +225,13 @@ fun filterSearchItems(
             else -> null
         }
     }
+}
+
+fun getSearchItemsByCategory(
+    items: List<ProductItem>,
+    category: Category
+): List<ProductItem> {
+    return items.filter { it.category == category }
 }
 
 @Preview(showBackground = true)

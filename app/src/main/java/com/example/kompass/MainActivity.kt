@@ -10,14 +10,25 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
@@ -31,20 +42,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.kompass.types.Category
+import com.example.kompass.ui.BasicInfoScreen
+import com.example.kompass.ui.CategoryScreen
+import com.example.kompass.ui.DocumentsScreen
+import com.example.kompass.ui.LogisticsScreen
+import com.example.kompass.ui.ProductListScreen
+import com.example.kompass.ui.SearchScreen
+import com.example.kompass.ui.SubCategoryScreen
+import com.example.kompass.ui.SustainabilityScreen
+import com.example.kompass.ui.shared.SharedRecentImage
 import com.example.kompass.ui.theme.BgBlack
 import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.ui.theme.KompassTheme
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import com.example.kompass.ui.BasicInfoScreen
-import com.example.kompass.ui.DocumentsScreen
-import com.example.kompass.ui.LogisticsScreen
-import com.example.kompass.ui.CategoryScreen
-import com.example.kompass.ui.SearchScreen
-import com.example.kompass.ui.SustainabilityScreen
-import com.example.kompass.ui.shared.SharedRecentImage
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.example.kompass.ui.DetailedSustainabilityScreen
@@ -63,7 +77,6 @@ enum class KompassScreen {
     Documents,
     ProductList,
     Category,
-
     Search,
     SubCategory //
 }
@@ -93,6 +106,8 @@ private fun KompassApp(
     val config = LocalConfiguration.current
     val screenWidth = config.screenWidthDp
     val screenHeight = config.screenHeightDp
+    var category = Category.NONE
+
     Scaffold(
         containerColor = BgBlack,
         bottomBar = {
@@ -184,18 +199,21 @@ private fun KompassApp(
                     screenWidth,
                     screenHeight,
                     imageResId = recentImage,
-                    onNavigate = { screen ->
+                    onNavigate = { screen, _ ->
                         navController.navigate(screen.name)
                     }
                 )
             }
+
+            //var subCategory
             composable(KompassScreen.ProductList.name){
                 ProductListScreen(
                     innerPadding = innerPadding,
                     imageResId = recentImage,
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
-                    }
+                    },
+                    category = category
                 )
             }
             composable(KompassScreen.Search.name) {
@@ -229,7 +247,8 @@ private fun KompassApp(
                     screenWidth,
                     screenHeight,
                     imageResId = recentImage,
-                    onNavigate = { screen ->
+                    onNavigate = { screen, categoryFromClick ->
+                        category = categoryFromClick
                         navController.navigate(screen.name)
                     }
                 )

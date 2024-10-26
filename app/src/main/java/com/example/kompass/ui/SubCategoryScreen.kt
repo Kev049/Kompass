@@ -6,16 +6,17 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.material3.Surface
-import androidx.compose.material3.HorizontalDivider
 import com.example.kompass.KompassScreen
 import com.example.kompass.R
 import com.example.kompass.data.Datasource
+import com.example.kompass.types.Category
 
 @Composable
 fun SubCategoryScreen(
@@ -23,7 +24,7 @@ fun SubCategoryScreen(
     screenWidth: Int,
     screenHeight: Int,
     imageResId: Int?,
-    onNavigate: (KompassScreen) -> Unit
+    onNavigate: (KompassScreen, Category) -> Unit
 ){
     Box(
         modifier = Modifier
@@ -40,7 +41,7 @@ fun SubCategoryApp(
     innerPadding: PaddingValues,
     imageResId: Int?,
     //title: String, TODO: Ska lägga till
-    onNavigate: (KompassScreen) -> Unit
+    onNavigate: (KompassScreen, Category) -> Unit
 ){
     val imageId = imageResId ?: R.drawable.navbar_home
     //val layoutDirection = LocalLayoutDirection.current
@@ -65,10 +66,11 @@ fun SubCategoryApp(
                 modifier = Modifier.fillMaxWidth()
             )
             CategoryList( //TODO: Byt ut detta sen
-                categoryList = Datasource().loadCategories(),
+                categoryDataList = Datasource().loadCategories(),
                 screenWidth = screenWidth,
                 screenHeight = screenHeight,
-                onNavigate = onNavigate
+                onNavigate = onNavigate,
+                openProductList = true
             )
         }
     }

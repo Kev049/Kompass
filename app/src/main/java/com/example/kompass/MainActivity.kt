@@ -209,7 +209,7 @@ private fun KompassApp(
                     screenWidth,
                     screenHeight,
                     imageResId = recentImage,
-                    category = category,
+                    category = category, //category not updated here for some reason, prints as none
                     onNavigate = { screen, categoryFromClick ->
                         category = categoryFromClick
                         navController.navigate(screen.name)

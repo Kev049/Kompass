@@ -50,6 +50,7 @@ fun SubCategoryApp(
     val imageId = imageResId ?: R.drawable.navbar_home
     val subCategoryItems = getSubCategoriesByCategory(CategorySource().loadSubCategories(), category)
     //val layoutDirection = LocalLayoutDirection.current
+    println(category)
     Surface(
         modifier = Modifier
             .fillMaxSize()

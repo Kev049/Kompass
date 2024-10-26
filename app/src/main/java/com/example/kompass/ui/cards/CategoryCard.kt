@@ -28,8 +28,9 @@ fun CategoryCard(
     modifier: Modifier = Modifier,
     screenWidth: Int,
     screenHeight: Int,
-    onNavigate: (KompassScreen) -> Unit
-    ) {
+    onNavigate: (KompassScreen) -> Unit,
+    screen: KompassScreen
+) {
     val paddingBetweenCards = 8
     val cardWidth = (screenWidth/2 - 10)
     val cardHeight = (screenHeight*0.14)
@@ -39,7 +40,10 @@ fun CategoryCard(
             .width(cardWidth.dp)
             .height(cardHeight.dp)
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
-            .clickable {onNavigate(KompassScreen.ProductList)}, //TODO: Byt ut .Home mot något som är rätt
+            .clickable { onNavigate(screen) },
+
+                //.clickable {onNavigate(KompassScreen.SubCategory)},
+            //.clickable {onNavigate(KompassScreen.ProductList)}, //TODO: Byt ut .Home mot något som är rätt
         contentAlignment = Alignment.Center
     ) {
         Row(

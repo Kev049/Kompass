@@ -47,8 +47,8 @@ fun LogisticsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SecondaryButton(SecondaryButtonItem.Delivery, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardWidth)
-                SecondaryButton(SecondaryButtonItem.History, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardWidth)
+                SecondaryButton(SecondaryButtonItem.Delivery, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SecondaryButton(SecondaryButtonItem.History, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
             }
         }
     }

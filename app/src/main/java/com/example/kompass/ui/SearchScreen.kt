@@ -15,6 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
@@ -42,6 +44,7 @@ fun SearchScreen(
     // Use the filter function
     val filteredResults = filterSearchItems(allItems, searchQueryString)
     var textFieldFocusState by remember { mutableStateOf(false) }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     var showOverlay by remember { mutableStateOf(false) }
     var inSubCategory by remember { mutableStateOf(false) }
@@ -57,20 +60,24 @@ fun SearchScreen(
                 .fillMaxSize()
                 .background(BgBlack)
         ) {
-            SearchBar(
-                modifier = Modifier.padding(10.dp, 20.dp, 10.dp, 10.dp),
-                query = searchQueryString,
-                onQueryChange = { searchQueryString = it },
-                onFocusChange = { textFieldFocusState = it }
-            )
+            if (keyboardController != null) {
+                SearchBar(
+                    modifier = Modifier.padding(10.dp, 20.dp, 10.dp, 10.dp),
+                    query = searchQueryString,
+                    onQueryChange = { searchQueryString = it },
+                    onFocusChange = { textFieldFocusState = it },
+                    keyboardController = keyboardController
+                )
+            }
             SearchItemList(
                 searchItemList = filteredResults,
                 onCardClick = { searchQuery ->
                     searchQueryProduct = searchQuery
                     searchQueryString = searchQuery.name
-                    //textFieldFocusState = true // Trigger focus change
+                    textFieldFocusState = false // Trigger focus change
                     showOverlay = true
                     inSubCategory = false
+                    keyboardController?.hide()
                 }
             )
         }
@@ -109,7 +116,8 @@ fun SearchBar(
     query: String,
     onQueryChange: (String) -> Unit,
     onFocusChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    keyboardController: SoftwareKeyboardController
 ) {
     var textFieldValue by remember { mutableStateOf(TextFieldValue(query)) }
 
@@ -136,7 +144,7 @@ fun SearchBar(
             imeAction = ImeAction.Done
         ),
         keyboardActions = KeyboardActions(
-            onDone = { /* Handle Done action */ }
+            onDone = { keyboardController.hide() }
         ),
         colors = TextFieldDefaults.textFieldColors(
             containerColor = Color.Transparent,

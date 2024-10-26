@@ -6,9 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,19 +18,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.kompass.KompassScreen
-import com.example.kompass.SubButtonItem
+import com.example.kompass.SecondaryButtonItem
 import com.example.kompass.ui.theme.IkeaBlue
 
 @Composable
-fun SubButton(
-    subButtonItem: SubButtonItem,
-    onItemClicked: (SubButtonItem) -> Unit,
+fun SecondaryButton(
+    secondaryButtonItem: SecondaryButtonItem,
+    onItemClicked: (SecondaryButtonItem) -> Unit,
     onNavigate: (KompassScreen) -> Unit,
     cardWidth: Int,
     cardHeight: Int
@@ -44,8 +40,8 @@ fun SubButton(
             .height(cardHeight.dp)
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
             //TODO: Navigate to product screen and pass right category
-            .clickable { onItemClicked(subButtonItem)
-                onNavigate(KompassScreen.ProdCategory) },
+            .clickable { onItemClicked(secondaryButtonItem)
+                onNavigate(KompassScreen.Category) },
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -53,14 +49,14 @@ fun SubButton(
             verticalArrangement = Arrangement.Center // Center-align items vertically
         ) {
             Image(
-                painter = painterResource(id = subButtonItem.icon),
-                contentDescription = "${subButtonItem.description} icon",
+                painter = painterResource(id = secondaryButtonItem.icon),
+                contentDescription = "${secondaryButtonItem.description} icon",
                 modifier = Modifier.size(90.dp)
                     .padding(bottom = 8.dp),
                 contentScale = ContentScale.Fit
             )
             Text(
-                text = subButtonItem.description,
+                text = secondaryButtonItem.description,
                 color = Color.White,
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,

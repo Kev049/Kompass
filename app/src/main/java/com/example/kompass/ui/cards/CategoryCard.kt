@@ -6,13 +6,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -21,15 +18,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import com.example.kompass.types.SubCategory
-import androidx.compose.ui.platform.LocalContext
+import com.example.kompass.types.Category
 import com.example.kompass.KompassScreen
-import com.example.kompass.R
 import com.example.kompass.ui.theme.IkeaBlue
 
 @Composable
-fun SubCategoryCard(
-    subcategory: SubCategory,
+fun CategoryCard(
+    category: Category,
     modifier: Modifier = Modifier,
     screenWidth: Int,
     screenHeight: Int,
@@ -54,8 +49,8 @@ fun SubCategoryCard(
         {
             // Image
             Image(
-                painter = painterResource(id = subcategory.imageResId),
-                contentDescription = subcategory.description,
+                painter = painterResource(id = category.imageResId),
+                contentDescription = category.description,
                 modifier = Modifier
                     //.fillMaxWidth()
                     .padding(2.dp)
@@ -66,8 +61,8 @@ fun SubCategoryCard(
             )
             // Text
             Text(
-                text = subcategory.name, //denna är skriven ganska annorlunda från tutorial
-                //text = subCategoryItem.description,
+                text = category.name, //denna är skriven ganska annorlunda från tutorial
+                //text = primaryButtonItem.description,
                 color = Color.White,
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
@@ -83,6 +78,6 @@ fun SubCategoryCard(
 
 //@Preview(showBackground = true)
 //@Composable
-//fun SubCategoryCardPreview(){
-//    SubCategoryCard(SubCategory(R.drawable.navbar_home, "TestName","Whaddup?"), modifier = Modifier.padding(0.dp),320, 668)
+//fun CategoryCardPreview(){
+//    CategoryCard(Category(R.drawable.navbar_home, "TestName","Whaddup?"), modifier = Modifier.padding(0.dp),320, 668)
 //}

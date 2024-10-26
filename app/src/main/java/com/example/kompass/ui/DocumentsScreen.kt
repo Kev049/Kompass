@@ -14,12 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.kompass.KompassScreen
-import com.example.kompass.SubButtonItem
+import com.example.kompass.SecondaryButtonItem
 
 @Composable
 fun DocumentsScreen(
     innerPadding: PaddingValues,
-    onItemClicked: (SubButtonItem) -> Unit,
+    onItemClicked: (SecondaryButtonItem) -> Unit,
     onNavigate: (KompassScreen) -> Unit
 ) {
     Box(
@@ -40,15 +40,15 @@ fun DocumentsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Manual, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
-                SubButton(SubButtonItem.Installation, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SecondaryButton(SecondaryButtonItem.Manual, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SecondaryButton(SecondaryButtonItem.Installation, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Safety, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
-                SubButton(SubButtonItem.Policy, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SecondaryButton(SecondaryButtonItem.Safety, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SecondaryButton(SecondaryButtonItem.Policy, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
             }
         }
     }

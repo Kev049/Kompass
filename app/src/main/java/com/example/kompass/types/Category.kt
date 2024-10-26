@@ -1,5 +1,7 @@
 package com.example.kompass.types
 
+import androidx.compose.ui.text.capitalize
+
 enum class Category {
     BATHROOM_FURNITURE,
     BEDS_AND_MATTRESSES,
@@ -16,7 +18,14 @@ enum class Category {
     PETS,
     PLANTS_AND_CULTIVATION,
     STORAGE,
-    TEXTILES
+    TEXTILES;
+
+    fun toDisplayName(): String {
+        return name
+            .replace("AND", "&")
+            .split("_")
+            .joinToString(" ") { part -> // Convert to capital letter only if first letter of combined word
+                part.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+            }
+    }
 }
-
-

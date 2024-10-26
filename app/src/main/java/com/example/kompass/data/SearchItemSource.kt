@@ -1,9 +1,9 @@
 package com.example.kompass.data
 
-import com.example.kompass.types.ProductItem
 import com.example.kompass.R
 import com.example.kompass.types.Category
 import com.example.kompass.types.DimensionInfo
+import com.example.kompass.types.ProductItem
 import com.example.kompass.types.SustainabilityInfo
 
 class SearchItemSource {
@@ -12,7 +12,9 @@ class SearchItemSource {
             ProductItem("SÄBOVIK", "693.857.50", "Divan Bed", 3795, Category.BEDS_AND_MATTRESSES, DimensionInfo(204, 140, 90, 200, 140), SustainabilityInfo(5, listOf("Polyester", "Steel", "Wood"), listOf("Sweden", "Sweden", "Norway")), R.drawable.sabovik),
             ProductItem("SKOTTERUD", "203.073.20", "Mattress", 2595,Category.BEDS_AND_MATTRESSES, DimensionInfo(205, 95, 60, 200, 90), SustainabilityInfo(15, listOf("Cotton", "Polyester", "Steel"), listOf("Spain", "Sweden", "Norway")), R.drawable.skotterud),
             ProductItem("Malm", "591.759.55", "Bed Frame", 2395, Category.BEDS_AND_MATTRESSES, DimensionInfo(209, 156, 100, 200, 140), SustainabilityInfo(7, listOf("Foil", "Galvanized Steel", "Wood"), listOf("Spain", "Sweden", "Norway")), R.drawable.malm),
-            ProductItem("Slattum", "405.712.48", "Bed Frame", 1495, Category.BEDS_AND_MATTRESSES, DimensionInfo(206, 164, 85, 200, 160), SustainabilityInfo(12, listOf("Foil", "Polyester", "Wood"), listOf("Denmark", "Germany", "Norway")), R.drawable.slattum)
+            ProductItem("Slattum", "405.712.48", "Bed Frame", 1495, Category.BEDS_AND_MATTRESSES, DimensionInfo(206, 164, 85, 200, 160), SustainabilityInfo(12, listOf("Foil", "Polyester", "Wood"), listOf("Denmark", "Germany", "Norway")), R.drawable.slattum),
+
+
         )
     }
 }

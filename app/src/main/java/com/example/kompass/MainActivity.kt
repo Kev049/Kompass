@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -31,7 +30,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.kompass.ui.theme.BgBlack
 import com.example.kompass.ui.theme.IkeaBlue
@@ -43,18 +41,14 @@ import androidx.navigation.compose.composable
 import com.example.kompass.ui.BasicInfoScreen
 import com.example.kompass.ui.DocumentsScreen
 import com.example.kompass.ui.LogisticsScreen
-import com.example.kompass.ui.ScrollableProdCategoryScreen
+import com.example.kompass.ui.CategoryScreen
 import com.example.kompass.ui.SearchScreen
 import com.example.kompass.ui.SustainabilityScreen
 import com.example.kompass.ui.shared.SharedRecentImage
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.example.kompass.CategoryItem.Basic
-import com.example.kompass.CategoryItem.Documents
-import com.example.kompass.CategoryItem.Logistics
-import com.example.kompass.CategoryItem.Sustainability
-import com.example.kompass.ui.SpecificCategoryScreen
 import com.example.kompass.ui.ProductListScreen
+import com.example.kompass.ui.SubCategoryScreen
 
 
 enum class KompassScreen {
@@ -64,9 +58,9 @@ enum class KompassScreen {
     Sustainability,
     Documents,
     ProductList,
-    ProdCategory,
+    Category,
     Search,
-    SpecificCategory
+    SubCategory //
 }
 
 class MainActivity : ComponentActivity() {
@@ -85,8 +79,8 @@ class MainActivity : ComponentActivity() {
 private fun KompassApp(
     navController: NavHostController = rememberNavController(),
 ) {
-    val categoryItemMap = mutableMapOf<Any, CategoryItem>()
-    initializeCategoryItemMap(categoryItemMap)
+    val primaryButtonItemMap = mutableMapOf<Any, PrimaryButtonItem>()
+    initializePrimaryButtonItemMap(primaryButtonItemMap)
     val sharedRecentImage: SharedRecentImage = viewModel()
     val recentImage by sharedRecentImage.recentImage.collectAsState()
     val config = LocalConfiguration.current
@@ -126,8 +120,8 @@ private fun KompassApp(
                 HomeScreen(
                     innerPadding = innerPadding,
                     onNavigate = { screen ->
-                        val categoryItem = categoryItemMap[screen]
-                        categoryItem?.let { sharedRecentImage.setRecentImage(categoryItem.icon) }
+                        val primaryButtonItem = primaryButtonItemMap[screen]
+                        primaryButtonItem?.let { sharedRecentImage.setRecentImage(primaryButtonItem.icon) }
                         navController.navigate(screen.name);
                     }
                 )
@@ -176,8 +170,8 @@ private fun KompassApp(
                     }
                 )
             }
-            composable(KompassScreen.ProdCategory.name){
-                ScrollableProdCategoryScreen(
+            composable(KompassScreen.Category.name){
+                CategoryScreen(
                     innerPadding = innerPadding,
                     screenWidth,
                     screenHeight,
@@ -207,8 +201,8 @@ private fun KompassApp(
                     }
                 )
             }
-            composable(KompassScreen.SpecificCategory.name){
-                SpecificCategoryScreen(
+            composable(KompassScreen.SubCategory.name){
+                SubCategoryScreen(
                     innerPadding = innerPadding,
                     screenWidth,
                     screenHeight,
@@ -222,10 +216,10 @@ private fun KompassApp(
     }
 
 }
-fun initializeCategoryItemMap(categoryItemMap: MutableMap<Any, CategoryItem>){
-    CategoryItem.getAllItems().forEach { item ->
+fun initializePrimaryButtonItemMap(primaryButtonItemMap: MutableMap<Any, PrimaryButtonItem>){
+    PrimaryButtonItem.getAllItems().forEach { item ->
         // Replace `item.description` with any unique key of your choice.
-        categoryItemMap[item.route] = item
+        primaryButtonItemMap[item.route] = item
     }
 }
 
@@ -246,7 +240,7 @@ fun HomeScreen(
             .padding(innerPadding), // Avoid overlap with BottomAppBar
         contentAlignment = Alignment.Center
     ) {
-        PlaceMainButtons(
+        PlacePrimaryButtons(
             onNavigate = onNavigate
         )
     }
@@ -288,7 +282,7 @@ private fun NavBarButton(
 }
 
 @Composable
-fun PlaceMainButtons(
+fun PlacePrimaryButtons(
     onNavigate: (KompassScreen) -> Unit
 ) {
     Column(
@@ -301,22 +295,22 @@ fun PlaceMainButtons(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            MainButton(CategoryItem.Basic, onNavigate = onNavigate)
-            MainButton(CategoryItem.Logistics, onNavigate = onNavigate)
+            PrimaryButton(PrimaryButtonItem.Basic, onNavigate = onNavigate)
+            PrimaryButton(PrimaryButtonItem.Logistics, onNavigate = onNavigate)
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            MainButton(CategoryItem.Sustainability, onNavigate = onNavigate)
-            MainButton(CategoryItem.Documents, onNavigate = onNavigate)
+            PrimaryButton(PrimaryButtonItem.Sustainability, onNavigate = onNavigate)
+            PrimaryButton(PrimaryButtonItem.Documents, onNavigate = onNavigate)
         }
     }
 }
 
 @Composable
-fun MainButton(
-    categoryItem: CategoryItem,
+fun PrimaryButton(
+    primaryButtonItem: PrimaryButtonItem,
     onNavigate: (KompassScreen) -> Unit
 ) {
     Box(
@@ -324,7 +318,7 @@ fun MainButton(
             .width(150.dp)
             .height(300.dp)
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
-            .clickable { onNavigate(categoryItem.route) },
+            .clickable { onNavigate(primaryButtonItem.route) },
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -332,15 +326,15 @@ fun MainButton(
             verticalArrangement = Arrangement.Center // Center-align items vertically
         ) {
             Image(
-                painter = painterResource(id = categoryItem.icon),
-                contentDescription = "${categoryItem.description} icon",
+                painter = painterResource(id = primaryButtonItem.icon),
+                contentDescription = "${primaryButtonItem.description} icon",
                 modifier = Modifier
                     .size(90.dp)
                     .padding(bottom = 8.dp),
                 contentScale = ContentScale.Fit
             )
             Text(
-                text = categoryItem.description,
+                text = primaryButtonItem.description,
                 color = Color.White,
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
@@ -361,43 +355,43 @@ sealed class NavBarItem(val icon: Int, val description: String) {
 }
 
 // fin kod endast
-sealed class CategoryItem(val icon: Int, val description: String, val route: KompassScreen, val SubButtonList: List<SubButtonItem> ) {
+sealed class PrimaryButtonItem(val icon: Int, val description: String, val route: KompassScreen, val SubButtonList: List<SecondaryButtonItem> ) {
 
-    data object Basic : CategoryItem(R.drawable.menu_main_info, "Basic Information", KompassScreen.Basic, SubButtonItem.getBasicItems())
-    data object Logistics : CategoryItem(R.drawable.menu_main_logistics, "Logistics", KompassScreen.Logistics, SubButtonItem.getLogisticsItems())
-    data object Sustainability : CategoryItem(R.drawable.menu_main_sustainability, "Sustainability & Design", KompassScreen.Sustainability, SubButtonItem.getSustainabilityItems())
-    data object Documents : CategoryItem(R.drawable.menu_main_documents, "Documents & Policy", KompassScreen.Documents, SubButtonItem.getDocumentItems())
+    data object Basic : PrimaryButtonItem(R.drawable.menu_main_info, "Basic Information", KompassScreen.Basic, SecondaryButtonItem.getBasicItems())
+    data object Logistics : PrimaryButtonItem(R.drawable.menu_main_logistics, "Logistics", KompassScreen.Logistics, SecondaryButtonItem.getLogisticsItems())
+    data object Sustainability : PrimaryButtonItem(R.drawable.menu_main_sustainability, "Sustainability & Design", KompassScreen.Sustainability, SecondaryButtonItem.getSustainabilityItems())
+    data object Documents : PrimaryButtonItem(R.drawable.menu_main_documents, "Documents & Policy", KompassScreen.Documents, SecondaryButtonItem.getDocumentItems())
 
     companion object {
-        // Function to retrieve all instances of CategoryItem
-        fun getAllItems(): List<CategoryItem> = listOf(Basic, Logistics, Sustainability, Documents)
+        // Function to retrieve all instances of primaryButtonItem
+        fun getAllItems(): List<PrimaryButtonItem> = listOf(Basic, Logistics, Sustainability, Documents)
     }
 }
 
-sealed class SubButtonItem(val icon: Int, val description: String) {
-    data object Specific : SubButtonItem(R.drawable.menu_basic_spec, "Product Specifics")
-    data object Contents : SubButtonItem(R.drawable.menu_basic_contents, "Contents")
-    data object Dimensions : SubButtonItem(R.drawable.menu_basic_dimensions, "Dimensions")
-    data object Materials : SubButtonItem(R.drawable.menu_basic_materials, "Materials & Care")
+sealed class SecondaryButtonItem(val icon: Int, val description: String) {
+    data object Specific : SecondaryButtonItem(R.drawable.menu_basic_spec, "Product Specifics")
+    data object Contents : SecondaryButtonItem(R.drawable.menu_basic_contents, "Contents")
+    data object Dimensions : SecondaryButtonItem(R.drawable.menu_basic_dimensions, "Dimensions")
+    data object Materials : SecondaryButtonItem(R.drawable.menu_basic_materials, "Materials & Care")
 
-    data object Availability : SubButtonItem(R.drawable.menu_logistics_availability, "Availability")
-    data object Location : SubButtonItem(R.drawable.menu_logistics_location, "In-Store Location")
-    data object Delivery : SubButtonItem(R.drawable.menu_logistics_delivery, "Delivery Options")
-    data object History : SubButtonItem(R.drawable.menu_logistics_history, "Product History")
+    data object Availability : SecondaryButtonItem(R.drawable.menu_logistics_availability, "Availability")
+    data object Location : SecondaryButtonItem(R.drawable.menu_logistics_location, "In-Store Location")
+    data object Delivery : SecondaryButtonItem(R.drawable.menu_logistics_delivery, "Delivery Options")
+    data object History : SecondaryButtonItem(R.drawable.menu_logistics_history, "Product History")
 
-    data object Sustainability : SubButtonItem(R.drawable.menu_main_sustainability, "Sustainability")
-    data object Description : SubButtonItem(R.drawable.menu_sustainability_description, "Description")
+    data object Sustainability : SecondaryButtonItem(R.drawable.menu_main_sustainability, "Sustainability")
+    data object Description : SecondaryButtonItem(R.drawable.menu_sustainability_description, "Description")
 
-    data object Manual : SubButtonItem(R.drawable.menu_documents_manual, "Manual")
-    data object Installation : SubButtonItem(R.drawable.menu_documents_installation, "Installation")
-    data object Safety : SubButtonItem(R.drawable.menu_documents_safety, "Safety")
-    data object Policy : SubButtonItem(R.drawable.menu_documents_policy, "Policies")
+    data object Manual : SecondaryButtonItem(R.drawable.menu_documents_manual, "Manual")
+    data object Installation : SecondaryButtonItem(R.drawable.menu_documents_installation, "Installation")
+    data object Safety : SecondaryButtonItem(R.drawable.menu_documents_safety, "Safety")
+    data object Policy : SecondaryButtonItem(R.drawable.menu_documents_policy, "Policies")
 
     companion object {
-        fun getBasicItems(): List<SubButtonItem> = listOf(Specific, Contents,Dimensions, Materials)
-        fun getLogisticsItems(): List<SubButtonItem> = listOf(Availability, Location, Delivery, History)
-        fun getSustainabilityItems(): List<SubButtonItem> = listOf(Sustainability, Description)
-        fun getDocumentItems(): List<SubButtonItem> = listOf(Manual, Installation, Safety, Policy)
+        fun getBasicItems(): List<SecondaryButtonItem> = listOf(Specific, Contents,Dimensions, Materials)
+        fun getLogisticsItems(): List<SecondaryButtonItem> = listOf(Availability, Location, Delivery, History)
+        fun getSustainabilityItems(): List<SecondaryButtonItem> = listOf(Sustainability, Description)
+        fun getDocumentItems(): List<SecondaryButtonItem> = listOf(Manual, Installation, Safety, Policy)
     }
 }
 

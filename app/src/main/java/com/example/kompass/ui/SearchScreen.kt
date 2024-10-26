@@ -21,7 +21,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.kompass.KompassScreen
-import com.example.kompass.SubButtonItem
+import com.example.kompass.SecondaryButtonItem
 import com.example.kompass.data.SearchItemSource
 import com.example.kompass.types.ProductItem
 import com.example.kompass.ui.cards.SearchCardOverlay
@@ -33,7 +33,7 @@ import com.example.kompass.ui.theme.BgBlack
 fun SearchScreen(
     innerPadding: PaddingValues,
     onNavigate: (KompassScreen) -> Unit,
-    onItemClicked: (SubButtonItem) -> Unit
+    onItemClicked: (SecondaryButtonItem) -> Unit
 ) {
     var searchQueryString by remember { mutableStateOf("") }
     var searchQueryProduct by remember { mutableStateOf<ProductItem?>(null) }

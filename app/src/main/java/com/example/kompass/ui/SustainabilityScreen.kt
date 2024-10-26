@@ -11,15 +11,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.kompass.KompassScreen
-import com.example.kompass.SubButtonItem
+import com.example.kompass.SecondaryButtonItem
 
 @Composable
 fun SustainabilityScreen(
     innerPadding: PaddingValues,
-    onItemClicked: (SubButtonItem) -> Unit,
+    onItemClicked: (SecondaryButtonItem) -> Unit,
     onNavigate: (KompassScreen) -> Unit
 ) {
     Box(
@@ -40,14 +39,14 @@ fun SustainabilityScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Sustainability, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
-                SubButton(SubButtonItem.Description, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SecondaryButton(SecondaryButtonItem.Sustainability, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SecondaryButton(SecondaryButtonItem.Description, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                SubButton(SubButtonItem.Materials, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SecondaryButton(SecondaryButtonItem.Materials, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.example.kompass.ui.cards
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,49 +33,49 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.kompass.CategoryItem
+import com.example.kompass.PrimaryButtonItem
 import com.example.kompass.KompassScreen
 import com.example.kompass.R
-import com.example.kompass.SubButtonItem
+import com.example.kompass.SecondaryButtonItem
 import com.example.kompass.types.ProductItem
-import com.example.kompass.ui.SubButton
+import com.example.kompass.ui.SecondaryButton
 import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.ui.theme.IkeaDarkBlue
 
 @Composable
 fun SearchCardOverlay(
     onNavigate: (KompassScreen) -> Unit,
-    onItemClicked: (SubButtonItem) -> Unit,
+    onItemClicked: (SecondaryButtonItem) -> Unit,
     onBackClick: () -> Unit,
     productItem: ProductItem,
     goToMainFromSub: Boolean,
     setGoToMainFromSub: (Boolean) -> Unit,
     setInSubCategory: (Boolean) -> Unit
 ) {
-    var selectedCategory by remember { mutableStateOf<CategoryItem?>(null) }
-    val subButtons = mapOf(
-        CategoryItem.Basic to listOf(
-            SubButtonItem.Specific,
-            SubButtonItem.Contents,
-            SubButtonItem.Dimensions,
-            SubButtonItem.Materials
+    var selectedCategory by remember { mutableStateOf<PrimaryButtonItem?>(null) }
+    val secondaryButtons = mapOf(
+        PrimaryButtonItem.Basic to listOf(
+            SecondaryButtonItem.Specific,
+            SecondaryButtonItem.Contents,
+            SecondaryButtonItem.Dimensions,
+            SecondaryButtonItem.Materials
         ),
-        CategoryItem.Logistics to listOf(
-            SubButtonItem.Availability,
-            SubButtonItem.Location,
-            SubButtonItem.Delivery,
-            SubButtonItem.History
+        PrimaryButtonItem.Logistics to listOf(
+            SecondaryButtonItem.Availability,
+            SecondaryButtonItem.Location,
+            SecondaryButtonItem.Delivery,
+            SecondaryButtonItem.History
         ),
-        CategoryItem.Sustainability to listOf(
-            SubButtonItem.Sustainability,
-            SubButtonItem.Description,
-            SubButtonItem.Materials
+        PrimaryButtonItem.Sustainability to listOf(
+            SecondaryButtonItem.Sustainability,
+            SecondaryButtonItem.Description,
+            SecondaryButtonItem.Materials
         ),
-        CategoryItem.Documents to listOf(
-            SubButtonItem.Manual,
-            SubButtonItem.Installation,
-            SubButtonItem.Safety,
-            SubButtonItem.Policy
+        PrimaryButtonItem.Documents to listOf(
+            SecondaryButtonItem.Manual,
+            SecondaryButtonItem.Installation,
+            SecondaryButtonItem.Safety,
+            SecondaryButtonItem.Policy
         )
     )
 
@@ -94,8 +93,8 @@ fun SearchCardOverlay(
             Column{
                 CardHeader(onBackClick, productItem.name)
                 if (selectedCategory == null) {
-                    PlaceSearchMainButtons(
-                        onMainButtonClick = { category ->
+                    PlaceSearchPrimaryButtons(
+                        onPrimaryButtonClick = { category ->
                             selectedCategory = category
                             setInSubCategory(true)
                         }
@@ -109,8 +108,8 @@ fun SearchCardOverlay(
                         }
                     )
                 } else {
-                    PlaceSubButtons(
-                        subButtons = subButtons[selectedCategory] ?: emptyList(),
+                    PlaceSecondaryButtons(
+                        secondaryButtons = secondaryButtons[selectedCategory] ?: emptyList(),
                         onItemClicked = onItemClicked,
                         onNavigate = onNavigate
                     )
@@ -172,8 +171,8 @@ fun CardHeader(
 }
 
 @Composable
-fun PlaceSearchMainButtons(
-    onMainButtonClick: (CategoryItem) -> Unit
+fun PlaceSearchPrimaryButtons(
+    onPrimaryButtonClick: (PrimaryButtonItem) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -185,22 +184,22 @@ fun PlaceSearchMainButtons(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SearchMainButton(CategoryItem.Basic, onClick = { onMainButtonClick(CategoryItem.Basic) })
-            SearchMainButton(CategoryItem.Logistics, onClick = { onMainButtonClick(CategoryItem.Logistics) })
+            SearchPrimaryButton(PrimaryButtonItem.Basic, onClick = { onPrimaryButtonClick(PrimaryButtonItem.Basic) })
+            SearchPrimaryButton(PrimaryButtonItem.Logistics, onClick = { onPrimaryButtonClick(PrimaryButtonItem.Logistics) })
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SearchMainButton(CategoryItem.Sustainability, onClick = { onMainButtonClick(CategoryItem.Sustainability) })
-            SearchMainButton(CategoryItem.Documents, onClick = { onMainButtonClick(CategoryItem.Documents) })
+            SearchPrimaryButton(PrimaryButtonItem.Sustainability, onClick = { onPrimaryButtonClick(PrimaryButtonItem.Sustainability) })
+            SearchPrimaryButton(PrimaryButtonItem.Documents, onClick = { onPrimaryButtonClick(PrimaryButtonItem.Documents) })
         }
     }
 }
 
 @Composable
-private fun SearchMainButton(
-    categoryItem: CategoryItem,
+private fun SearchPrimaryButton(
+    primaryButtonItem: PrimaryButtonItem,
     onClick: () -> Unit
 ) {
     Box(
@@ -216,15 +215,15 @@ private fun SearchMainButton(
             verticalArrangement = Arrangement.Center // Center-align items vertically
         ) {
             Image(
-                painter = painterResource(id = categoryItem.icon),
-                contentDescription = "${categoryItem.description} icon",
+                painter = painterResource(id = primaryButtonItem.icon),
+                contentDescription = "${primaryButtonItem.description} icon",
                 modifier = Modifier
                     .size(90.dp)
                     .padding(bottom = 8.dp),
                 contentScale = ContentScale.Fit
             )
             Text(
-                text = categoryItem.description,
+                text = primaryButtonItem.description,
                 color = Color.White,
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
@@ -238,9 +237,9 @@ private fun SearchMainButton(
 }
 
 @Composable
-private fun PlaceSubButtons(
-    subButtons: List<SubButtonItem>,
-    onItemClicked: (SubButtonItem) -> Unit,
+private fun PlaceSecondaryButtons(
+    secondaryButtons: List<SecondaryButtonItem>,
+    onItemClicked: (SecondaryButtonItem) -> Unit,
     onNavigate: (KompassScreen) -> Unit
 ) {
     Column(
@@ -249,13 +248,13 @@ private fun PlaceSubButtons(
             .padding(1.dp),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        subButtons.chunked(2).forEach { rowItems ->
+        secondaryButtons.chunked(2).forEach { rowItems ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                rowItems.forEach { subButton ->
-                    SubButton(subButton, onItemClicked = onItemClicked, onNavigate = onNavigate, 140, 225)
+                rowItems.forEach { secondaryButtonButton ->
+                    SecondaryButton(secondaryButtonButton, onItemClicked = onItemClicked, onNavigate = onNavigate, 140, 225)
                 }
             }
         }

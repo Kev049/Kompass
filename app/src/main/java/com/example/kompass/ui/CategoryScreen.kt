@@ -13,16 +13,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.kompass.CategoryItem
-import com.example.kompass.types.SubCategory
-import com.example.kompass.ui.cards.SubCategoryCard
+import com.example.kompass.types.Category
+import com.example.kompass.ui.cards.CategoryCard
 import androidx.compose.material3.Surface
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -36,7 +30,7 @@ import com.example.kompass.R
 import com.example.kompass.data.Datasource
 
 @Composable
-fun ScrollableProdCategoryScreen(
+fun CategoryScreen(
     innerPadding: PaddingValues,
     screenWidth: Int,
     screenHeight: Int,
@@ -47,13 +41,13 @@ fun ScrollableProdCategoryScreen(
         modifier = Modifier
             .fillMaxSize(),
         contentAlignment = Alignment.TopCenter
-    ) { SubCategoryApp(screenWidth, screenHeight, innerPadding, imageResId, onNavigate)
+    ) { CategoryApp(screenWidth, screenHeight, innerPadding, imageResId, onNavigate)
     }
 }
 
 @Composable
-fun SubCategoryList(
-    subCategoryList: List<SubCategory>,
+fun CategoryList(
+    categoryList: List<Category>,
     screenWidth: Int,
     screenHeight: Int,
     onNavigate: (KompassScreen) -> Unit,
@@ -66,12 +60,13 @@ fun SubCategoryList(
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
         modifier = Modifier.fillMaxSize()
     ) {
-        items(subCategoryList) { subcategory ->
-            SubCategoryCard(
-                subcategory = subcategory,
+        items(categoryList) { category ->
+            CategoryCard(
+                category = category,
                 screenWidth = screenWidth,
                 screenHeight = screenHeight,
                 onNavigate = onNavigate,
+                screen = KompassScreen.SubCategory,
                 modifier = Modifier.padding(8.dp)
             )
         }
@@ -79,7 +74,7 @@ fun SubCategoryList(
 }
 
 @Composable
-fun SubCategoryApp(
+fun CategoryApp(
     screenWidth: Int,
     screenHeight: Int,
     innerPadding: PaddingValues,
@@ -96,7 +91,7 @@ fun SubCategoryApp(
             ),
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            // Add the header area above the SubCategoryList
+            // Add the header area above the CategoryList
             Header(
                 screenWidth = screenWidth,
                 imageId,
@@ -108,8 +103,8 @@ fun SubCategoryApp(
                 thickness = 1.dp,
                 modifier = Modifier.fillMaxWidth()
             )
-            SubCategoryList(
-                subCategoryList = Datasource().loadSubCategories(),
+            CategoryList(
+                categoryList = Datasource().loadCategories(),
                 screenWidth = screenWidth,
                 screenHeight = screenHeight,
                 onNavigate = onNavigate

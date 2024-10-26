@@ -13,5 +13,4 @@ class SharedRecentProduct : ViewModel() {
     fun setRecentProduct(productItem: ProductItem?) {
         _recentProduct.value = productItem
     }
-
 }

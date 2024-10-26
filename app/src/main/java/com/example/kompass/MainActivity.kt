@@ -63,6 +63,7 @@ import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.ui.theme.KompassTheme
 import com.example.kompass.ui.DetailedSustainabilityScreen
 import com.example.kompass.ui.shared.SharedRecentProduct
+import com.example.kompass.ui.shared.SharedSecondaryButton
 
 enum class KompassScreen {
     Home,
@@ -99,8 +100,10 @@ private fun KompassApp(
     initializePrimaryButtonItemMap(primaryButtonItemMap)
     val sharedRecentImage: SharedRecentImage = viewModel()
     val sharedRecentProduct: SharedRecentProduct = viewModel()
+    val sharedRecentSecondaryButton : SharedSecondaryButton = viewModel()
     val recentImage by sharedRecentImage.recentImage.collectAsState()
     val recentProduct by sharedRecentProduct.recentProduct.collectAsState()
+    val recentSecondaryButton by sharedRecentSecondaryButton.recentSecondaryButton.collectAsState()
     val config = LocalConfiguration.current
     val screenWidth = config.screenWidthDp
     val screenHeight = config.screenHeightDp
@@ -123,6 +126,7 @@ private fun KompassApp(
                             if(screen.name == KompassScreen.Home.name){
                                 sharedRecentImage.setRecentImage(null)
                                 sharedRecentProduct.setRecentProduct(null)
+                                sharedRecentSecondaryButton.setRecentSecondaryButton(null)
                             }
                             navController.navigate(screen.name)
                         }
@@ -152,6 +156,7 @@ private fun KompassApp(
                     innerPadding = innerPadding,
                     onItemClicked = {itemName ->
                         sharedRecentImage.setRecentImage(itemName.icon)
+                        sharedRecentSecondaryButton.setRecentSecondaryButton(itemName)
                     },
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
@@ -163,6 +168,7 @@ private fun KompassApp(
                     innerPadding = innerPadding,
                     onItemClicked = {itemName ->
                         sharedRecentImage.setRecentImage(itemName.icon)
+                        sharedRecentSecondaryButton.setRecentSecondaryButton(itemName)
                     },
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
@@ -174,6 +180,7 @@ private fun KompassApp(
                     innerPadding = innerPadding,
                     onItemClicked = {itemName ->
                         sharedRecentImage.setRecentImage(itemName.icon)
+                        sharedRecentSecondaryButton.setRecentSecondaryButton(itemName)
                     },
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
@@ -185,6 +192,7 @@ private fun KompassApp(
                     innerPadding = innerPadding,
                     onItemClicked = {itemName ->
                         sharedRecentImage.setRecentImage(itemName.icon)
+                        sharedRecentSecondaryButton.setRecentSecondaryButton(itemName)
                     },
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
@@ -205,14 +213,20 @@ private fun KompassApp(
 
             //var subCategory
             composable(KompassScreen.ProductList.name){
-                ProductListScreen(
-                    innerPadding = innerPadding,
-                    imageResId = recentImage,
-                    onNavigate = { screen ->
-                        navController.navigate(screen.name)
-                    },
-                    category = category
-                )
+                recentSecondaryButton?.let { recentSecondaryButton ->
+                    ProductListScreen(
+                        innerPadding = innerPadding,
+                        imageResId = recentImage,
+                        onNavigate = { screen ->
+                            navController.navigate(screen.name)
+                        },
+                        onItemClicked = {itemName ->
+                            sharedRecentProduct.setRecentProduct(itemName)
+                        },
+                        secondaryButton = recentSecondaryButton,
+                        category = category
+                    )
+                }
             }
             composable(KompassScreen.Search.name) {
                 SearchScreen(

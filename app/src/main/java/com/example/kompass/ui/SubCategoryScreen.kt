@@ -66,7 +66,8 @@ fun SubCategoryApp(
                 modifier = Modifier.fillMaxWidth()
             )
             CategoryList(
-                categoryList = Datasource().loadSubCategories(),
+                //categoryList = Datasource().loadSubCategories(),
+                categoryDataList = Datasource().loadCategories(),
                 screenWidth = screenWidth,
                 screenHeight = screenHeight,
                 onNavigate = onNavigate,

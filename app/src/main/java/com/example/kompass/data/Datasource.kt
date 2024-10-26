@@ -10,7 +10,7 @@ class Datasource {
             CategoryData(R.drawable.navbar_home, Category.BATHROOM_FURNITURE, "description"),
             CategoryData(R.drawable.furniture, Category.BEDS_AND_MATTRESSES, "description"),
             CategoryData(R.drawable.menu_main_sustainability, Category.DECORATION, "description"),
-            CategoryData(R.drawable.menu_basic_materials, Category.FIX_AT_HOME, "description"),
+            CategoryData(R.drawable.menu_basic_materials, Category.HOME_IMPROVEMENT, "description"),
             CategoryData(R.drawable.navbar_home, Category.FOOD_AND_DRINKS, "description"),
             CategoryData(R.drawable.navbar_qr, Category.FURNITURE, "description"),
             CategoryData(R.drawable.menu_main_sustainability, Category.GARDEN_FURNITURE, "description"),

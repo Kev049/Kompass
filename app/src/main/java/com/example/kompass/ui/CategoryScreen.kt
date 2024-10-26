@@ -66,6 +66,7 @@ fun CategoryList(
                 screenWidth = screenWidth,
                 screenHeight = screenHeight,
                 onNavigate = onNavigate,
+                screen = KompassScreen.SubCategory,
                 modifier = Modifier.padding(8.dp)
             )
         }

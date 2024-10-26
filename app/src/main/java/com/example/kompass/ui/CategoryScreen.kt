@@ -2,6 +2,7 @@ package com.example.kompass.ui
 
 import CategoryCard
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
@@ -89,8 +90,7 @@ fun CategoryList(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
-        modifier = modifier.fillMaxSize(),
-        userScrollEnabled = true
+        modifier = modifier.fillMaxSize()
     ) {
         // Function to reset drag state
         fun resetDragState() {
@@ -101,6 +101,7 @@ fun CategoryList(
 
         items(items.size) { index ->
             val isBeingDragged = index == draggedIndex
+            val isDropTarget = index == dropIndex
 
             CategoryCard(
                 categoryData = items[index],
@@ -148,12 +149,13 @@ fun CategoryList(
                         )
                     }
                     .offset { if (isBeingDragged) offset else IntOffset(0, 0) } // Apply offset only if being dragged
+                    .background(if (isBeingDragged) Color.Gray else Color.Transparent) // Optional: highlight the dragged card
+            ,
+                isHighlighted = isDropTarget || isBeingDragged // Pass the highlight status
             )
         }
     }
 }
-
-
 
 private fun calculateNewIndex(
     currentIndex: Int,

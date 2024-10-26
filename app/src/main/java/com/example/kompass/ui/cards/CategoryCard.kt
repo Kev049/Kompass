@@ -38,7 +38,8 @@ fun CategoryCard(
     screenHeight: Int,
     onNavigate: (KompassScreen, Category) -> Unit,
     screen: KompassScreen,
-    openProductList: Boolean = false
+    openProductList: Boolean = false,
+    isHighlighted: Boolean
 ) {
     val paddingBetweenCards = 8
     val cardWidth = (screenWidth / 2 - 10)
@@ -48,7 +49,7 @@ fun CategoryCard(
         modifier = modifier
             .width(cardWidth.dp)
             .height(cardHeight.dp)
-            .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
+            .background(if (isHighlighted) Color.Yellow else IkeaBlue, shape = RoundedCornerShape(12.dp))
             .clickable {
                 if (!openProductList) {
                     onNavigate(screen, Category.NONE)

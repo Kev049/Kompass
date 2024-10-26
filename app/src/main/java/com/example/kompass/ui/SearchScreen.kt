@@ -45,7 +45,6 @@ fun SearchScreen(
 
     var showOverlay by remember { mutableStateOf(false) }
     var inSubCategory by remember { mutableStateOf(false) }
-    var goToMainFromSub by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -75,15 +74,15 @@ fun SearchScreen(
                 }
             )
         }
+
         if (showOverlay) {
             BackHandler {
                 if (inSubCategory) {
                     inSubCategory = false // Go back to main categories
-                    goToMainFromSub = true
+
                 }
                 else {
                     showOverlay = false // Close the overlay
-                    goToMainFromSub = false
                 }
             }
 
@@ -96,8 +95,7 @@ fun SearchScreen(
                     },
                     onBackClick = { showOverlay = false }, // Also support overlay close from within
                     productItem = product,
-                    goToMainFromSub = goToMainFromSub,
-                    setGoToMainFromSub = { goToMainFromSub = it},
+                    inSubCategory = inSubCategory,
                     setInSubCategory = { inSubCategory = it }
                 )
             }

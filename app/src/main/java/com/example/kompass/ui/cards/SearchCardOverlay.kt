@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,11 +49,17 @@ fun SearchCardOverlay(
     onItemClicked: (SecondaryButtonItem) -> Unit,
     onBackClick: () -> Unit,
     productItem: ProductItem,
-    goToMainFromSub: Boolean,
-    setGoToMainFromSub: (Boolean) -> Unit,
+    inSubCategory: Boolean,
     setInSubCategory: (Boolean) -> Unit
 ) {
     var selectedCategory by remember { mutableStateOf<PrimaryButtonItem?>(null) }
+
+    LaunchedEffect(inSubCategory) {
+        if (!inSubCategory) {
+            selectedCategory = null
+        }
+    }
+
     val secondaryButtons = mapOf(
         PrimaryButtonItem.Basic to listOf(
             SecondaryButtonItem.Specific,
@@ -97,14 +104,6 @@ fun SearchCardOverlay(
                         onPrimaryButtonClick = { category ->
                             selectedCategory = category
                             setInSubCategory(true)
-                        }
-                    )
-                } else if (goToMainFromSub){
-                    PlaceSearchMainButtons(
-                        onMainButtonClick = { category ->
-                            selectedCategory = category
-                            setInSubCategory(false)
-                            setGoToMainFromSub(false)
                         }
                     )
                 } else {

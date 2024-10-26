@@ -1,6 +1,7 @@
 package com.example.kompass.types
 
 import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.toLowerCase
 
 enum class Category {
     NONE,
@@ -25,8 +26,8 @@ enum class Category {
         return name
             .replace("AND", "&")
             .split("_")
-            .joinToString(" ") { part -> // Convert to capital letter only if first letter of combined word
-                part.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
-            }
+            .joinToString(" ")
+            .lowercase()
+            .replaceFirstChar { it.uppercase() }
     }
 }

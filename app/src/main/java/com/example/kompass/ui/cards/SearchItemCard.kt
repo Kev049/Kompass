@@ -56,7 +56,7 @@ fun SearchItemCard(
                     textAlign = TextAlign.Start
                 )
                 Text(
-                    text = searchItem.category,
+                    text = searchItem.category.toDisplayName(),
                     color = Color.White,
                     fontSize = 12.sp,
                     textAlign = TextAlign.Start

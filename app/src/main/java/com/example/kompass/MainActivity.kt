@@ -50,6 +50,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.example.kompass.data.Datasource
+import com.example.kompass.types.Category
 import com.example.kompass.ui.ProductListScreen
 import com.example.kompass.ui.SubCategoryScreen
 
@@ -89,7 +90,7 @@ private fun KompassApp(
     val config = LocalConfiguration.current
     val screenWidth = config.screenWidthDp
     val screenHeight = config.screenHeightDp
-    var categoryName = ""
+    var category = Category.NONE
 
     Scaffold(
         containerColor = BgBlack,
@@ -195,7 +196,7 @@ private fun KompassApp(
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
                     },
-                    categoryName = categoryName
+                    category = category
                 )
             }
             composable(KompassScreen.Search.name) {
@@ -215,8 +216,8 @@ private fun KompassApp(
                     screenWidth,
                     screenHeight,
                     imageResId = recentImage,
-                    onNavigate = { screen, categoryNameFromClick ->
-                        categoryName = categoryNameFromClick
+                    onNavigate = { screen, categoryFromClick ->
+                        category = categoryFromClick
                         navController.navigate(screen.name)
                     }
                 )

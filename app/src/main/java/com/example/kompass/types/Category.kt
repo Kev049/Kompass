@@ -3,6 +3,7 @@ package com.example.kompass.types
 import androidx.compose.ui.text.capitalize
 
 enum class Category {
+    NONE,
     BATHROOM_FURNITURE,
     BEDS_AND_MATTRESSES,
     DECORATION,

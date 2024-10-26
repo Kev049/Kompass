@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.kompass.KompassScreen
 import com.example.kompass.R
 import com.example.kompass.data.SearchItemSource
+import com.example.kompass.types.Category
 import com.example.kompass.types.ProductItem
 import com.example.kompass.ui.cards.SearchItemCard
 
@@ -34,11 +35,10 @@ fun ProductListScreen(
     innerPadding: PaddingValues,
     imageResId: Int?,
     onNavigate: (KompassScreen) -> Unit,
-    categoryName: String
+    category: Category
 ) {
-    val productItems = filterSearchItems(SearchItemSource().loadSearchItems(), categoryName)
-        .filter { it.source == SearchResultSource.CATEGORY }
-        .map { it.item }
+    val productItems = getSearchItemsByCategory(SearchItemSource().loadSearchItems(), category)
+
     //val productItems = SearchItemSource().loadSearchItems()
     val imageId = imageResId ?: R.drawable.navbar_home
     Box(
@@ -52,7 +52,7 @@ fun ProductListScreen(
         ) {
             ProductHeader(
                 imageId,
-                headerText = categoryName
+                headerText = category.toDisplayName()
             )
             // Add a divider below the header
             HorizontalDivider(
@@ -116,5 +116,5 @@ private fun ProductHeader(
 @Composable
 fun PreviewProductListScreen() {
     val defaultPadding = PaddingValues(0.dp)
-    ProductListScreen(innerPadding = defaultPadding, imageResId = R.drawable.navbar_home, onNavigate = {}, categoryName = "")
+    ProductListScreen(innerPadding = defaultPadding, imageResId = R.drawable.navbar_home, onNavigate = {}, category = Category.NONE)
 }

@@ -16,6 +16,7 @@ import androidx.compose.material3.HorizontalDivider
 import com.example.kompass.KompassScreen
 import com.example.kompass.R
 import com.example.kompass.data.Datasource
+import com.example.kompass.types.Category
 
 @Composable
 fun SubCategoryScreen(
@@ -23,7 +24,7 @@ fun SubCategoryScreen(
     screenWidth: Int,
     screenHeight: Int,
     imageResId: Int?,
-    onNavigate: (KompassScreen, String) -> Unit
+    onNavigate: (KompassScreen, Category) -> Unit
 ){
     Box(
         modifier = Modifier
@@ -40,7 +41,7 @@ fun SubCategoryApp(
     innerPadding: PaddingValues,
     imageResId: Int?,
     //title: String, TODO: Ska lägga till
-    onNavigate: (KompassScreen, String) -> Unit
+    onNavigate: (KompassScreen, Category) -> Unit
 ){
     val imageId = imageResId ?: R.drawable.navbar_home
     //val layoutDirection = LocalLayoutDirection.current

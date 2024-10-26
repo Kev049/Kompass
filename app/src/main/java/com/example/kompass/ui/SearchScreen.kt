@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.example.kompass.KompassScreen
 import com.example.kompass.SecondaryButtonItem
 import com.example.kompass.data.SearchItemSource
+import com.example.kompass.types.Category
 import com.example.kompass.types.ProductItem
 import com.example.kompass.ui.cards.SearchCardOverlay
 import com.example.kompass.ui.cards.SearchItemCard
@@ -174,7 +175,7 @@ fun filterSearchItems(
 
     return items.mapNotNull { item ->
         val isNameMatch = item.name.contains(query, ignoreCase = true)
-        val isCategoryMatch = item.category.contains(query, ignoreCase = true)
+        val isCategoryMatch = item.category.toDisplayName().contains(query, ignoreCase = true)
 
         when {
             isNameMatch && isCategoryMatch -> FilteredSearchResult(item, SearchResultSource.BOTH)
@@ -183,6 +184,13 @@ fun filterSearchItems(
             else -> null
         }
     }
+}
+
+fun getSearchItemsByCategory(
+    items: List<ProductItem>,
+    category: Category
+): List<ProductItem> {
+    return items.filter { it.category == category }
 }
 
 @Preview(showBackground = true)

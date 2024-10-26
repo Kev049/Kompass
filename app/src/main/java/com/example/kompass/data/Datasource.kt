@@ -1,27 +1,28 @@
-package com.example.kompass.data;
+package com.example.kompass.data
 
 import com.example.kompass.R
-import com.example.kompass.types.CategoryData;
+import com.example.kompass.types.Category
+import com.example.kompass.types.CategoryData
 
-public class Datasource {
+class Datasource {
     fun loadCategories(): List<CategoryData> {
-        return listOf<CategoryData>(
-            CategoryData(R.drawable.navbar_home,"Bathroom furniture", "description"),
-            CategoryData(R.drawable.furniture,"Beds & Mattresses", "description"),
-            CategoryData(R.drawable.menu_main_sustainability, "Decoration", "description"),
-            CategoryData(R.drawable.menu_basic_materials, "Fix at home", "description"),
-            CategoryData(R.drawable.navbar_home,"Food & Drinks", "description"),
-            CategoryData(R.drawable.navbar_qr,"Furniture", "description"),
-            CategoryData(R.drawable.menu_main_sustainability, "Garden Furniture", "description"),
-            CategoryData(R.drawable.menu_basic_materials, "Home electronics", "description"),
-            CategoryData(R.drawable.navbar_home,"Kitchen & Household appliances?", "description"),
-            CategoryData(R.drawable.navbar_qr,"Kitchenware", "description"),
-            CategoryData(R.drawable.menu_main_sustainability, "Laundry & Cleaning", "description"),
-            CategoryData(R.drawable.menu_basic_materials, "Lighting", "description"),
-            CategoryData(R.drawable.navbar_home,"Pets", "description"),
-            CategoryData(R.drawable.navbar_qr,"Plants & Cultivation", "description"),
-            CategoryData(R.drawable.menu_main_sustainability, "Storage", "description"),
-            CategoryData(R.drawable.menu_basic_materials, "Textiles", "description")
+        return listOf(
+            CategoryData(R.drawable.navbar_home, Category.BATHROOM_FURNITURE, "description"),
+            CategoryData(R.drawable.furniture, Category.BEDS_AND_MATTRESSES, "description"),
+            CategoryData(R.drawable.menu_main_sustainability, Category.DECORATION, "description"),
+            CategoryData(R.drawable.menu_basic_materials, Category.FIX_AT_HOME, "description"),
+            CategoryData(R.drawable.navbar_home, Category.FOOD_AND_DRINKS, "description"),
+            CategoryData(R.drawable.navbar_qr, Category.FURNITURE, "description"),
+            CategoryData(R.drawable.menu_main_sustainability, Category.GARDEN_FURNITURE, "description"),
+            CategoryData(R.drawable.menu_basic_materials, Category.HOME_ELECTRONICS, "description"),
+            CategoryData(R.drawable.navbar_home, Category.KITCHEN_AND_HOUSEHOLD_APPLIANCES, "description"),
+            CategoryData(R.drawable.navbar_qr, Category.KITCHENWARE, "description"),
+            CategoryData(R.drawable.menu_main_sustainability, Category.LAUNDRY_AND_CLEANING, "description"),
+            CategoryData(R.drawable.menu_basic_materials, Category.LIGHTING, "description"),
+            CategoryData(R.drawable.navbar_home, Category.PETS, "description"),
+            CategoryData(R.drawable.navbar_qr, Category.PLANTS_AND_CULTIVATION, "description"),
+            CategoryData(R.drawable.menu_main_sustainability, Category.STORAGE, "description"),
+            CategoryData(R.drawable.menu_basic_materials, Category.TEXTILES, "description")
         )
     }
 }

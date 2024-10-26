@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,39 +37,42 @@ import com.example.kompass.ui.theme.IkeaYellow
 @Composable
 fun DetailedSustainabilityScreen(
     fontColor: Color = Color.White,
+    innerPadding: PaddingValues,
     productImage: Int,
     productName: String,
     productNumber: String,
     productCategory: String,
-    productPrice: Int
+    productPrice: Int,
+    emissionAmount: Int
 ) {
     Column(
         modifier = Modifier
             .background(BgBlack)
             .fillMaxSize()
-            .padding(1.dp,10.dp,1.dp,1.dp),
+            .padding(innerPadding),
         verticalArrangement = Arrangement.Top
     ) {
         InfoBar(fontColor, productName, productNumber, productCategory, productPrice)
         NavHeader(productImage, navCollection = { NavCollection3() })
-        ContentBody(fontColor)
+        ContentBody(fontColor, emissionAmount)
     }
 }
 
 @Composable
 private fun ContentBody(
-    textColor: Color
+    textColor: Color,
+    emissionAmount: Int
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp),
+            .padding(20.dp, 5.dp, 20.dp, 0.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.Start
     ) {
         EmissionEntry(
             "Carbon Emissions",
-            12,
+            emissionAmount = emissionAmount,
             textColor
         )
         MaterialsEntry(
@@ -95,7 +99,7 @@ private fun InfoEntry(
         text = title,
         color = textColor,
         fontSize = 25.sp,
-        fontFamily = FontFamily(Font(R.font.noto_sans_medium)),
+        fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
         textAlign = TextAlign.Center,
         modifier = Modifier
             .wrapContentWidth()
@@ -331,17 +335,4 @@ fun NavCollection3() {
             SmallNavButton(R.drawable.menu_basic_materials)
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DetailedSustainabilityPreview() {
-    DetailedSustainabilityScreen(
-        Color.White,
-        R.drawable.t,
-        "Placeholder",
-        "100.130.35",
-        "Placeholder",
-        1000
-    )
 }

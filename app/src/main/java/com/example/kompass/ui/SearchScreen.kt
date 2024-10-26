@@ -1,5 +1,6 @@
 package com.example.kompass.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -28,6 +29,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
@@ -47,7 +50,7 @@ import com.example.kompass.ui.theme.BgBlack
 fun SearchScreen(
     innerPadding: PaddingValues,
     onNavigate: (KompassScreen) -> Unit,
-    onItemClicked: (SecondaryButtonItem) -> Unit
+    onItemClicked: (ProductItem) -> Unit,
 ) {
     var searchQueryString by remember { mutableStateOf("") }
     var searchQueryProduct by remember { mutableStateOf<ProductItem?>(null) }
@@ -56,8 +59,10 @@ fun SearchScreen(
     // Use the filter function
     val filteredResults = filterSearchItems(allItems, searchQueryString)
     var textFieldFocusState by remember { mutableStateOf(false) }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     var showOverlay by remember { mutableStateOf(false) }
+    var inSubCategory by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -70,29 +75,50 @@ fun SearchScreen(
                 .fillMaxSize()
                 .background(BgBlack)
         ) {
-            SearchBar(
-                modifier = Modifier.padding(10.dp, 20.dp, 10.dp, 10.dp),
-                query = searchQueryString,
-                onQueryChange = { searchQueryString = it },
-                onFocusChange = { textFieldFocusState = it }
-            )
+            if (keyboardController != null) {
+                SearchBar(
+                    modifier = Modifier.padding(10.dp, 20.dp, 10.dp, 10.dp),
+                    query = searchQueryString,
+                    onQueryChange = { searchQueryString = it },
+                    onFocusChange = { textFieldFocusState = it },
+                    keyboardController = keyboardController
+                )
+            }
             SearchItemList(
                 searchItemList = filteredResults,
                 onCardClick = { searchQuery ->
                     searchQueryProduct = searchQuery
                     searchQueryString = searchQuery.name
-                    //textFieldFocusState = true // Trigger focus change
+                    textFieldFocusState = false // Trigger focus change
                     showOverlay = true
-                }
+                    inSubCategory = false
+                    keyboardController?.hide()
+                    onItemClicked(searchQuery)
+                },
             )
         }
+
         if (showOverlay) {
+            BackHandler {
+                if (inSubCategory) {
+                    inSubCategory = false // Go back to main categories
+
+                }
+                else {
+                    showOverlay = false // Close the overlay
+                }
+            }
+
             searchQueryProduct?.let { product ->
                 SearchCardOverlay(
                     onNavigate = onNavigate,
-                    onItemClicked = onItemClicked,
-                    onBackClick = { showOverlay = false }, // Hide the overlay on "BACK"
-                    productItem = product
+                    onSecondaryItemClicked = {
+                        inSubCategory = true // Set to subcategories when a subcategory item is selected
+                    },
+                    onBackClick = { showOverlay = false }, // Also support overlay close from within
+                    productItem = product,
+                    inSubCategory = inSubCategory,
+                    setInSubCategory = { inSubCategory = it }
                 )
             }
         }
@@ -105,7 +131,8 @@ fun SearchBar(
     query: String,
     onQueryChange: (String) -> Unit,
     onFocusChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    keyboardController: SoftwareKeyboardController
 ) {
     var textFieldValue by remember { mutableStateOf(TextFieldValue(query)) }
 
@@ -132,7 +159,7 @@ fun SearchBar(
             imeAction = ImeAction.Done
         ),
         keyboardActions = KeyboardActions(
-            onDone = { /* Handle Done action */ }
+            onDone = { keyboardController.hide() }
         ),
         colors = TextFieldDefaults.textFieldColors(
             containerColor = Color.Transparent,

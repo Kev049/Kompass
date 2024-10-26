@@ -47,18 +47,23 @@ import com.example.kompass.ui.SustainabilityScreen
 import com.example.kompass.ui.shared.SharedRecentImage
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import com.example.kompass.ui.DetailedSustainabilityScreen
 import com.example.kompass.ui.ProductListScreen
 import com.example.kompass.ui.SubCategoryScreen
-
+import com.example.kompass.ui.shared.SharedRecentProduct
 
 enum class KompassScreen {
     Home,
     Basic,
     Logistics,
+    DetailedAvailability,
+    DetailedBasic,
+    DetailedSustainability,
     Sustainability,
     Documents,
     ProductList,
     Category,
+
     Search,
     SubCategory //
 }
@@ -82,7 +87,9 @@ private fun KompassApp(
     val primaryButtonItemMap = mutableMapOf<Any, PrimaryButtonItem>()
     initializePrimaryButtonItemMap(primaryButtonItemMap)
     val sharedRecentImage: SharedRecentImage = viewModel()
+    val sharedRecentProduct: SharedRecentProduct = viewModel()
     val recentImage by sharedRecentImage.recentImage.collectAsState()
+    val recentProduct by sharedRecentProduct.recentProduct.collectAsState()
     val config = LocalConfiguration.current
     val screenWidth = config.screenWidthDp
     val screenHeight = config.screenHeightDp
@@ -102,6 +109,7 @@ private fun KompassApp(
                             // reset most recent image to null (is displayed in the categories screen)
                             if(screen.name == KompassScreen.Home.name){
                                 sharedRecentImage.setRecentImage(null)
+                                sharedRecentProduct.setRecentProduct(null)
                             }
                             navController.navigate(screen.name)
                         }
@@ -197,9 +205,23 @@ private fun KompassApp(
                         navController.navigate(screen.name)
                     },
                     onItemClicked = {itemName ->
-                        sharedRecentImage.setRecentImage(itemName.icon)
-                    }
+                        sharedRecentProduct.setRecentProduct(itemName)
+                    },
                 )
+            }
+            composable(KompassScreen.DetailedSustainability.name) {
+                recentProduct?.let { recentProduct ->
+                    DetailedSustainabilityScreen(
+                        fontColor = Color.White,
+                        innerPadding = innerPadding,
+                        productImage = recentProduct.imageResId,
+                        productName = recentProduct.name,
+                        productNumber = recentProduct.articleNr,
+                        productCategory = recentProduct.productDescription,
+                        productPrice = recentProduct.price,
+                        emissionAmount = recentProduct.sustainability.emissionAmount
+                    )
+                }
             }
             composable(KompassScreen.SubCategory.name){
                 SubCategoryScreen(
@@ -372,7 +394,7 @@ sealed class SecondaryButtonItem(val icon: Int, val description: String) {
     data object Specific : SecondaryButtonItem(R.drawable.menu_basic_spec, "Product Specifics")
     data object Contents : SecondaryButtonItem(R.drawable.menu_basic_contents, "Contents")
     data object Dimensions : SecondaryButtonItem(R.drawable.menu_basic_dimensions, "Dimensions")
-    data object Materials : SecondaryButtonItem(R.drawable.menu_basic_materials, "Materials & Care")
+    data object MaterialsBasic : SecondaryButtonItem(R.drawable.menu_basic_materials, "Materials & Care")
 
     data object Availability : SecondaryButtonItem(R.drawable.menu_logistics_availability, "Availability")
     data object Location : SecondaryButtonItem(R.drawable.menu_logistics_location, "In-Store Location")
@@ -381,6 +403,7 @@ sealed class SecondaryButtonItem(val icon: Int, val description: String) {
 
     data object Sustainability : SecondaryButtonItem(R.drawable.menu_main_sustainability, "Sustainability")
     data object Description : SecondaryButtonItem(R.drawable.menu_sustainability_description, "Description")
+    data object MaterialsSustainability : SecondaryButtonItem(R.drawable.menu_basic_materials, "Materials & Care")
 
     data object Manual : SecondaryButtonItem(R.drawable.menu_documents_manual, "Manual")
     data object Installation : SecondaryButtonItem(R.drawable.menu_documents_installation, "Installation")
@@ -388,7 +411,7 @@ sealed class SecondaryButtonItem(val icon: Int, val description: String) {
     data object Policy : SecondaryButtonItem(R.drawable.menu_documents_policy, "Policies")
 
     companion object {
-        fun getBasicItems(): List<SecondaryButtonItem> = listOf(Specific, Contents,Dimensions, Materials)
+        fun getBasicItems(): List<SecondaryButtonItem> = listOf(Specific, Contents,Dimensions, MaterialsBasic)
         fun getLogisticsItems(): List<SecondaryButtonItem> = listOf(Availability, Location, Delivery, History)
         fun getSustainabilityItems(): List<SecondaryButtonItem> = listOf(Sustainability, Description)
         fun getDocumentItems(): List<SecondaryButtonItem> = listOf(Manual, Installation, Safety, Policy)

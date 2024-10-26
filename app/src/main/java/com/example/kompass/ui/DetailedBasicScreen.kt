@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -244,7 +245,8 @@ fun NavCollection() {
             Image(
                 painter = painterResource(id = R.drawable.menu_main_info),
                 contentDescription = "navigate",
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier
+                    .size(32.dp)
             )
             NavButton(R.drawable.vector_right, {})
         }

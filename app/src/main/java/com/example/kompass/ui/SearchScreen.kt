@@ -35,7 +35,7 @@ import com.example.kompass.ui.theme.BgBlack
 fun SearchScreen(
     innerPadding: PaddingValues,
     onNavigate: (KompassScreen) -> Unit,
-    onItemClicked: (SecondaryButtonItem) -> Unit
+    onItemClicked: (ProductItem) -> Unit,
 ) {
     var searchQueryString by remember { mutableStateOf("") }
     var searchQueryProduct by remember { mutableStateOf<ProductItem?>(null) }
@@ -78,7 +78,8 @@ fun SearchScreen(
                     showOverlay = true
                     inSubCategory = false
                     keyboardController?.hide()
-                }
+                    onItemClicked(searchQuery)
+                },
             )
         }
 
@@ -96,9 +97,8 @@ fun SearchScreen(
             searchQueryProduct?.let { product ->
                 SearchCardOverlay(
                     onNavigate = onNavigate,
-                    onItemClicked = { item ->
+                    onSecondaryItemClicked = {
                         inSubCategory = true // Set to subcategories when a subcategory item is selected
-                        onItemClicked(item)
                     },
                     onBackClick = { showOverlay = false }, // Also support overlay close from within
                     productItem = product,

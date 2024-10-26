@@ -3,6 +3,8 @@ package com.example.kompass.ui
 import CategoryCard
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -80,13 +83,16 @@ fun CategoryList(
 
     val density = LocalDensity.current // Get the current density
     val coroutineScope = rememberCoroutineScope()
+    val gridState = rememberLazyGridState()
 
     LazyVerticalGrid(
+        state = gridState,
         columns = GridCells.Fixed(2),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
+        userScrollEnabled = true
     ) {
         // Function to reset drag state
         fun resetDragState() {
@@ -109,7 +115,7 @@ fun CategoryList(
                 modifier = Modifier
                     .padding(8.dp)
                     .pointerInput(Unit) {
-                        detectDragGestures(
+                        detectDragGesturesAfterLongPress(
                             onDragStart = {
                                 draggedIndex = index
                                 dropIndex = index
@@ -150,6 +156,7 @@ fun CategoryList(
                             onDragCancel = {
                                 resetDragState()
                             }
+
                         )
                     }
                     .offset { if (isBeingDragged) offset else IntOffset(0, 0) } // Apply offset only if being dragged

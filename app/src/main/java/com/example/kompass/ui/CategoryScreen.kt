@@ -127,7 +127,7 @@ fun CategoryList(
                                 )
 
                                 // Calculate potential drop index
-                                dropIndex = calculateNewIndex(index, offset, items.size, density)
+                                dropIndex = calculateNewIndex(index, offset, items, density)
                             },
                             onDragEnd = {
                                 // Swap items when drag ends
@@ -158,7 +158,7 @@ fun CategoryList(
 private fun calculateNewIndex(
     currentIndex: Int,
     offset: IntOffset,
-    totalItems: Int,
+    items: List<CategoryData>, // Pass the items list
     density: Density
 ): Int {
     val gridWidth = 2 // Number of columns in the grid
@@ -167,19 +167,35 @@ private fun calculateNewIndex(
     val cardWidth = with(density) { 150.dp.toPx() }
     val cardHeight = with(density) { 150.dp.toPx() }
 
-    // Convert the drag offset to grid coordinates
-    val xOffset = (offset.x / cardWidth).toInt()
-    val yOffset = (offset.y / cardHeight).toInt()
+    // Calculate the drag position
+    val dragX = offset.x + (currentIndex % gridWidth) * cardWidth + cardWidth / 2
+    val dragY = offset.y + (currentIndex / gridWidth) * cardHeight + cardHeight / 2
 
-    // Calculate the potential new index based on the offset
-    val newRow = (currentIndex / gridWidth) + yOffset
-    val newCol = (currentIndex % gridWidth) + xOffset
+    // Find the closest card based on the drag position
+    var closestIndex = -1
+    var closestDistance = Double.MAX_VALUE
 
-    val newIndex = newCol + newRow * gridWidth
+    items.forEachIndexed { index, _ ->
+        // Calculate center of the card
+        val cardCenterX = (index % gridWidth) * cardWidth + cardWidth / 2
+        val cardCenterY = (index / gridWidth) * cardHeight + cardHeight / 2
 
-    // Ensure the new index is valid
-    return if (newIndex in 0 until totalItems) newIndex else -1
+        // Calculate the distance from the drag position to the card's center
+        val distance = Math.sqrt(
+            Math.pow((cardCenterX - dragX).toDouble(), 2.0) +
+                    Math.pow((cardCenterY - dragY).toDouble(), 2.0)
+        )
+
+        // Update the closest card if necessary
+        if (distance < closestDistance) {
+            closestDistance = distance
+            closestIndex = index
+        }
+    }
+
+    return closestIndex
 }
+
 
 
 @Composable

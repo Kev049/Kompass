@@ -1,5 +1,3 @@
-package com.example.kompass.ui.cards
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -37,11 +35,11 @@ fun CategoryCard(
     openProductList: Boolean = false
 ) {
     val paddingBetweenCards = 8
-    val cardWidth = (screenWidth/2 - 10)
-    val cardHeight = (screenHeight*0.14)
+    val cardWidth = (screenWidth / 2 - 10)
+    val cardHeight = (screenHeight * 0.14)
+
     Box(
-        modifier = Modifier
-            .padding()
+        modifier = modifier
             .width(cardWidth.dp)
             .height(cardHeight.dp)
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
@@ -50,50 +48,36 @@ fun CategoryCard(
                     onNavigate(screen, Category.NONE)
                 } else {
                     onNavigate(KompassScreen.ProductList, categoryData.category)
-
                 }
             },
-
-                //.clickable {onNavigate(KompassScreen.SubCategory)},
-            //.clickable {onNavigate(KompassScreen.ProductList)}, //TODO: Byt ut .Home mot något som är rätt
         contentAlignment = Alignment.Center
     ) {
         Row(
-            modifier = Modifier.fillMaxSize(), // Fill the card size
-            verticalAlignment = Alignment.CenterVertically // Center items vertically
-        )
-        {
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             // Image
             Image(
                 painter = painterResource(id = categoryData.imageResId),
                 contentDescription = categoryData.description,
                 modifier = Modifier
-                    //.fillMaxWidth()
                     .padding(2.dp)
-                    .width((cardWidth * 0.4).dp) //frågan är om bilden borde vara en fixed storlek
+                    .width((cardWidth * 0.4).dp)
                     .height((cardHeight * 0.8).dp),
-                    //.clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
                 contentScale = ContentScale.Fit
             )
             // Text
             Text(
-                text = categoryData.category.toDisplayName(), //denna är skriven ganska annorlunda från tutorial
-                //text = primaryButtonItem.description,
+                text = categoryData.category.toDisplayName(),
                 color = Color.White,
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .padding(2.dp)
                     .width((cardWidth - 10).dp)
-                    .height((cardHeight).dp)
-                    .wrapContentHeight(align = Alignment.CenterVertically),
+                    .height(cardHeight.dp)
+                    .wrapContentHeight(align = Alignment.CenterVertically)
             )
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun CategoryCardPreview(){
-//    CategoryCard(Category(R.drawable.navbar_home, "TestName","Whaddup?"), modifier = Modifier.padding(0.dp),320, 668)
-//}

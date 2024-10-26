@@ -1,14 +1,11 @@
 package com.example.kompass.types
 
-import androidx.compose.ui.text.capitalize
-import androidx.compose.ui.text.toLowerCase
-
 enum class Category {
     NONE,
     BATHROOM_FURNITURE,
     BEDS_AND_MATTRESSES,
     DECORATION,
-    FIX_AT_HOME,
+    HOME_IMPROVEMENT,
     FOOD_AND_DRINKS,
     FURNITURE,
     GARDEN_FURNITURE,

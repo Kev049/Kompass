@@ -33,8 +33,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.kompass.PrimaryButtonItem
 import com.example.kompass.KompassScreen
+import com.example.kompass.PrimaryButtonItem
 import com.example.kompass.R
 import com.example.kompass.SecondaryButtonItem
 import com.example.kompass.types.ProductItem

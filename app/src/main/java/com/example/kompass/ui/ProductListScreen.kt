@@ -55,7 +55,8 @@ fun ProductListScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             ProductHeader(
-                imageId
+                imageId,
+                headerText = categoryName
             )
             // Add a divider below the header
             HorizontalDivider(
@@ -87,16 +88,19 @@ fun ProductList(
 }
 
 @Composable
-private fun ProductHeader(imageResId: Int) {
+private fun ProductHeader(
+    imageResId: Int,
+    headerText: String
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp), // Adjust the padding as needed
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween // Space between the text and image
+        horizontalArrangement = Arrangement.SpaceBetween // Space between the text and image,
     ) {
         Text(
-            text = "Furniture", // Replace with your desired text
+            text = headerText, // Replace with your desired text
             fontSize = 24.sp,
             color = Color.White,
             //style = MaterialTheme.typography.h6, // Adjust text style as needed

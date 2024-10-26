@@ -28,6 +28,8 @@ fun DocumentsScreen(
             .padding(innerPadding), // Avoid overlap with BottomAppBar
         contentAlignment = Alignment.Center
     ){
+        val cardWidth = 150
+        val cardHeight = 300
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -38,15 +40,15 @@ fun DocumentsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Manual, onNavigate = onNavigate, onItemClicked = onItemClicked)
-                SubButton(SubButtonItem.Installation, onNavigate = onNavigate, onItemClicked = onItemClicked)
+                SubButton(SubButtonItem.Manual, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SubButton(SubButtonItem.Installation, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Safety, onNavigate = onNavigate, onItemClicked = onItemClicked)
-                SubButton(SubButtonItem.Policy, onNavigate = onNavigate, onItemClicked = onItemClicked)
+                SubButton(SubButtonItem.Safety, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SubButton(SubButtonItem.Policy, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
             }
         }
     }

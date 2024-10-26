@@ -21,43 +21,48 @@ import com.example.kompass.ui.theme.IkeaDarkBlue
 @Composable
 fun SearchItemCard(
     searchItem: ProductItem,
-    modifier: Modifier = Modifier,
-    onCardClick: (String) -> Unit
+    onCardClick: (ProductItem) -> Unit
 ) {
-    Row(
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(80.dp)
-            .background(IkeaDarkBlue, shape = RoundedCornerShape(12.dp))
-            .clickable { onCardClick(searchItem.name) }
-            .padding(8.dp), // Add some padding to the Row
-        verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = 6.dp) // External padding applied to the Box
     ) {
-        Image(
-            painter = painterResource(id = searchItem.imageResId),
-            contentDescription = null,
+        Row(
             modifier = Modifier
-                .size(60.dp)
-                .padding(end = 16.dp) // Add some space between the image and text
-        )
-
-        Column(
-            modifier = Modifier
-                .weight(1f) // Allow the text to take the remaining space
-                .wrapContentHeight()
+                .fillMaxWidth()
+                .height(80.dp)
+                .background(IkeaDarkBlue, shape = RoundedCornerShape(12.dp))
+                .clickable { onCardClick(searchItem) }
+                .padding(horizontal = 16.dp), // Internal padding for Row content
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = searchItem.name,
-                color = Color.White,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Start // Align text to the start
+            Image(
+                painter = painterResource(id = searchItem.imageResId),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(60.dp)
+                    .padding(end = 16.dp)
             )
-            Text(
-                text = searchItem.category,
-                color = Color.White,
-                fontSize = 12.sp,
-                textAlign = TextAlign.Start // Align text to the start
-            )
+
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .wrapContentHeight()
+            ) {
+                Text(
+                    text = searchItem.name,
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Start
+                )
+                Text(
+                    text = searchItem.category,
+                    color = Color.White,
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Start
+                )
+            }
         }
     }
+
 }

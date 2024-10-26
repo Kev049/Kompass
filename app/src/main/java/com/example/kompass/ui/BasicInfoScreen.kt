@@ -28,6 +28,8 @@ fun BasicInfoScreen(
             .padding(innerPadding), // Avoid overlap with BottomAppBar
         contentAlignment = Alignment.Center
     ){
+        val cardWidth = 150
+        val cardHeight = 300
         Column(
         modifier = Modifier
             .fillMaxSize()
@@ -38,15 +40,15 @@ fun BasicInfoScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Dimensions, onNavigate = onNavigate, onItemClicked = onItemClicked)
-                SubButton(SubButtonItem.Contents, onNavigate = onNavigate, onItemClicked = onItemClicked)
+                SubButton(SubButtonItem.Dimensions, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SubButton(SubButtonItem.Contents, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Specific, onNavigate = onNavigate, onItemClicked = onItemClicked)
-                SubButton(SubButtonItem.Materials, onNavigate = onNavigate, onItemClicked = onItemClicked)
+                SubButton(SubButtonItem.Specific, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SubButton(SubButtonItem.Materials, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
             }
         }
     }

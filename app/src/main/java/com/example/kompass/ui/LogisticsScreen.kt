@@ -22,6 +22,8 @@ fun LogisticsScreen(
     onItemClicked: (SubButtonItem) -> Unit,
     onNavigate: (KompassScreen) -> Unit
 ) {
+    val cardWidth = 150
+    val cardHeight = 300
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -38,15 +40,15 @@ fun LogisticsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Availability, onNavigate = onNavigate, onItemClicked = onItemClicked)
-                SubButton(SubButtonItem.Location, onNavigate = onNavigate, onItemClicked = onItemClicked)
+                SubButton(SubButtonItem.Availability, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SubButton(SubButtonItem.Location, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Delivery, onNavigate = onNavigate, onItemClicked = onItemClicked)
-                SubButton(SubButtonItem.History, onNavigate = onNavigate, onItemClicked = onItemClicked)
+                SubButton(SubButtonItem.Delivery, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardWidth)
+                SubButton(SubButtonItem.History, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardWidth)
             }
         }
     }

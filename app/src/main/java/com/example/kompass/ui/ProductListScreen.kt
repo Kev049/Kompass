@@ -71,7 +71,6 @@ fun ProductList(
         items(productItems) { productItem ->
             SearchItemCard(
                 searchItem = productItem,
-                modifier = Modifier.fillMaxWidth(),
                 onCardClick = { }
             )
             Spacer(modifier = Modifier.padding(4.dp))

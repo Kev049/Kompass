@@ -28,6 +28,8 @@ fun SustainabilityScreen(
             .padding(innerPadding), // Avoid overlap with BottomAppBar
         contentAlignment = Alignment.Center
     ){
+        val cardWidth = 150
+        val cardHeight = 300
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -38,14 +40,14 @@ fun SustainabilityScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SubButton(SubButtonItem.Sustainability, onNavigate = onNavigate, onItemClicked = onItemClicked)
-                SubButton(SubButtonItem.Description, onNavigate = onNavigate, onItemClicked = onItemClicked)
+                SubButton(SubButtonItem.Sustainability, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SubButton(SubButtonItem.Description, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                SubButton(SubButtonItem.Materials, onNavigate = onNavigate, onItemClicked = onItemClicked)
+                SubButton(SubButtonItem.Materials, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
             }
         }
     }

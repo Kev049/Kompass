@@ -1,5 +1,6 @@
 package com.example.kompass.ui
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,19 +26,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.kompass.KompassScreen
 import com.example.kompass.R
+import com.example.kompass.SecondaryButtonItem
 import com.example.kompass.data.SearchItemSource
 import com.example.kompass.types.Category
 import com.example.kompass.types.ProductItem
 import com.example.kompass.ui.cards.SearchItemCard
+import com.example.kompass.ui.cards.getDetailScreenForSecondaryButton
 
 @Composable
 fun ProductListScreen(
     innerPadding: PaddingValues,
     imageResId: Int?,
     onNavigate: (KompassScreen) -> Unit,
+    onItemClicked: (ProductItem) -> Unit,
+    secondaryButton: SecondaryButtonItem,
     category: Category
 ) {
     val productItems = getSearchItemsByCategory(SearchItemSource().loadSearchItems(), category)
+    val secondaryButtonScreen = getDetailScreenForSecondaryButton(secondaryButton)
+    Log.d("Button", secondaryButtonScreen.toString())
 
     //val productItems = SearchItemSource().loadSearchItems()
     val imageId = imageResId ?: R.drawable.navbar_home
@@ -60,14 +67,17 @@ fun ProductListScreen(
                 thickness = 1.dp,
                 modifier = Modifier.fillMaxWidth()
             )
-            ProductList(productItems)
+            ProductList(productItems, secondaryButtonScreen, onNavigate, onItemClicked)
         }
     }
 }
 
 @Composable
 fun ProductList(
-    productItems: List<ProductItem>
+    productItems: List<ProductItem>,
+    secondaryButtonScreen: KompassScreen,
+    onNavigate: (KompassScreen) -> Unit,
+    onItemClicked: (ProductItem) -> Unit
 ){
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -76,7 +86,8 @@ fun ProductList(
         items(productItems) { productItem ->
             SearchItemCard(
                 searchItem = productItem,
-                onCardClick = { }
+                onCardClick = { onNavigate(secondaryButtonScreen)
+                onItemClicked(productItem)}
             )
             Spacer(modifier = Modifier.padding(4.dp))
         }
@@ -110,11 +121,4 @@ private fun ProductHeader(
             modifier = Modifier.size(64.dp) // Adjust the size of the image as needed
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewProductListScreen() {
-    val defaultPadding = PaddingValues(0.dp)
-    ProductListScreen(innerPadding = defaultPadding, imageResId = R.drawable.navbar_home, onNavigate = {}, category = Category.NONE)
 }

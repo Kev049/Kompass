@@ -23,7 +23,7 @@ fun SubCategoryScreen(
     screenWidth: Int,
     screenHeight: Int,
     imageResId: Int?,
-    onNavigate: (KompassScreen) -> Unit
+    onNavigate: (KompassScreen, String) -> Unit
 ){
     Box(
         modifier = Modifier
@@ -40,7 +40,7 @@ fun SubCategoryApp(
     innerPadding: PaddingValues,
     imageResId: Int?,
     //title: String, TODO: Ska lägga till
-    onNavigate: (KompassScreen) -> Unit
+    onNavigate: (KompassScreen, String) -> Unit
 ){
     val imageId = imageResId ?: R.drawable.navbar_home
     //val layoutDirection = LocalLayoutDirection.current
@@ -68,7 +68,8 @@ fun SubCategoryApp(
                 categoryList = Datasource().loadCategories(),
                 screenWidth = screenWidth,
                 screenHeight = screenHeight,
-                onNavigate = onNavigate
+                onNavigate = onNavigate,
+                openProductList = true
             )
         }
     }

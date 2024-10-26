@@ -1,10 +1,22 @@
 package com.example.kompass.types
 
-import androidx.annotation.DrawableRes
+enum class Category {
+    BATHROOM_FURNITURE,
+    BEDS_AND_MATTRESSES,
+    DECORATION,
+    FIX_AT_HOME,
+    FOOD_AND_DRINKS,
+    FURNITURE,
+    GARDEN_FURNITURE,
+    HOME_ELECTRONICS,
+    KITCHEN_AND_HOUSEHOLD_APPLIANCES,
+    KITCHENWARE,
+    LAUNDRY_AND_CLEANING,
+    LIGHTING,
+    PETS,
+    PLANTS_AND_CULTIVATION,
+    STORAGE,
+    TEXTILES
+}
 
-data class Category(
-    //@StringRes val title: Int,
-    @DrawableRes val imageResId : Int,
-    val name : String,
-    val description : String
-)
+

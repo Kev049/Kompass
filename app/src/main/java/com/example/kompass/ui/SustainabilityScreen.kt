@@ -39,14 +39,14 @@ fun SustainabilityScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SecondaryButton(SecondaryButtonItem.Sustainability, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
-                SecondaryButton(SecondaryButtonItem.Description, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SecondaryButton(SecondaryButtonItem.Sustainability, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight, toScreen = KompassScreen.Category)
+                SecondaryButton(SecondaryButtonItem.Description, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight, toScreen = KompassScreen.Category)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                SecondaryButton(SecondaryButtonItem.Materials, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SecondaryButton(SecondaryButtonItem.MaterialsSustainability, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight, toScreen = KompassScreen.Category)
             }
         }
     }

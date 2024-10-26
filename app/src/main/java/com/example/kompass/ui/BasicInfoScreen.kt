@@ -40,15 +40,15 @@ fun BasicInfoScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SecondaryButton(SecondaryButtonItem.Dimensions, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
-                SecondaryButton(SecondaryButtonItem.Contents, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SecondaryButton(SecondaryButtonItem.Dimensions, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight, toScreen = KompassScreen.Category)
+                SecondaryButton(SecondaryButtonItem.Contents, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight, toScreen = KompassScreen.Category)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                SecondaryButton(SecondaryButtonItem.Specific, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
-                SecondaryButton(SecondaryButtonItem.Materials, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight)
+                SecondaryButton(SecondaryButtonItem.Specific, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight, toScreen = KompassScreen.Category)
+                SecondaryButton(SecondaryButtonItem.MaterialsBasic, onNavigate = onNavigate, onItemClicked = onItemClicked, cardWidth = cardWidth, cardHeight = cardHeight, toScreen = KompassScreen.Category)
             }
         }
     }

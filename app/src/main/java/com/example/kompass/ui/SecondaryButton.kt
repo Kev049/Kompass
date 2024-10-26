@@ -32,7 +32,8 @@ fun SecondaryButton(
     onItemClicked: (SecondaryButtonItem) -> Unit,
     onNavigate: (KompassScreen) -> Unit,
     cardWidth: Int,
-    cardHeight: Int
+    cardHeight: Int,
+    toScreen: KompassScreen
 ) {
     Box(
         modifier = Modifier
@@ -41,7 +42,7 @@ fun SecondaryButton(
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
             //TODO: Navigate to product screen and pass right category
             .clickable { onItemClicked(secondaryButtonItem)
-                onNavigate(KompassScreen.Category) },
+                onNavigate(toScreen) },
         contentAlignment = Alignment.Center
     ) {
         Column(

@@ -65,7 +65,8 @@ fun SubCategoryApp(
                 thickness = 1.dp,
                 modifier = Modifier.fillMaxWidth()
             )
-            CategoryList( //TODO: Byt ut detta sen
+            CategoryList(
+                //categoryList = Datasource().loadSubCategories(),
                 categoryDataList = Datasource().loadCategories(),
                 screenWidth = screenWidth,
                 screenHeight = screenHeight,

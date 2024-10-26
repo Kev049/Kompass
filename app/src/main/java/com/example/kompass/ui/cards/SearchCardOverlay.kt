@@ -48,7 +48,10 @@ fun SearchCardOverlay(
     onNavigate: (KompassScreen) -> Unit,
     onItemClicked: (SubButtonItem) -> Unit,
     onBackClick: () -> Unit,
-    productItem: ProductItem
+    productItem: ProductItem,
+    goToMainFromSub: Boolean,
+    setGoToMainFromSub: (Boolean) -> Unit,
+    setInSubCategory: (Boolean) -> Unit
 ) {
     var selectedCategory by remember { mutableStateOf<CategoryItem?>(null) }
     val subButtons = mapOf(
@@ -94,6 +97,15 @@ fun SearchCardOverlay(
                     PlaceSearchMainButtons(
                         onMainButtonClick = { category ->
                             selectedCategory = category
+                            setInSubCategory(true)
+                        }
+                    )
+                } else if (goToMainFromSub){
+                    PlaceSearchMainButtons(
+                        onMainButtonClick = { category ->
+                            selectedCategory = category
+                            setInSubCategory(false)
+                            setGoToMainFromSub(false)
                         }
                     )
                 } else {

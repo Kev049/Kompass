@@ -1,5 +1,6 @@
 package com.example.kompass.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -43,6 +44,8 @@ fun SearchScreen(
     var textFieldFocusState by remember { mutableStateOf(false) }
 
     var showOverlay by remember { mutableStateOf(false) }
+    var inSubCategory by remember { mutableStateOf(false) }
+    var goToMainFromSub by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -68,16 +71,34 @@ fun SearchScreen(
                     searchQueryString = searchQuery.name
                     //textFieldFocusState = true // Trigger focus change
                     showOverlay = true
+                    inSubCategory = false
                 }
             )
         }
         if (showOverlay) {
+            BackHandler {
+                if (inSubCategory) {
+                    inSubCategory = false // Go back to main categories
+                    goToMainFromSub = true
+                }
+                else {
+                    showOverlay = false // Close the overlay
+                    goToMainFromSub = false
+                }
+            }
+
             searchQueryProduct?.let { product ->
                 SearchCardOverlay(
                     onNavigate = onNavigate,
-                    onItemClicked = onItemClicked,
-                    onBackClick = { showOverlay = false }, // Hide the overlay on "BACK"
-                    productItem = product
+                    onItemClicked = { item ->
+                        inSubCategory = true // Set to subcategories when a subcategory item is selected
+                        onItemClicked(item)
+                    },
+                    onBackClick = { showOverlay = false }, // Also support overlay close from within
+                    productItem = product,
+                    goToMainFromSub = goToMainFromSub,
+                    setGoToMainFromSub = { goToMainFromSub = it},
+                    setInSubCategory = { inSubCategory = it }
                 )
             }
         }

@@ -19,20 +19,30 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.kompass.KompassScreen
+import com.example.kompass.SubButtonItem
 import com.example.kompass.data.SearchItemSource
 import com.example.kompass.types.ProductItem
+import com.example.kompass.ui.cards.SearchCardOverlay
 import com.example.kompass.ui.cards.SearchItemCard
 import com.example.kompass.ui.theme.BgBlack
 
 
 @Composable
-fun SearchScreen(innerPadding: PaddingValues) {
-    var searchQuery by remember { mutableStateOf("") }
+fun SearchScreen(
+    innerPadding: PaddingValues,
+    onNavigate: (KompassScreen) -> Unit,
+    onItemClicked: (SubButtonItem) -> Unit
+) {
+    var searchQueryString by remember { mutableStateOf("") }
+    var searchQueryProduct by remember { mutableStateOf<ProductItem?>(null) }
     val allItems = SearchItemSource().loadSearchItems()
 
     // Use the filter function
-    val filteredResults = filterSearchItems(allItems, searchQuery)
+    val filteredResults = filterSearchItems(allItems, searchQueryString)
     var textFieldFocusState by remember { mutableStateOf(false) }
+
+    var showOverlay by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -47,17 +57,29 @@ fun SearchScreen(innerPadding: PaddingValues) {
         ) {
             SearchBar(
                 modifier = Modifier.padding(10.dp, 20.dp, 10.dp, 10.dp),
-                query = searchQuery,
-                onQueryChange = { searchQuery = it },
+                query = searchQueryString,
+                onQueryChange = { searchQueryString = it },
                 onFocusChange = { textFieldFocusState = it }
             )
             SearchItemList(
                 searchItemList = filteredResults,
-                onCardClick = { name ->
-                    searchQuery = name
-                    textFieldFocusState = true // Trigger focus change
+                onCardClick = { searchQuery ->
+                    searchQueryProduct = searchQuery
+                    searchQueryString = searchQuery.name
+                    //textFieldFocusState = true // Trigger focus change
+                    showOverlay = true
                 }
             )
+        }
+        if (showOverlay) {
+            searchQueryProduct?.let { product ->
+                SearchCardOverlay(
+                    onNavigate = onNavigate,
+                    onItemClicked = onItemClicked,
+                    onBackClick = { showOverlay = false }, // Hide the overlay on "BACK"
+                    productItem = product
+                )
+            }
         }
     }
 }
@@ -114,7 +136,7 @@ fun SearchBar(
 @Composable
 fun SearchItemList(
     searchItemList: List<FilteredSearchResult>,
-    onCardClick: (String) -> Unit,
+    onCardClick: (ProductItem) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -124,10 +146,9 @@ fun SearchItemList(
         items(searchItemList) { searchResult ->
             SearchItemCard(
                 searchItem = searchResult.item,
-                modifier = Modifier.fillMaxWidth(),
                 onCardClick = onCardClick
             )
-            Spacer(modifier = Modifier.padding(4.dp))
+            Spacer(modifier = Modifier.padding(5.dp))
         }
     }
 }
@@ -168,7 +189,7 @@ fun filterSearchItems(
 @Composable
 fun PreviewSearchScreen() {
     val defaultPadding = PaddingValues(0.dp)
-    SearchScreen(innerPadding = defaultPadding)
+    SearchScreen(innerPadding = defaultPadding, {}, {})
 }
 
 

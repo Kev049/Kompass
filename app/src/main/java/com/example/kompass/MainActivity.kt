@@ -126,7 +126,7 @@ private fun KompassApp(
                 HomeScreen(
                     innerPadding = innerPadding,
                     onNavigate = { screen ->
-                        val categoryItem = categoryItemMap.get(screen)
+                        val categoryItem = categoryItemMap[screen]
                         categoryItem?.let { sharedRecentImage.setRecentImage(categoryItem.icon) }
                         navController.navigate(screen.name);
                     }
@@ -197,7 +197,15 @@ private fun KompassApp(
                 )
             }
             composable(KompassScreen.Search.name) {
-                SearchScreen(innerPadding = innerPadding)
+                SearchScreen(
+                    innerPadding = innerPadding,
+                    onNavigate = { screen ->
+                        navController.navigate(screen.name)
+                    },
+                    onItemClicked = {itemName ->
+                        sharedRecentImage.setRecentImage(itemName.icon)
+                    }
+                )
             }
             composable(KompassScreen.SpecificCategory.name){
                 SpecificCategoryScreen(
@@ -280,7 +288,7 @@ private fun NavBarButton(
 }
 
 @Composable
-private fun PlaceMainButtons(
+fun PlaceMainButtons(
     onNavigate: (KompassScreen) -> Unit
 ) {
     Column(

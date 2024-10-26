@@ -44,7 +44,7 @@ fun SubCategoryCard(
             .width(cardWidth.dp)
             .height(cardHeight.dp)
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
-            .clickable {onNavigate(KompassScreen.SpecificCategory)}, //TODO: Byt ut .Home mot något som är rätt
+            .clickable {onNavigate(KompassScreen.ProductList)}, //TODO: Byt ut .Home mot något som är rätt
         contentAlignment = Alignment.Center
     ) {
         Row(

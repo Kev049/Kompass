@@ -197,12 +197,25 @@ private fun KompassApp(
                     screenWidth,
                     screenHeight,
                     imageResId = recentImage,
-                    onNavigate = { screen, _ ->
+                    onNavigate = { screen, categoryFromClick ->
+                        category = categoryFromClick
                         navController.navigate(screen.name)
                     }
                 )
             }
-
+            composable(KompassScreen.SubCategory.name){
+                SubCategoryScreen(
+                    innerPadding = innerPadding,
+                    screenWidth,
+                    screenHeight,
+                    imageResId = recentImage,
+                    category = category,
+                    onNavigate = { screen, categoryFromClick ->
+                        category = categoryFromClick
+                        navController.navigate(screen.name)
+                    }
+                )
+            }
             //var subCategory
             composable(KompassScreen.ProductList.name){
                 ProductListScreen(
@@ -266,21 +279,9 @@ private fun KompassApp(
                     )
                 }
             }
-            composable(KompassScreen.SubCategory.name){
-                SubCategoryScreen(
-                    innerPadding = innerPadding,
-                    screenWidth,
-                    screenHeight,
-                    imageResId = recentImage,
-                    onNavigate = { screen, categoryFromClick ->
-                        category = categoryFromClick
-                        navController.navigate(screen.name)
-                    }
-                )
-            }
+
         }
     }
-
 }
 fun initializePrimaryButtonItemMap(primaryButtonItemMap: MutableMap<Any, PrimaryButtonItem>){
     PrimaryButtonItem.getAllItems().forEach { item ->

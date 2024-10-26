@@ -17,6 +17,8 @@ import com.example.kompass.KompassScreen
 import com.example.kompass.R
 import com.example.kompass.data.CategorySource
 import com.example.kompass.types.Category
+import com.example.kompass.types.CategoryData
+import com.example.kompass.types.ProductItem
 
 @Composable
 fun SubCategoryScreen(
@@ -24,13 +26,14 @@ fun SubCategoryScreen(
     screenWidth: Int,
     screenHeight: Int,
     imageResId: Int?,
+    category: Category,
     onNavigate: (KompassScreen, Category) -> Unit
 ){
     Box(
         modifier = Modifier
             .fillMaxSize(),
         contentAlignment = Alignment.TopCenter
-    ) { SubCategoryApp(screenWidth, screenHeight, innerPadding, imageResId, onNavigate)
+    ) { SubCategoryApp(screenWidth, screenHeight, innerPadding, imageResId,category, onNavigate)
     }
 }
 
@@ -40,10 +43,12 @@ fun SubCategoryApp(
     screenHeight: Int,
     innerPadding: PaddingValues,
     imageResId: Int?,
-    //title: String, TODO: Ska lägga till
+    category: Category,
+    //title: String,
     onNavigate: (KompassScreen, Category) -> Unit
 ){
     val imageId = imageResId ?: R.drawable.navbar_home
+    val subCategoryItems = getSubCategoriesByCategory(CategorySource().loadSubCategories(), category)
     //val layoutDirection = LocalLayoutDirection.current
     Surface(
         modifier = Modifier
@@ -66,7 +71,7 @@ fun SubCategoryApp(
                 modifier = Modifier.fillMaxWidth()
             )
             CategoryList(
-                categoryDataList = CategorySource().loadSubCategories(),
+                categoryDataList = subCategoryItems,
                 //categoryDataList = CategorySource().loadCategories(),
                 screenWidth = screenWidth,
                 screenHeight = screenHeight,
@@ -75,4 +80,11 @@ fun SubCategoryApp(
             )
         }
     }
+}
+
+fun getSubCategoriesByCategory(
+    items: List<CategoryData>,
+    category: Category
+): List<CategoryData> {
+    return items.filter { it.category.toDisplayName().contains(category.toDisplayName())}
 }

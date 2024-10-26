@@ -13,7 +13,7 @@ class SearchItemSource {
             ProductItem("SKOTTERUD", "203.073.20", "Mattress", 2595,Category.BEDS_AND_MATTRESSES, DimensionInfo(205, 95, 60, 200, 90), SustainabilityInfo(15, listOf("Cotton", "Polyester", "Steel"), listOf("Spain", "Sweden", "Norway")), R.drawable.skotterud),
             ProductItem("Malm", "591.759.55", "Bed Frame", 2395, Category.BEDS_AND_MATTRESSES, DimensionInfo(209, 156, 100, 200, 140), SustainabilityInfo(7, listOf("Foil", "Galvanized Steel", "Wood"), listOf("Spain", "Sweden", "Norway")), R.drawable.malm),
             ProductItem("Slattum", "405.712.48", "Bed Frame", 1495, Category.BEDS_AND_MATTRESSES, DimensionInfo(206, 164, 85, 200, 160), SustainabilityInfo(12, listOf("Foil", "Polyester", "Wood"), listOf("Denmark", "Germany", "Norway")), R.drawable.slattum),
-            ProductItem("EKOLN","704.930.13","Waste bin",99, Category.BATHROOM_FURNITURE, DimensionInfo(204, 140, 90, 200, 140), SustainabilityInfo(12, listOf("Cotton", "Steel", "Wood"), listOf("Spain", "Sweden", "Norway")), R.drawable.ekoln)
+            ProductItem("EKOLN","704.930.13","Waste bin",99, Category.BATHROOM_FURNITURE_S_BATHROOM_ACCESSORIES, DimensionInfo(204, 140, 90, 200, 140), SustainabilityInfo(12, listOf("Cotton", "Steel", "Wood"), listOf("Spain", "Sweden", "Norway")), R.drawable.ekoln)
         )
     }
 }

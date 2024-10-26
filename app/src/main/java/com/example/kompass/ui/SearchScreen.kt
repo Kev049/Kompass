@@ -231,7 +231,13 @@ fun getSearchItemsByCategory(
     items: List<ProductItem>,
     category: Category
 ): List<ProductItem> {
-    return items.filter { it.category == category }
+    return items.filter {it.category == category}
+
+}fun getSearchItemsBySubCategory(
+    items: List<ProductItem>,
+    category: Category
+): List<ProductItem> {
+    return items.filter { it.category.toDisplayName().contains(category.toDisplayName())}
 }
 
 @Preview(showBackground = true)

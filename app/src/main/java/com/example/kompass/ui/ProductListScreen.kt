@@ -37,7 +37,8 @@ fun ProductListScreen(
     onNavigate: (KompassScreen) -> Unit,
     category: Category
 ) {
-    val productItems = getSearchItemsByCategory(SearchItemSource().loadSearchItems(), category)
+    //val productItems = getSearchItemsByCategory(SearchItemSource().loadSearchItems(), category)
+    val productItems = getSearchItemsBySubCategory(SearchItemSource().loadSearchItems(), category)
 
     //val productItems = SearchItemSource().loadSearchItems()
     val imageId = imageResId ?: R.drawable.navbar_home
@@ -74,6 +75,7 @@ fun ProductList(
         contentPadding = PaddingValues(8.dp)
     ) {
         items(productItems) { productItem ->
+            println(productItem)
             SearchItemCard(
                 searchItem = productItem,
                 onCardClick = { }

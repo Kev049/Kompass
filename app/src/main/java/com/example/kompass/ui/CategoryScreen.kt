@@ -20,9 +20,11 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,6 +43,8 @@ import com.example.kompass.types.CategoryData
 import kotlin.math.roundToInt
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun CategoryScreen(
@@ -58,6 +62,7 @@ fun CategoryScreen(
     }
 }
 
+
 @Composable
 fun CategoryList(
     categoryDataList: List<CategoryData>,
@@ -71,8 +76,10 @@ fun CategoryList(
     var draggedIndex by remember { mutableStateOf(-1) }
     var dropIndex by remember { mutableStateOf(-1) }
     var offset by remember { mutableStateOf(IntOffset(0, 0)) }
+    var isDraggingAllowed by remember { mutableStateOf(false) }
 
     val density = LocalDensity.current // Get the current density
+    val coroutineScope = rememberCoroutineScope()
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -81,6 +88,14 @@ fun CategoryList(
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
         modifier = modifier.fillMaxSize()
     ) {
+        // Function to reset drag state
+        fun resetDragState() {
+            draggedIndex = -1
+            dropIndex = -1
+            offset = IntOffset(0, 0)
+            isDraggingAllowed = false // Reset dragging permission
+        }
+
         items(items.size) { index ->
             val isBeingDragged = index == draggedIndex
 
@@ -90,24 +105,35 @@ fun CategoryList(
                 screenHeight = screenHeight,
                 onNavigate = onNavigate,
                 screen = KompassScreen.SubCategory,
+                openProductList = openProductList,
                 modifier = Modifier
                     .padding(8.dp)
                     .pointerInput(Unit) {
                         detectDragGestures(
                             onDragStart = {
-                                draggedIndex = index // Start dragging this card
-                                dropIndex = index // Set the drop index to current index
-                                offset = IntOffset(0, 0) // Reset offset at start
+                                draggedIndex = index
+                                dropIndex = index
+                                offset = IntOffset(0, 0)
+
+                                // Start a coroutine to handle the press duration
+                                coroutineScope.launch {
+                                    delay(300)
+                                    if (draggedIndex == index) {
+                                        isDraggingAllowed = true // Allow dragging
+                                    }
+                                }
                             },
                             onDrag = { change, dragAmount ->
-                                change.consume()
-                                offset = IntOffset(
-                                    x = offset.x + dragAmount.x.roundToInt(),
-                                    y = offset.y + dragAmount.y.roundToInt()
-                                )
+                                if (isDraggingAllowed) {
+                                    change.consume()
+                                    offset = IntOffset(
+                                        x = offset.x + dragAmount.x.roundToInt(),
+                                        y = offset.y + dragAmount.y.roundToInt()
+                                    )
 
-                                // Calculate potential drop index
-                                dropIndex = calculateNewIndex(index, offset, items.size, density)
+                                    // Calculate potential drop index
+                                    dropIndex = calculateNewIndex(index, offset, items.size, density)
+                                }
                             },
                             onDragEnd = {
                                 // Swap items when drag ends
@@ -118,16 +144,11 @@ fun CategoryList(
                                         this[dropIndex] = temp
                                     }
                                 }
-                                // Reset indices after drag ends
-                                draggedIndex = -1
-                                dropIndex = -1
-                                offset = IntOffset(0, 0) // Reset offset after drop
+                                // Reset indices and dragging state
+                                resetDragState()
                             },
                             onDragCancel = {
-                                // Reset indices if drag is canceled
-                                draggedIndex = -1
-                                dropIndex = -1
-                                offset = IntOffset(0, 0)
+                                resetDragState()
                             }
                         )
                     }
@@ -136,6 +157,7 @@ fun CategoryList(
         }
     }
 }
+
 
 
 private fun calculateNewIndex(

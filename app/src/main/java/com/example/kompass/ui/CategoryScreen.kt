@@ -79,10 +79,8 @@ fun CategoryList(
     var draggedIndex by remember { mutableStateOf(-1) }
     var dropIndex by remember { mutableStateOf(-1) }
     var offset by remember { mutableStateOf(IntOffset(0, 0)) }
-    var isDraggingAllowed by remember { mutableStateOf(false) }
 
     val density = LocalDensity.current // Get the current density
-    val coroutineScope = rememberCoroutineScope()
     val gridState = rememberLazyGridState()
 
     LazyVerticalGrid(
@@ -99,7 +97,6 @@ fun CategoryList(
             draggedIndex = -1
             dropIndex = -1
             offset = IntOffset(0, 0)
-            isDraggingAllowed = false // Reset dragging permission
         }
 
         items(items.size) { index ->
@@ -121,25 +118,16 @@ fun CategoryList(
                                 dropIndex = index
                                 offset = IntOffset(0, 0)
 
-                                // Start a coroutine to handle the press duration
-                                coroutineScope.launch {
-                                    delay(300)
-                                    if (draggedIndex == index) {
-                                        isDraggingAllowed = true // Allow dragging
-                                    }
-                                }
                             },
                             onDrag = { change, dragAmount ->
-                                if (isDraggingAllowed) {
-                                    change.consume()
-                                    offset = IntOffset(
-                                        x = offset.x + dragAmount.x.roundToInt(),
-                                        y = offset.y + dragAmount.y.roundToInt()
-                                    )
+                                change.consume()
+                                offset = IntOffset(
+                                    x = offset.x + dragAmount.x.roundToInt(),
+                                    y = offset.y + dragAmount.y.roundToInt()
+                                )
 
-                                    // Calculate potential drop index
-                                    dropIndex = calculateNewIndex(index, offset, items.size, density)
-                                }
+                                // Calculate potential drop index
+                                dropIndex = calculateNewIndex(index, offset, items.size, density)
                             },
                             onDragEnd = {
                                 // Swap items when drag ends

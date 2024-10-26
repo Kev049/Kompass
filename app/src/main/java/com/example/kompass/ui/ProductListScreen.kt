@@ -16,9 +16,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,11 +35,10 @@ fun ProductListScreen(
     innerPadding: PaddingValues,
     imageResId: Int?,
     onNavigate: (KompassScreen) -> Unit,
-    categoryName: String
+    category: Category
 ) {
-    val productItems = filterSearchItems(SearchItemSource().loadSearchItems(), categoryName)
-        .filter { it.source == SearchResultSource.CATEGORY }
-        .map { it.item }
+    val productItems = getSearchItemsByCategory(SearchItemSource().loadSearchItems(), category)
+
     //val productItems = SearchItemSource().loadSearchItems()
     val imageId = imageResId ?: R.drawable.navbar_home
     Box(
@@ -56,7 +52,7 @@ fun ProductListScreen(
         ) {
             ProductHeader(
                 imageId,
-                headerText = categoryName
+                headerText = category.toDisplayName()
             )
             // Add a divider below the header
             HorizontalDivider(
@@ -120,5 +116,5 @@ private fun ProductHeader(
 @Composable
 fun PreviewProductListScreen() {
     val defaultPadding = PaddingValues(0.dp)
-    ProductListScreen(innerPadding = defaultPadding, imageResId = R.drawable.navbar_home, onNavigate = {}, categoryName = "")
+    ProductListScreen(innerPadding = defaultPadding, imageResId = R.drawable.navbar_home, onNavigate = {}, category = Category.NONE)
 }

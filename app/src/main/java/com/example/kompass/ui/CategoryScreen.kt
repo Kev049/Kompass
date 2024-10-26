@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.kompass.types.Category
+import com.example.kompass.types.CategoryData
 import com.example.kompass.ui.cards.CategoryCard
 import androidx.compose.material3.Surface
 import androidx.compose.foundation.layout.size
@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.example.kompass.KompassScreen
 import com.example.kompass.R
 import com.example.kompass.data.Datasource
+import com.example.kompass.types.Category
 
 @Composable
 fun CategoryScreen(
@@ -35,7 +36,7 @@ fun CategoryScreen(
     screenWidth: Int,
     screenHeight: Int,
     imageResId: Int?,
-    onNavigate: (KompassScreen, String) -> Unit
+    onNavigate: (KompassScreen, Category) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -47,10 +48,10 @@ fun CategoryScreen(
 
 @Composable
 fun CategoryList(
-    categoryList: List<Category>,
+    categoryDataList: List<CategoryData>,
     screenWidth: Int,
     screenHeight: Int,
-    onNavigate: (KompassScreen, String) -> Unit,
+    onNavigate: (KompassScreen, Category) -> Unit,
     modifier: Modifier = Modifier,
     openProductList : Boolean = false
 ) {
@@ -61,9 +62,9 @@ fun CategoryList(
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
         modifier = Modifier.fillMaxSize()
     ) {
-        items(categoryList) { category ->
+        items(categoryDataList) { category ->
             CategoryCard(
-                category = category,
+                categoryData = category,
                 screenWidth = screenWidth,
                 screenHeight = screenHeight,
                 onNavigate = onNavigate,
@@ -81,7 +82,7 @@ fun CategoryApp(
     screenHeight: Int,
     innerPadding: PaddingValues,
     imageResId: Int?,
-    onNavigate: (KompassScreen, String) -> Unit
+    onNavigate: (KompassScreen, Category) -> Unit
 ){
     val imageId = imageResId ?: R.drawable.navbar_home
     //val layoutDirection = LocalLayoutDirection.current
@@ -106,7 +107,7 @@ fun CategoryApp(
                 modifier = Modifier.fillMaxWidth()
             )
             CategoryList(
-                categoryList = Datasource().loadCategories(),
+                categoryDataList = Datasource().loadCategories(),
                 screenWidth = screenWidth,
                 screenHeight = screenHeight,
                 onNavigate = onNavigate,

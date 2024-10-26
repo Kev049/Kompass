@@ -18,17 +18,18 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import com.example.kompass.types.Category
+import com.example.kompass.types.CategoryData
 import com.example.kompass.KompassScreen
+import com.example.kompass.types.Category
 import com.example.kompass.ui.theme.IkeaBlue
 
 @Composable
 fun CategoryCard(
-    category: Category,
+    categoryData: CategoryData,
     modifier: Modifier = Modifier,
     screenWidth: Int,
     screenHeight: Int,
-    onNavigate: (KompassScreen, String) -> Unit,
+    onNavigate: (KompassScreen, Category) -> Unit,
     screen: KompassScreen,
     openProductList: Boolean = false
 ) {
@@ -43,9 +44,9 @@ fun CategoryCard(
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
             .clickable {
                 if (!openProductList) {
-                    onNavigate(screen, "")
+                    onNavigate(screen, Category.NONE)
                 } else {
-                    onNavigate(KompassScreen.ProductList, category.name)
+                    onNavigate(KompassScreen.ProductList, categoryData.category)
 
                 }
             },
@@ -61,8 +62,8 @@ fun CategoryCard(
         {
             // Image
             Image(
-                painter = painterResource(id = category.imageResId),
-                contentDescription = category.description,
+                painter = painterResource(id = categoryData.imageResId),
+                contentDescription = categoryData.description,
                 modifier = Modifier
                     //.fillMaxWidth()
                     .padding(2.dp)
@@ -73,7 +74,7 @@ fun CategoryCard(
             )
             // Text
             Text(
-                text = category.name, //denna är skriven ganska annorlunda från tutorial
+                text = categoryData.category.toDisplayName(), //denna är skriven ganska annorlunda från tutorial
                 //text = primaryButtonItem.description,
                 color = Color.White,
                 fontSize = 18.sp,

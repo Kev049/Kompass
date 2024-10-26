@@ -35,7 +35,7 @@ fun CategoryScreen(
     screenWidth: Int,
     screenHeight: Int,
     imageResId: Int?,
-    onNavigate: (KompassScreen) -> Unit
+    onNavigate: (KompassScreen, String) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -50,8 +50,9 @@ fun CategoryList(
     categoryList: List<Category>,
     screenWidth: Int,
     screenHeight: Int,
-    onNavigate: (KompassScreen) -> Unit,
-    modifier: Modifier = Modifier
+    onNavigate: (KompassScreen, String) -> Unit,
+    modifier: Modifier = Modifier,
+    openProductList : Boolean = false
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -67,7 +68,8 @@ fun CategoryList(
                 screenHeight = screenHeight,
                 onNavigate = onNavigate,
                 screen = KompassScreen.SubCategory,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                openProductList = openProductList
             )
         }
     }
@@ -79,7 +81,7 @@ fun CategoryApp(
     screenHeight: Int,
     innerPadding: PaddingValues,
     imageResId: Int?,
-    onNavigate: (KompassScreen) -> Unit
+    onNavigate: (KompassScreen, String) -> Unit
 ){
     val imageId = imageResId ?: R.drawable.navbar_home
     //val layoutDirection = LocalLayoutDirection.current
@@ -107,7 +109,7 @@ fun CategoryApp(
                 categoryList = Datasource().loadCategories(),
                 screenWidth = screenWidth,
                 screenHeight = screenHeight,
-                onNavigate = onNavigate
+                onNavigate = onNavigate,
             )
         }
     }

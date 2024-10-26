@@ -28,8 +28,9 @@ fun CategoryCard(
     modifier: Modifier = Modifier,
     screenWidth: Int,
     screenHeight: Int,
-    onNavigate: (KompassScreen) -> Unit,
-    screen: KompassScreen
+    onNavigate: (KompassScreen, String) -> Unit,
+    screen: KompassScreen,
+    openProductList: Boolean = false
 ) {
     val paddingBetweenCards = 8
     val cardWidth = (screenWidth/2 - 10)
@@ -40,7 +41,14 @@ fun CategoryCard(
             .width(cardWidth.dp)
             .height(cardHeight.dp)
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
-            .clickable { onNavigate(screen) },
+            .clickable {
+                if (!openProductList) {
+                    onNavigate(screen, "")
+                } else {
+                    onNavigate(KompassScreen.ProductList, category.name)
+
+                }
+            },
 
                 //.clickable {onNavigate(KompassScreen.SubCategory)},
             //.clickable {onNavigate(KompassScreen.ProductList)}, //TODO: Byt ut .Home mot något som är rätt
@@ -58,8 +66,8 @@ fun CategoryCard(
                 modifier = Modifier
                     //.fillMaxWidth()
                     .padding(2.dp)
-                    .width((cardWidth*0.4).dp) //frågan är om bilden borde vara en fixed storlek
-                    .height((cardHeight*0.8).dp),
+                    .width((cardWidth * 0.4).dp) //frågan är om bilden borde vara en fixed storlek
+                    .height((cardHeight * 0.8).dp),
                     //.clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
                 contentScale = ContentScale.Fit
             )

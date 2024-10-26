@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.kompass.ui.theme.BgBlack
 import com.example.kompass.ui.theme.IkeaBlue
@@ -47,6 +48,8 @@ import com.example.kompass.ui.SustainabilityScreen
 import com.example.kompass.ui.shared.SharedRecentImage
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import com.example.kompass.data.Datasource
 import com.example.kompass.ui.ProductListScreen
 import com.example.kompass.ui.SubCategoryScreen
 
@@ -86,6 +89,8 @@ private fun KompassApp(
     val config = LocalConfiguration.current
     val screenWidth = config.screenWidthDp
     val screenHeight = config.screenHeightDp
+    var categoryName = ""
+
     Scaffold(
         containerColor = BgBlack,
         bottomBar = {
@@ -176,18 +181,21 @@ private fun KompassApp(
                     screenWidth,
                     screenHeight,
                     imageResId = recentImage,
-                    onNavigate = { screen ->
+                    onNavigate = { screen, _ ->
                         navController.navigate(screen.name)
                     }
                 )
             }
+
+            //var subCategory
             composable(KompassScreen.ProductList.name){
                 ProductListScreen(
                     innerPadding = innerPadding,
                     imageResId = recentImage,
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
-                    }
+                    },
+                    categoryName = categoryName
                 )
             }
             composable(KompassScreen.Search.name) {
@@ -207,7 +215,8 @@ private fun KompassApp(
                     screenWidth,
                     screenHeight,
                     imageResId = recentImage,
-                    onNavigate = { screen ->
+                    onNavigate = { screen, categoryNameFromClick ->
+                        categoryName = categoryNameFromClick
                         navController.navigate(screen.name)
                     }
                 )

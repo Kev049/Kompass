@@ -1,7 +1,8 @@
-package com.example.kompass.data;
+package com.example.kompass.data
 
 import com.example.kompass.R
-import com.example.kompass.types.Category;
+import com.example.kompass.types.Category
+import com.example.kompass.types.CategoryData
 
 public class Datasource {
     fun loadCategories(): List<Category> {

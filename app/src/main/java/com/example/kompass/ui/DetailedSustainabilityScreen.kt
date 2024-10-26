@@ -66,7 +66,7 @@ private fun ContentBody(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp),
+            .padding(20.dp, 5.dp, 20.dp, 0.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.Start
     ) {
@@ -99,7 +99,7 @@ private fun InfoEntry(
         text = title,
         color = textColor,
         fontSize = 25.sp,
-        fontFamily = FontFamily(Font(R.font.noto_sans_medium)),
+        fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
         textAlign = TextAlign.Center,
         modifier = Modifier
             .wrapContentWidth()

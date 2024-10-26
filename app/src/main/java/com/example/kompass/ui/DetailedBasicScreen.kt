@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.kompass.R
+import com.example.kompass.types.DimensionInfo
 import com.example.kompass.ui.theme.BgBlack
 import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.ui.theme.IkeaDarkBlue
@@ -42,58 +44,124 @@ import com.example.kompass.ui.theme.IkeaYellow
 @Composable
 fun DetailedBasicScreen(
     fontColor: Color = Color.White,
+    innerPadding: PaddingValues,
     productImage: Int,
     productName: String,
     productNumber: String,
     productCategory: String,
-    productPrice: Int
+    productPrice: Int,
+    dimensionInfo: DimensionInfo
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(1.dp,10.dp,1.dp,1.dp),
-        verticalArrangement = Arrangement.Top
+            .padding(innerPadding),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         InfoBar(fontColor, productName, productNumber, productCategory, productPrice)
         NavHeader(productImage, navCollection = { NavCollection() })
-        ContentBody(fontColor)
+        ContentBody(fontColor, dimensionInfo.length, dimensionInfo.width, dimensionInfo.height, dimensionInfo.mattressLength, dimensionInfo.mattressWidth)
     }
 }
 
 @Composable
 private fun ContentBody(
-    textColor: Color
+    textColor: Color,
+    length: Int,
+    width: Int,
+    height: Int,
+    mattressLength: Int,
+    mattressWidth: Int
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Start
+            .padding(20.dp, 5.dp, 20.dp, 0.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         Text(
             text = "Mått",
             color = textColor,
-            fontSize = 25.sp,
-            fontWeight = FontWeight(700),
+            fontSize = 24.sp,
             fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .wrapContentWidth()
-                .wrapContentHeight(align = Alignment.CenterVertically),
+                .wrapContentHeight(align = Alignment.CenterVertically)
+                .padding(0.dp,10.dp,0.dp,0.dp),
         )
-        Text(
-            text = "Längd: PROBLEM??\nBredd: PROBLEM??\nHöjd: PROBLEM??\nVikt: PROBLEM??\n",
-            color = textColor,
-            fontSize = 20.sp,
-            fontWeight = FontWeight(700),
-            fontFamily = FontFamily(Font(R.font.noto_sans_light)),
-            textAlign = TextAlign.Left,
+        Column {
+            DimensionListItem("Length", length, textColor, true)
+            DimensionListItem("Width", width, textColor, false)
+            DimensionListItem("Height", height, textColor, true)
+            DimensionListItem("Mattress Length", mattressLength, textColor, false)
+            DimensionListItem("Mattress Width", mattressWidth, textColor, true)
+        }
+    }
+}
+
+@Composable
+fun DimensionListItem(
+    dimension: String,
+    dimensionValue: Int,
+    textColor: Color,
+    hasBackground: Boolean
+){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(24.dp)
+            .then(
+                if (hasBackground) {
+                    Modifier.background(IkeaDarkBlue, shape = RoundedCornerShape(10.dp))
+                } else {
+                    Modifier
+                }
+            ),
+        verticalArrangement = Arrangement.Center
+    ){
+        Row(
             modifier = Modifier
-                .padding(vertical = 20.dp)
-                .wrapContentWidth()
-                .wrapContentHeight(align = Alignment.CenterVertically),
-        )
+                .fillMaxWidth()
+                .padding(horizontal = 5.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .wrapContentWidth(),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = dimension,
+                    color = textColor,
+                    fontSize = 14.sp,
+                    fontFamily = FontFamily(Font(R.font.noto_sans_medium)),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .wrapContentHeight(align = Alignment.CenterVertically),
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .wrapContentWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.End
+            ) {
+                Text(
+                    text = "$dimensionValue cm",
+                    color = textColor,
+                    fontSize = 14.sp,
+                    fontFamily = FontFamily(Font(R.font.noto_sans)),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .wrapContentHeight(align = Alignment.CenterVertically),
+                )
+            }
+        }
     }
 }
 
@@ -300,17 +368,4 @@ fun SmallNavButton(
             colorFilter = iconColor
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DetailedBasicPreview() {
-    DetailedBasicScreen(
-        Color.Black,
-        R.drawable.t,
-        "Problem??",
-        "1337.420.69",
-        "Sussy baka",
-        1337
-    )
 }

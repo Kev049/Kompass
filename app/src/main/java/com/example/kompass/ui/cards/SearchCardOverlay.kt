@@ -261,9 +261,9 @@ private fun PlaceSecondaryButtons(
 
 fun getDetailScreenForSecondaryButton(item: SecondaryButtonItem): KompassScreen {
     return when (item) {
-        SecondaryButtonItem.Specific -> KompassScreen.DetailedBasic
+        SecondaryButtonItem.Specific -> KompassScreen.Home
         SecondaryButtonItem.Contents -> KompassScreen.Home
-        SecondaryButtonItem.Dimensions -> KompassScreen.Home
+        SecondaryButtonItem.Dimensions -> KompassScreen.DetailedDimensions
         SecondaryButtonItem.MaterialsBasic -> KompassScreen.Home
 
         SecondaryButtonItem.Availability -> KompassScreen.DetailedAvailability

@@ -49,6 +49,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.kompass.types.Category
 import com.example.kompass.ui.BasicInfoScreen
 import com.example.kompass.ui.CategoryScreen
+import com.example.kompass.ui.DetailedBasicScreen
+import com.example.kompass.ui.DetailedLogisticsScreen
 import com.example.kompass.ui.DocumentsScreen
 import com.example.kompass.ui.LogisticsScreen
 import com.example.kompass.ui.ProductListScreen
@@ -59,11 +61,7 @@ import com.example.kompass.ui.shared.SharedRecentImage
 import com.example.kompass.ui.theme.BgBlack
 import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.ui.theme.KompassTheme
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import com.example.kompass.ui.DetailedSustainabilityScreen
-import com.example.kompass.ui.ProductListScreen
-import com.example.kompass.ui.SubCategoryScreen
 import com.example.kompass.ui.shared.SharedRecentProduct
 
 enum class KompassScreen {
@@ -71,7 +69,7 @@ enum class KompassScreen {
     Basic,
     Logistics,
     DetailedAvailability,
-    DetailedBasic,
+    DetailedDimensions,
     DetailedSustainability,
     Sustainability,
     Documents,
@@ -238,6 +236,33 @@ private fun KompassApp(
                         productCategory = recentProduct.productDescription,
                         productPrice = recentProduct.price,
                         emissionAmount = recentProduct.sustainability.emissionAmount
+                    )
+                }
+            }
+            composable(KompassScreen.DetailedDimensions.name) {
+                recentProduct?.let { recentProduct ->
+                    DetailedBasicScreen(
+                        fontColor = Color.White,
+                        innerPadding = innerPadding,
+                        productImage = recentProduct.imageResId,
+                        productName = recentProduct.name,
+                        productNumber = recentProduct.articleNr,
+                        productCategory = recentProduct.productDescription,
+                        productPrice = recentProduct.price,
+                        dimensionInfo = recentProduct.dimension
+                    )
+                }
+            }
+            composable(KompassScreen.DetailedAvailability.name) {
+                recentProduct?.let { recentProduct ->
+                    DetailedLogisticsScreen(
+                        fontColor = Color.White,
+                        innerPadding = innerPadding,
+                        productImage = recentProduct.imageResId,
+                        productName = recentProduct.name,
+                        productNumber = recentProduct.articleNr,
+                        productCategory = recentProduct.productDescription,
+                        productPrice = recentProduct.price,
                     )
                 }
             }

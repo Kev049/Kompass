@@ -53,9 +53,6 @@ fun CategoryCard(
 
                 }
             },
-
-                //.clickable {onNavigate(KompassScreen.SubCategory)},
-            //.clickable {onNavigate(KompassScreen.ProductList)}, //TODO: Byt ut .Home mot något som är rätt
         contentAlignment = Alignment.Center
     ) {
         Row(

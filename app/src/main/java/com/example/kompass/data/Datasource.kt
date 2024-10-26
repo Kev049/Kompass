@@ -4,25 +4,48 @@ import com.example.kompass.R
 import com.example.kompass.types.Category
 import com.example.kompass.types.CategoryData
 
-class Datasource {
-    fun loadCategories(): List<CategoryData> {
-        return listOf(
-            CategoryData(R.drawable.navbar_home, Category.BATHROOM_FURNITURE, "description"),
-            CategoryData(R.drawable.furniture, Category.BEDS_AND_MATTRESSES, "description"),
-            CategoryData(R.drawable.menu_main_sustainability, Category.DECORATION, "description"),
-            CategoryData(R.drawable.menu_basic_materials, Category.HOME_IMPROVEMENT, "description"),
-            CategoryData(R.drawable.navbar_home, Category.FOOD_AND_DRINKS, "description"),
-            CategoryData(R.drawable.navbar_qr, Category.FURNITURE, "description"),
-            CategoryData(R.drawable.menu_main_sustainability, Category.GARDEN_FURNITURE, "description"),
-            CategoryData(R.drawable.menu_basic_materials, Category.HOME_ELECTRONICS, "description"),
-            CategoryData(R.drawable.navbar_home, Category.KITCHEN_AND_HOUSEHOLD_APPLIANCES, "description"),
-            CategoryData(R.drawable.navbar_qr, Category.KITCHENWARE, "description"),
-            CategoryData(R.drawable.menu_main_sustainability, Category.LAUNDRY_AND_CLEANING, "description"),
-            CategoryData(R.drawable.menu_basic_materials, Category.LIGHTING, "description"),
-            CategoryData(R.drawable.navbar_home, Category.PETS, "description"),
-            CategoryData(R.drawable.navbar_qr, Category.PLANTS_AND_CULTIVATION, "description"),
-            CategoryData(R.drawable.menu_main_sustainability, Category.STORAGE, "description"),
-            CategoryData(R.drawable.menu_basic_materials, Category.TEXTILES, "description")
+public class Datasource {
+    fun loadCategories(): List<Category> {
+        return listOf<Category>(
+            Category(R.drawable.categories_bathroom,"Bathroom furniture", "description"),
+            Category(R.drawable.categories_beds,"Beds & Mattresses", "description"),
+            Category(R.drawable.categories_decoration, "Decoration", "description"),
+            Category(R.drawable.categories_home_improvement, "Fix at home", "description"),
+            Category(R.drawable.categories_food,"Food & Drinks", "description"),
+            Category(R.drawable.categories_furniture,"Furniture", "description"),
+            Category(R.drawable.categories_garden_furniture, "Garden Furniture", "description"),
+            Category(R.drawable.categories_electronics, "Home electronics", "description"),
+            Category(R.drawable.categories_kitchen,"Kitchen & Household appliances", "description"),
+            Category(R.drawable.categories_kitchenware,"Kitchenware", "description"),
+            Category(R.drawable.categories_laundry, "Laundry & Cleaning", "description"),
+            Category(R.drawable.categories_lighting, "Lighting", "description"),
+            Category(R.drawable.categories_pets,"Pets", "description"),
+            Category(R.drawable.categories_plants,"Plants & Cultivation", "description"),
+            Category(R.drawable.categories_storage, "Storage", "description"),
+            Category(R.drawable.categories_textiles, "Textiles", "description")
+        )
+    }
+
+    fun loadSubCategories(): List<Category> {
+        return listOf<Category>(
+            Category(R.drawable.categories_beds,"Beds", "description"),
+            Category(R.drawable.categories_beds,"Bed - mattresses", "description"),
+            Category(R.drawable.categories_beds,"Under bed storage", "description"),
+            Category(R.drawable.categories_beds,"Bed legs", "description"),
+            Category(R.drawable.categories_beds,"Bed textiles & bed sets", "description"),
+            Category(R.drawable.categories_beds,"Bedside tables", "description"),
+            Category(R.drawable.categories_beds,"Bed - Headboards", "description"),
+            Category(R.drawable.categories_beds,"Bed - Slats", "description"),
+            Category(R.drawable.categories_beds,"Bedroom furniture sets", "description"),
+
+            Category(R.drawable.categories_bathroom,"Bathroom systems", "description"),
+            Category(R.drawable.categories_bathroom,"Bathroom shelving units", "description"),
+            Category(R.drawable.categories_bathroom,"Bathroom mirrors", "description"),
+            Category(R.drawable.categories_bathroom,"Bathroom accessories", "description"),
+            Category(R.drawable.categories_bathroom,"Bathroom sinks", "description"),
+            Category(R.drawable.categories_bathroom,"Bathroom taps", "description"),
+            Category(R.drawable.categories_bathroom,"Bathroom showers", "description"),
+            Category(R.drawable.categories_bathroom,"Bathroom boxes", "description")
         )
     }
 }

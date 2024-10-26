@@ -54,7 +54,6 @@ import com.example.kompass.types.Category
 import com.example.kompass.ui.ProductListScreen
 import com.example.kompass.ui.SubCategoryScreen
 
-
 enum class KompassScreen {
     Home,
     Basic,

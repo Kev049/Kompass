@@ -22,6 +22,7 @@ enum class Category {
     STORAGE,
     TEXTILES;
 
+    // Example: "KITCHEN_AND_HOUSEHOLD_APPLIANCES" --> "Kitchen & household appliances"
     fun toDisplayName(): String {
         return name
             .replace("AND", "&")

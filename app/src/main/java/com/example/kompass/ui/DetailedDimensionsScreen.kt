@@ -42,7 +42,7 @@ import com.example.kompass.ui.theme.IkeaDarkBlue
 import com.example.kompass.ui.theme.IkeaYellow
 
 @Composable
-fun DetailedBasicScreen(
+fun DetailedDimensionsScreen(
     fontColor: Color = Color.White,
     innerPadding: PaddingValues,
     productImage: Int,
@@ -54,6 +54,7 @@ fun DetailedBasicScreen(
 ) {
     Column(
         modifier = Modifier
+            .background(BgBlack)
             .fillMaxSize()
             .padding(innerPadding),
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -80,7 +81,7 @@ private fun ContentBody(
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         Text(
-            text = "Mått",
+            text = "Measurements",
             color = textColor,
             fontSize = 24.sp,
             fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
@@ -173,7 +174,7 @@ fun NavHeader(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
+            .padding(horizontal = 15.dp)
             .background(IkeaDarkBlue, shape = RoundedCornerShape(10.dp)),
         horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
@@ -186,18 +187,20 @@ fun NavHeader(
         ) {
             Image(
                 painter = painterResource(productImage),
-                contentDescription = "placeholder",
+                contentDescription = "Product Image",
                 modifier = Modifier
                     .size(150.dp)
-                    .padding(5.dp),
+                    .padding(5.dp)
+                    .clip(RoundedCornerShape(10.dp)),
                 contentScale = ContentScale.Fit
             )
         }
-        Box(
+        Column(
             modifier = Modifier
                 .width(150.dp)
                 .height(200.dp)
-                .padding(vertical = 7.5.dp)
+                .padding(vertical = 20.dp),
+            verticalArrangement = Arrangement.Center
         ) {
             navCollection()
         }
@@ -215,7 +218,7 @@ fun InfoBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
+            .padding(20.dp, 20.dp, 20.dp, 0.dp)
             .height(75.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -229,7 +232,6 @@ fun InfoBar(
                 text = productName,
                 color = textColor,
                 fontSize = 20.sp,
-                fontWeight = FontWeight(700),
                 fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -240,7 +242,6 @@ fun InfoBar(
                 text = productNumber,
                 color = textColor,
                 fontSize = 18.sp,
-                fontWeight = FontWeight(700),
                 fontFamily = FontFamily(Font(R.font.noto_sans_light)),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -260,8 +261,7 @@ fun InfoBar(
                 text = productCategory,
                 color = textColor,
                 fontSize = 20.sp,
-                fontWeight = FontWeight(700),
-                fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
+                fontFamily = FontFamily(Font(R.font.noto_sans)),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .wrapContentWidth()
@@ -271,7 +271,6 @@ fun InfoBar(
                 text = "$productPrice:-",
                 color = textColor,
                 fontSize = 18.sp,
-                fontWeight = FontWeight(700),
                 fontFamily = FontFamily(Font(R.font.noto_sans_light)),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -307,26 +306,9 @@ fun NavButton(
 fun NavCollection() {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(BgBlack, shape = RoundedCornerShape(15.dp)),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            NavButton(R.drawable.vector_left, {})
-            Image(
-                painter = painterResource(id = R.drawable.menu_main_info),
-                contentDescription = "navigate",
-                modifier = Modifier
-                    .size(32.dp)
-            )
-            NavButton(R.drawable.vector_right, {})
-        }
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -354,18 +336,70 @@ fun SmallNavButton(
 ) {
     Box(
         modifier = Modifier
-            .width(55.dp)
-            .height(55.dp)
+            .width(60.dp)
+            .height(60.dp)
             .background(color, shape = RoundedCornerShape(10.dp)),
         contentAlignment = Alignment.Center
     ) {
         Image(
             painter = painterResource(img),
             contentDescription = "placeholder",
-            modifier = Modifier.size(90.dp)
-                .padding(5.dp),
+            modifier = Modifier.size(50.dp),
             contentScale = ContentScale.Fit,
             colorFilter = iconColor
         )
     }
 }
+
+/*
+@Composable
+fun NavCollection() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(BgBlack, shape = RoundedCornerShape(15.dp)),
+        verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            NavButton(R.drawable.vector_left) {}
+            Image(
+                painter = painterResource(id = R.drawable.menu_main_info),
+                contentDescription = "navigate",
+                modifier = Modifier
+                    .size(32.dp)
+            )
+            NavButton(R.drawable.vector_right) {}
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            SmallNavButton(R.drawable.menu_basic_dimensions, IkeaYellow, ColorFilter.tint(IkeaBlue))
+            SmallNavButton(R.drawable.menu_basic_contents)
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            SmallNavButton(R.drawable.menu_basic_spec)
+            SmallNavButton(R.drawable.menu_basic_materials)
+        }
+    }
+}
+ */
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewDetailedDimensionsScreen() {
+    val defaultPadding = PaddingValues(0.dp)
+    DetailedDimensionsScreen(Color.White, innerPadding = defaultPadding, R.drawable.slattum, "Slattum", "405.712.48", "Bed Frame", 1495, DimensionInfo(206, 164, 85, 200, 160) )
+}
+

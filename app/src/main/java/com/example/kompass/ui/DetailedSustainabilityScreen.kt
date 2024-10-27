@@ -300,25 +300,9 @@ fun EmissionListItem(
 fun NavCollection3() {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(BgBlack, shape = RoundedCornerShape(15.dp)),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            NavButton(R.drawable.vector_left, {})
-            Image(
-                painter = painterResource(id = R.drawable.menu_main_sustainability),
-                contentDescription = "navigate",
-                modifier = Modifier.size(32.dp)
-            )
-            NavButton(R.drawable.vector_right, {})
-        }
         Row(
             modifier = Modifier
                 .fillMaxWidth(),

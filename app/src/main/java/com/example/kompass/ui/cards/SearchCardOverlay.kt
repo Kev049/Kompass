@@ -38,6 +38,7 @@ import com.example.kompass.KompassScreen
 import com.example.kompass.PrimaryButtonItem
 import com.example.kompass.R
 import com.example.kompass.SecondaryButtonItem
+import com.example.kompass.data.Datasource
 import com.example.kompass.types.ProductItem
 import com.example.kompass.ui.SecondaryButton
 import com.example.kompass.ui.theme.IkeaBlue
@@ -62,9 +63,9 @@ fun SearchCardOverlay(
 
     val secondaryButtons = mapOf(
         PrimaryButtonItem.Basic to listOf(
-            SecondaryButtonItem.Specific,
-            SecondaryButtonItem.Contents,
             SecondaryButtonItem.Dimensions,
+            SecondaryButtonItem.Contents,
+            SecondaryButtonItem.Specific,
             SecondaryButtonItem.MaterialsBasic
         ),
         PrimaryButtonItem.Logistics to listOf(
@@ -251,7 +252,7 @@ private fun PlaceSecondaryButtons(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 rowItems.forEach { secondaryButtonButton ->
-                    val screen = getDetailScreenForSecondaryButton(secondaryButtonButton)
+                    val screen = Datasource().getDetailScreenForSecondaryButton(secondaryButtonButton)
                     SecondaryButton(secondaryButtonButton, {}, onNavigate = onNavigate, 140, 225, screen)
                 }
             }
@@ -259,25 +260,3 @@ private fun PlaceSecondaryButtons(
     }
 }
 
-fun getDetailScreenForSecondaryButton(item: SecondaryButtonItem): KompassScreen {
-    return when (item) {
-        SecondaryButtonItem.Specific -> KompassScreen.Home
-        SecondaryButtonItem.Contents -> KompassScreen.Home
-        SecondaryButtonItem.Dimensions -> KompassScreen.DetailedDimensions
-        SecondaryButtonItem.MaterialsBasic -> KompassScreen.Home
-
-        SecondaryButtonItem.Availability -> KompassScreen.DetailedAvailability
-        SecondaryButtonItem.Location -> KompassScreen.Home
-        SecondaryButtonItem.Delivery -> KompassScreen.Home
-        SecondaryButtonItem.History -> KompassScreen.Home
-
-        SecondaryButtonItem.Sustainability -> KompassScreen.DetailedSustainability
-        SecondaryButtonItem.Description -> KompassScreen.Home
-        SecondaryButtonItem.MaterialsSustainability -> KompassScreen.Home
-
-        SecondaryButtonItem.Manual -> KompassScreen.Home
-        SecondaryButtonItem.Installation -> KompassScreen.Home
-        SecondaryButtonItem.Safety -> KompassScreen.Home
-        SecondaryButtonItem.Policy -> KompassScreen.Home
-    }
-}

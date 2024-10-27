@@ -28,7 +28,6 @@ import com.example.kompass.KompassScreen
 import com.example.kompass.types.Category
 import com.example.kompass.types.CategoryData
 import com.example.kompass.ui.theme.IkeaBlue
-
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CategoryCard(
@@ -41,7 +40,7 @@ fun CategoryCard(
     openProductList: Boolean = false,
     isHighlighted: Boolean
 ) {
-    val paddingBetweenCards = 8
+    //val paddingBetweenCards = 8
     val cardWidth = (screenWidth / 2 - 10)
     val cardHeight = (screenHeight * 0.14)
 

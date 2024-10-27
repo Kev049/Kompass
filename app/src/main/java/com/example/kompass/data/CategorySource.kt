@@ -1,6 +1,8 @@
 package com.example.kompass.data
 
+import com.example.kompass.KompassScreen
 import com.example.kompass.R
+import com.example.kompass.SecondaryButtonItem
 import com.example.kompass.types.Category
 import com.example.kompass.types.CategoryData
 
@@ -49,5 +51,27 @@ class CategorySource {
             CategoryData(R.drawable.categories_bathroom, Category.BATHROOM_FURNITURE_S_BOXES, Category.BATHROOM_FURNITURE_S_BOXES.toDisplayName())
 
         )
+    }
+    fun getDetailScreenForSecondaryButton(item: SecondaryButtonItem): KompassScreen {
+        return when (item) {
+            SecondaryButtonItem.Specific -> KompassScreen.DetailedProductSpecifics
+            SecondaryButtonItem.Contents -> KompassScreen.DetailedContents
+            SecondaryButtonItem.Dimensions -> KompassScreen.DetailedDimensions
+            SecondaryButtonItem.MaterialsBasic -> KompassScreen.DetailedMaterials
+
+            SecondaryButtonItem.Availability -> KompassScreen.DetailedAvailability
+            SecondaryButtonItem.Location -> KompassScreen.Home
+            SecondaryButtonItem.Delivery -> KompassScreen.Home
+            SecondaryButtonItem.History -> KompassScreen.Home
+
+            SecondaryButtonItem.Sustainability -> KompassScreen.DetailedSustainability
+            SecondaryButtonItem.Description -> KompassScreen.Home
+            SecondaryButtonItem.MaterialsSustainability -> KompassScreen.Home
+
+            SecondaryButtonItem.Manual -> KompassScreen.Home
+            SecondaryButtonItem.Installation -> KompassScreen.Home
+            SecondaryButtonItem.Safety -> KompassScreen.Home
+            SecondaryButtonItem.Policy -> KompassScreen.Home
+        }
     }
 }

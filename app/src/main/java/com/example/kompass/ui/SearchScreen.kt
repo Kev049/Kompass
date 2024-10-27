@@ -36,10 +36,10 @@ import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.kompass.KompassScreen
 import com.example.kompass.SecondaryButtonItem
+import com.example.kompass.data.CategorySource
 import com.example.kompass.data.SearchItemSource
 import com.example.kompass.types.Category
 import com.example.kompass.types.ProductItem
@@ -50,6 +50,7 @@ import com.example.kompass.ui.theme.BgBlack
 @Composable
 fun SearchScreen(
     innerPadding: PaddingValues,
+    secondaryButton: SecondaryButtonItem?,
     onNavigate: (KompassScreen) -> Unit,
     onItemClicked: (ProductItem) -> Unit,
 ) {
@@ -91,13 +92,18 @@ fun SearchScreen(
             SearchItemList(
                 searchItemList = filteredResults,
                 onCardClick = { searchQuery ->
-                    searchQueryProduct = searchQuery
-                    searchQueryString = searchQuery.name
-                    textFieldFocusState = false // Trigger focus change
-                    showOverlay = true
-                    inSubCategory = false
-                    keyboardController?.hide()
-                    onItemClicked(searchQuery)
+                    if (secondaryButton != null) {
+                        onNavigate(CategorySource().getDetailScreenForSecondaryButton(secondaryButton))
+                        onItemClicked(searchQuery)
+                    } else {
+                        searchQueryProduct = searchQuery
+                        searchQueryString = searchQuery.name
+                        textFieldFocusState = false // Trigger focus change
+                        showOverlay = true
+                        inSubCategory = false
+                        keyboardController?.hide()
+                        onItemClicked(searchQuery)
+                    }
                 },
             )
         }
@@ -248,12 +254,3 @@ fun getSearchItemsByCategory(
 ): List<ProductItem> {
     return items.filter { it.category.toDisplayName().contains(category.toDisplayName())}
 }
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewSearchScreen() {
-    val defaultPadding = PaddingValues(0.dp)
-    SearchScreen(innerPadding = defaultPadding, {}, {})
-}
-
-

@@ -9,7 +9,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -32,7 +31,6 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -264,9 +262,10 @@ private fun KompassApp(
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
                     },
-                    onItemClicked = {itemName ->
+                    onItemClicked = { itemName ->
                         sharedRecentProduct.setRecentProduct(itemName)
                     },
+                    secondaryButton = recentSecondaryButton
                 )
             }
             composable(KompassScreen.DetailedSustainability.name) {

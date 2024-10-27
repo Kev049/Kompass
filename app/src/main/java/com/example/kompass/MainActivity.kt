@@ -8,13 +8,16 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,14 +26,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -67,6 +74,7 @@ import com.example.kompass.ui.theme.KompassTheme
 import com.example.kompass.ui.DetailedSustainabilityScreen
 import com.example.kompass.ui.shared.SharedRecentProduct
 import com.example.kompass.ui.shared.SharedSecondaryButton
+import com.example.kompass.ui.theme.IkeaYellow
 
 enum class KompassScreen {
     Home,
@@ -127,7 +135,7 @@ private fun KompassApp(
                 NavBarButtons(
                     onNavigate = {
                         screen ->
-                        if(navController.currentDestination?.route !== screen.name){
+                        if(navController.currentDestination?.route != screen.name){
                             // reset most recent image to null (is displayed in the categories screen)
                             if(screen.name == KompassScreen.Home.name){
                                 sharedRecentImage.setRecentImage(null)
@@ -425,9 +433,14 @@ private fun NavBarButton(
 ) {
     Box(
         modifier = Modifier
-            .width(64.dp)
-            .height(52.dp)
-            .clickable { onClick() },
+            .width(86.dp)
+            .fillMaxHeight()
+            .clip(shape = RoundedCornerShape(40))
+            .clickable(
+                onClick = { onClick() },
+                indication = rememberRipple(color = IkeaYellow),
+                interactionSource = remember { MutableInteractionSource() }
+            ),
         contentAlignment = Alignment.Center
     ) {
         Image(

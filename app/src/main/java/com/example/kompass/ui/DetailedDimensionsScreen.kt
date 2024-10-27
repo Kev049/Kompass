@@ -59,7 +59,6 @@ fun DetailedDimensionsScreen(
             .background(BgBlack)
             .fillMaxSize()
             .padding(innerPadding),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         InfoBar(fontColor, productName, productNumber, productCategory, productPrice)
         NavHeader(productImage, navCollection = { NavCollection(onNavigate) })

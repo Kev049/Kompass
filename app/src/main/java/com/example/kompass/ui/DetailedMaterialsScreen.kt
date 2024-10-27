@@ -57,7 +57,6 @@ fun DetailedMaterialsScreen(
             .fillMaxSize()
             .background(BgBlack)
             .padding(innerPadding),
-        verticalArrangement = Arrangement.Top
     ) {
         item {
             InfoBar(fontColor, productName, productNumber, productCategory, productPrice)
@@ -99,29 +98,61 @@ private fun ContentBody(
 private fun MaterialsList(
     materialsDescription: String
 ) {
+    // Split the description by sections based on double newline
+    val sections = materialsDescription.split("\n\n").map { section ->
+        val parts = section.split(":\n", limit = 2)
+        val title = parts.getOrNull(0) ?: ""
+        val content = parts.getOrNull(1) ?: ""
+        title to content
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(0.dp, 10.dp, 0.dp, 0.dp),
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(IkeaDarkBlue, shape = RoundedCornerShape(10.dp)),
-            contentAlignment = Alignment.CenterStart
-        ) {
-            Text(
-                text = materialsDescription,
-                color = Color.White,
-                fontSize = 18.sp,
-                fontFamily = FontFamily(Font(R.font.noto_sans)),
-                modifier = Modifier
-                    .padding(14.dp)
-                    .wrapContentWidth()
-                    .wrapContentHeight(align = Alignment.CenterVertically),
-            )
+        sections.forEach { (title, content) ->
+            if (title.isNotBlank() && content.isNotBlank()) {
+                SectionItem(title = title, content = content)
+            }
         }
     }
+}
+
+@Composable
+private fun SectionItem(
+    title: String,
+    content: String
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(IkeaDarkBlue, shape = RoundedCornerShape(10.dp))
+            .padding(10.dp)
+            .padding(bottom = 8.dp) // Space between sections
+    ) {
+        Text(
+            text = title,
+            color = Color.White,
+            fontSize = 16.sp,
+            fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .wrapContentWidth()
+                .wrapContentHeight(align = Alignment.CenterVertically),
+        )
+        Spacer(modifier = Modifier.height(4.dp)) // Space between title and content
+        Text(
+            text = content,
+            color = Color.White.copy(alpha = 0.8f),
+            fontSize = 16.sp,
+            fontFamily = FontFamily(Font(R.font.noto_sans)),
+            modifier = Modifier
+                .wrapContentWidth()
+                .wrapContentHeight(align = Alignment.CenterVertically),
+        )
+    }
+    Spacer(modifier = Modifier.height(14.dp)) // Space between different sections
 }
 
 @Composable

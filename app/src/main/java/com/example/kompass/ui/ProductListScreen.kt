@@ -60,7 +60,7 @@ fun ProductListScreen(
         ) {
             ProductHeader(
                 imageId,
-                headerText = category.toDisplayName()
+                headerText = getStringAfterDelimiter(category.toDisplayName())
             )
             // Add a divider below the header
             HorizontalDivider(
@@ -85,7 +85,7 @@ fun ProductList(
         contentPadding = PaddingValues(8.dp)
     ) {
         items(productItems) { productItem ->
-            println(productItem)
+            //println(productItem)
             SearchItemCard(
                 searchItem = productItem,
                 onCardClick = { onNavigate(secondaryButtonScreen)

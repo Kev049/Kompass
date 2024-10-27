@@ -48,7 +48,10 @@ fun CategoryCard(
         modifier = modifier
             .width(cardWidth.dp)
             .height(cardHeight.dp)
-            .background(if (isHighlighted) Color.Yellow else IkeaBlue, shape = RoundedCornerShape(12.dp))
+            .background(
+                if (isHighlighted) Color.Yellow else IkeaBlue,
+                shape = RoundedCornerShape(12.dp)
+            )
             .clickable {
                 if (!openProductList) {
                     onNavigate(screen, categoryData.category)

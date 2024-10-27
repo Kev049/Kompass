@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.kompass.KompassScreen
 import com.example.kompass.R
 import com.example.kompass.types.DimensionInfo
 import com.example.kompass.ui.theme.BgBlack
@@ -44,6 +45,7 @@ import com.example.kompass.ui.theme.IkeaYellow
 @Composable
 fun DetailedDimensionsScreen(
     fontColor: Color = Color.White,
+    onNavigate: (KompassScreen) -> Unit,
     innerPadding: PaddingValues,
     productImage: Int,
     productName: String,
@@ -60,7 +62,7 @@ fun DetailedDimensionsScreen(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         InfoBar(fontColor, productName, productNumber, productCategory, productPrice)
-        NavHeader(productImage, navCollection = { NavCollection() })
+        NavHeader(productImage, navCollection = { NavCollection(onNavigate) })
         ContentBody(fontColor, dimensionInfo.length, dimensionInfo.width, dimensionInfo.height, dimensionInfo.mattressLength, dimensionInfo.mattressWidth)
     }
 }
@@ -283,27 +285,7 @@ fun InfoBar(
 }
 
 @Composable
-fun NavButton(
-    icon: Int,
-    onClick: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .width(50.dp)
-            .height(50.dp)
-            .clickable { onClick() },
-        contentAlignment = Alignment.Center
-    ) {
-        Image(
-            painter = painterResource(id = icon),
-            contentDescription = "navigate",
-            modifier = Modifier.size(32.dp)
-        )
-    }
-}
-
-@Composable
-fun NavCollection() {
+fun NavCollection(onNavigate: (KompassScreen) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -314,16 +296,16 @@ fun NavCollection() {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SmallNavButton(R.drawable.menu_basic_dimensions, IkeaYellow, ColorFilter.tint(IkeaBlue))
-            SmallNavButton(R.drawable.menu_basic_contents)
+            SmallNavButton(R.drawable.menu_basic_dimensions, IkeaYellow, ColorFilter.tint(IkeaBlue), onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedDimensions)
+            SmallNavButton(R.drawable.menu_basic_contents, onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedContents)
         }
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SmallNavButton(R.drawable.menu_basic_spec)
-            SmallNavButton(R.drawable.menu_basic_materials)
+            SmallNavButton(R.drawable.menu_basic_spec, onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedProductSpecifics)
+            SmallNavButton(R.drawable.menu_basic_materials, onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedMaterials)
         }
     }
 }
@@ -332,13 +314,16 @@ fun NavCollection() {
 fun SmallNavButton(
     img: Int,
     color: Color = IkeaBlue,
-    iconColor: ColorFilter = ColorFilter.tint(Color.White)
+    iconColor: ColorFilter = ColorFilter.tint(Color.White),
+    onNavigate: (KompassScreen) -> Unit,
+    detailedScreen: KompassScreen
 ) {
     Box(
         modifier = Modifier
             .width(60.dp)
             .height(60.dp)
-            .background(color, shape = RoundedCornerShape(10.dp)),
+            .background(color, shape = RoundedCornerShape(10.dp))
+            .clickable { onNavigate(detailedScreen) },
         contentAlignment = Alignment.Center
     ) {
         Image(
@@ -396,10 +381,4 @@ fun NavCollection() {
 }
  */
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewDetailedDimensionsScreen() {
-    val defaultPadding = PaddingValues(0.dp)
-    DetailedDimensionsScreen(Color.White, innerPadding = defaultPadding, R.drawable.slattum, "Slattum", "405.712.48", "Bed Frame", 1495, DimensionInfo(206, 164, 85, 200, 160) )
-}
 

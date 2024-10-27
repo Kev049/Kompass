@@ -248,6 +248,11 @@ private fun KompassApp(
                 recentProduct?.let { recentProduct ->
                     DetailedSustainabilityScreen(
                         fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
                         innerPadding = innerPadding,
                         productImage = recentProduct.imageResId,
                         productName = recentProduct.name,
@@ -262,6 +267,11 @@ private fun KompassApp(
                 recentProduct?.let { recentProduct ->
                     DetailedDimensionsScreen(
                         fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
                         innerPadding = innerPadding,
                         productImage = recentProduct.imageResId,
                         productName = recentProduct.name,
@@ -276,6 +286,11 @@ private fun KompassApp(
                 recentProduct?.let { recentProduct ->
                     DetailedContentsScreen(
                         fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
                         innerPadding = innerPadding,
                         productImage = recentProduct.imageResId,
                         productName = recentProduct.name,
@@ -290,6 +305,11 @@ private fun KompassApp(
                 recentProduct?.let { recentProduct ->
                     DetailedMaterialsScreen(
                         fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
                         innerPadding = innerPadding,
                         productImage = recentProduct.imageResId,
                         productName = recentProduct.name,
@@ -304,6 +324,11 @@ private fun KompassApp(
                 recentProduct?.let { recentProduct ->
                     DetailedProductSpecificsScreen(
                         fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
                         innerPadding = innerPadding,
                         productImage = recentProduct.imageResId,
                         productName = recentProduct.name,
@@ -318,6 +343,11 @@ private fun KompassApp(
                 recentProduct?.let { recentProduct ->
                     DetailedAvailabilityScreen(
                         fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
                         innerPadding = innerPadding,
                         productImage = recentProduct.imageResId,
                         productName = recentProduct.name,

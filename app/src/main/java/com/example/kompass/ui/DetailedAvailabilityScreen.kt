@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.kompass.KompassScreen
 import com.example.kompass.R
 import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.ui.theme.IkeaDarkBlue
@@ -35,6 +36,7 @@ import com.example.kompass.ui.theme.IkeaYellow
 @Composable
 fun DetailedAvailabilityScreen(
     fontColor: Color = Color.White,
+    onNavigate: (KompassScreen) -> Unit,
     innerPadding: PaddingValues,
     productImage: Int,
     productName: String,
@@ -50,7 +52,7 @@ fun DetailedAvailabilityScreen(
     ) {
         item {
             InfoBar(fontColor, productName, productNumber, productCategory, productPrice)
-            NavHeader(productImage, navCollection = { NavCollection2() })
+            NavHeader(productImage, navCollection = { NavCollection2(onNavigate) })
             ContentBody(fontColor)
             Spacer(modifier = Modifier.height(20.dp))
         }
@@ -179,7 +181,7 @@ private fun StoreBox(
 }
 
 @Composable
-fun NavCollection2() {
+fun NavCollection2(onNavigate: (KompassScreen) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -190,16 +192,16 @@ fun NavCollection2() {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SmallNavButton(R.drawable.menu_logistics_availability, IkeaYellow, ColorFilter.tint(IkeaBlue))
-            SmallNavButton(R.drawable.menu_logistics_location)
+            SmallNavButton(R.drawable.menu_logistics_availability, IkeaYellow, ColorFilter.tint(IkeaBlue), onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedAvailability)
+            SmallNavButton(R.drawable.menu_logistics_location, onNavigate = onNavigate, detailedScreen = KompassScreen.Home)
         }
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SmallNavButton(R.drawable.menu_logistics_delivery)
-            SmallNavButton(R.drawable.menu_logistics_history)
+            SmallNavButton(R.drawable.menu_logistics_delivery, onNavigate = onNavigate, detailedScreen = KompassScreen.Home)
+            SmallNavButton(R.drawable.menu_logistics_history, onNavigate = onNavigate, detailedScreen = KompassScreen.Home)
         }
     }
 }

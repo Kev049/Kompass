@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.kompass.KompassScreen
 import com.example.kompass.R
 import com.example.kompass.types.ContentsCard
 import com.example.kompass.types.DimensionInfo
@@ -42,6 +43,7 @@ import com.example.kompass.ui.theme.IkeaYellow
 @Composable
 fun DetailedMaterialsScreen(
     fontColor: Color = Color.White,
+    onNavigate: (KompassScreen) -> Unit,
     innerPadding: PaddingValues,
     productImage: Int,
     productName: String,
@@ -59,7 +61,7 @@ fun DetailedMaterialsScreen(
     ) {
         item {
             InfoBar(fontColor, productName, productNumber, productCategory, productPrice)
-            NavHeader(productImage, navCollection = { NavCollection5() })
+            NavHeader(productImage, navCollection = { NavCollection5(onNavigate) })
             ContentBody(fontColor, materialsDescription)
             Spacer(modifier = Modifier.height(20.dp))
         }
@@ -123,7 +125,7 @@ private fun MaterialsList(
 }
 
 @Composable
-fun NavCollection5() {
+fun NavCollection5(onNavigate: (KompassScreen) -> Unit,) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -134,40 +136,18 @@ fun NavCollection5() {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SmallNavButton(R.drawable.menu_basic_dimensions)
-            SmallNavButton(R.drawable.menu_basic_contents)
+            SmallNavButton(R.drawable.menu_basic_dimensions, onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedDimensions)
+            SmallNavButton(R.drawable.menu_basic_contents, onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedContents)
         }
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SmallNavButton(R.drawable.menu_basic_spec)
-            SmallNavButton(R.drawable.menu_basic_materials, IkeaYellow, ColorFilter.tint(IkeaBlue))
+            SmallNavButton(R.drawable.menu_basic_spec, onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedProductSpecifics)
+            SmallNavButton(R.drawable.menu_basic_materials, IkeaYellow, ColorFilter.tint(IkeaBlue), onNavigate, KompassScreen.DetailedMaterials)
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewDetailedMaterialsScreen() {
-    val defaultPadding = PaddingValues(0.dp)
-    DetailedMaterialsScreen(Color.White, innerPadding = defaultPadding, R.drawable.slattum, "Slattum", "405.712.48", "Bed Frame", 1495,
-        "Fabric:\n" +
-            "100% polyester (min. 90% recycled)\n" +
-            "\n" +
-            "Headboard:\n" +
-            "100 % polyester, Polyester wadding, Steel, Polyurethane foam 20 kg/cu.m.\n" +
-            "\n" +
-            "Footboard:\n" +
-            "Steel\n" +
-            "\n" +
-            "Bedside:\n" +
-            "100 % polyester, Particleboard, Steel\n" +
-            "\n" +
-            "Midbeam/ Cross rail/ Leg:\n" +
-            "Steel, Epoxy/polyester powder coating\n" +
-            "\n" +
-            "Lining:\n" +
-            "100% polypropylene" )
-}
+

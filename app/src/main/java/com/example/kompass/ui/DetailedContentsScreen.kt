@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.kompass.KompassScreen
 import com.example.kompass.R
 import com.example.kompass.types.ContentsCard
 import com.example.kompass.types.DimensionInfo
@@ -41,6 +42,7 @@ import com.example.kompass.ui.theme.IkeaYellow
 @Composable
 fun DetailedContentsScreen(
     fontColor: Color = Color.White,
+    onNavigate: (KompassScreen) -> Unit,
     innerPadding: PaddingValues,
     productImage: Int,
     productName: String,
@@ -58,7 +60,7 @@ fun DetailedContentsScreen(
     ) {
         item {
             InfoBar(fontColor, productName, productNumber, productCategory, productPrice)
-            NavHeader(productImage, navCollection = { NavCollection4() })
+            NavHeader(productImage, navCollection = { NavCollection4(onNavigate) })
             ContentBody(fontColor, contentCards)
             Spacer(modifier = Modifier.height(20.dp))
         }
@@ -116,7 +118,7 @@ private fun ContentsList(contentCards: List<ContentsCard>) {
 }
 
 @Composable
-fun NavCollection4() {
+fun NavCollection4(onNavigate: (KompassScreen) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -127,25 +129,17 @@ fun NavCollection4() {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SmallNavButton(R.drawable.menu_basic_dimensions)
-            SmallNavButton(R.drawable.menu_basic_contents, IkeaYellow, ColorFilter.tint(IkeaBlue))
+            SmallNavButton(R.drawable.menu_basic_dimensions, onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedDimensions)
+            SmallNavButton(R.drawable.menu_basic_contents, IkeaYellow, ColorFilter.tint(IkeaBlue), onNavigate, KompassScreen.DetailedContents)
         }
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SmallNavButton(R.drawable.menu_basic_spec)
-            SmallNavButton(R.drawable.menu_basic_materials)
+            SmallNavButton(R.drawable.menu_basic_spec, onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedProductSpecifics)
+            SmallNavButton(R.drawable.menu_basic_materials, onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedMaterials)
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewDetailedContentsScreen() {
-    val defaultPadding = PaddingValues(0.dp)
-        val contentCards = listOf(ContentsCard("1 x Continental Bed", "140x200 cm", "SÄBOVIK", R.drawable.sabovik), ContentsCard("1 x Mattress", "140x200 cm", "SÄBOVIK", R.drawable.sabovik))
-    DetailedContentsScreen(Color.White, innerPadding = defaultPadding, R.drawable.slattum, "Slattum", "405.712.48", "Bed Frame", 1495, contentCards)
 }
 

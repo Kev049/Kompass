@@ -51,7 +51,6 @@ fun SubCategoryApp(
     //val subCategoryItems = CategorySource().loadCategories()
     val subCategoryItems = getSubCategoriesByCategory(CategorySource().loadSubCategories(), category)
     //val layoutDirection = LocalLayoutDirection.current
-    println(category)
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -64,7 +63,7 @@ fun SubCategoryApp(
             Header(
                 screenWidth = screenWidth,
                 imageId,
-                "placeholder"
+                title = getStringAfterDelimiter( category.toDisplayName())
             )
             // Add a divider below the header
             HorizontalDivider(
@@ -89,4 +88,13 @@ fun getSubCategoriesByCategory(
     category: Category
 ): List<CategoryData> {
     return items.filter { it.category.toDisplayName().contains(category.toDisplayName())}
+}
+
+fun getStringAfterDelimiter(input: String): String {
+    val delimiter = " > "
+    return if (input.contains(delimiter)) {
+        input.substringAfter(delimiter)
+    } else {
+        input // or you can return an empty string if preferred
+    }
 }

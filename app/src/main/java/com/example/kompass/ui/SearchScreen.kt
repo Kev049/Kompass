@@ -27,6 +27,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -64,6 +66,8 @@ fun SearchScreen(
     var showOverlay by remember { mutableStateOf(false) }
     var inSubCategory by remember { mutableStateOf(false) }
 
+    val focusRequester = remember { FocusRequester() }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -77,7 +81,9 @@ fun SearchScreen(
         ) {
             if (keyboardController != null) {
                 SearchBar(
-                    modifier = Modifier.padding(10.dp, 20.dp, 10.dp, 10.dp),
+                    modifier = Modifier
+                        .padding(10.dp, 20.dp, 10.dp, 10.dp)
+                        .focusRequester(focusRequester),
                     query = searchQueryString,
                     onQueryChange = { searchQueryString = it },
                     onFocusChange = { textFieldFocusState = it },
@@ -122,6 +128,11 @@ fun SearchScreen(
                 )
             }
         }
+    }
+
+    // Request focus when the screen is displayed
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
     }
 }
 

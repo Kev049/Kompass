@@ -2,19 +2,23 @@ package com.example.kompass
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,10 +27,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,6 +40,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -52,8 +59,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.kompass.types.Category
 import com.example.kompass.ui.BasicInfoScreen
 import com.example.kompass.ui.CategoryScreen
-import com.example.kompass.ui.DetailedBasicScreen
-import com.example.kompass.ui.DetailedLogisticsScreen
+import com.example.kompass.ui.DetailedDimensionsScreen
+import com.example.kompass.ui.DetailedAvailabilityScreen
+import com.example.kompass.ui.DetailedContentsScreen
+import com.example.kompass.ui.DetailedMaterialsScreen
+import com.example.kompass.ui.DetailedProductSpecificsScreen
 import com.example.kompass.ui.DocumentsScreen
 import com.example.kompass.ui.LogisticsScreen
 import com.example.kompass.ui.ProductListScreen
@@ -66,6 +76,8 @@ import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.ui.theme.KompassTheme
 import com.example.kompass.ui.DetailedSustainabilityScreen
 import com.example.kompass.ui.shared.SharedRecentProduct
+import com.example.kompass.ui.shared.SharedSecondaryButton
+import com.example.kompass.ui.theme.IkeaYellow
 
 enum class KompassScreen {
     Home,
@@ -73,6 +85,9 @@ enum class KompassScreen {
     Logistics,
     DetailedAvailability,
     DetailedDimensions,
+    DetailedMaterials,
+    DetailedContents,
+    DetailedProductSpecifics,
     DetailedSustainability,
     Sustainability,
     Documents,
@@ -102,8 +117,10 @@ private fun KompassApp(
     initializePrimaryButtonItemMap(primaryButtonItemMap)
     val sharedRecentImage: SharedRecentImage = viewModel()
     val sharedRecentProduct: SharedRecentProduct = viewModel()
+    val sharedRecentSecondaryButton : SharedSecondaryButton = viewModel()
     val recentImage by sharedRecentImage.recentImage.collectAsState()
     val recentProduct by sharedRecentProduct.recentProduct.collectAsState()
+    val recentSecondaryButton by sharedRecentSecondaryButton.recentSecondaryButton.collectAsState()
     val config = LocalConfiguration.current
     val screenWidth = config.screenWidthDp
     val screenHeight = config.screenHeightDp
@@ -121,11 +138,12 @@ private fun KompassApp(
                 NavBarButtons(
                     onNavigate = {
                         screen ->
-                        if(navController.currentDestination?.route !== screen.name){
+                        if(navController.currentDestination?.route != screen.name){
                             // reset most recent image to null (is displayed in the categories screen)
                             if(screen.name == KompassScreen.Home.name){
                                 sharedRecentImage.setRecentImage(null)
                                 sharedRecentProduct.setRecentProduct(null)
+                                sharedRecentSecondaryButton.setRecentSecondaryButton(null)
                             }
                             navController.navigate(screen.name)
                         }
@@ -155,6 +173,7 @@ private fun KompassApp(
                     innerPadding = innerPadding,
                     onItemClicked = {itemName ->
                         sharedRecentImage.setRecentImage(itemName.icon)
+                        sharedRecentSecondaryButton.setRecentSecondaryButton(itemName)
                     },
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
@@ -166,6 +185,7 @@ private fun KompassApp(
                     innerPadding = innerPadding,
                     onItemClicked = {itemName ->
                         sharedRecentImage.setRecentImage(itemName.icon)
+                        sharedRecentSecondaryButton.setRecentSecondaryButton(itemName)
                     },
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
@@ -177,6 +197,7 @@ private fun KompassApp(
                     innerPadding = innerPadding,
                     onItemClicked = {itemName ->
                         sharedRecentImage.setRecentImage(itemName.icon)
+                        sharedRecentSecondaryButton.setRecentSecondaryButton(itemName)
                     },
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
@@ -188,6 +209,7 @@ private fun KompassApp(
                     innerPadding = innerPadding,
                     onItemClicked = {itemName ->
                         sharedRecentImage.setRecentImage(itemName.icon)
+                        sharedRecentSecondaryButton.setRecentSecondaryButton(itemName)
                     },
                     onNavigate = { screen ->
                         navController.navigate(screen.name)
@@ -221,14 +243,20 @@ private fun KompassApp(
             }
             //var subCategory
             composable(KompassScreen.ProductList.name){
-                ProductListScreen(
-                    innerPadding = innerPadding,
-                    imageResId = recentImage,
-                    onNavigate = { screen ->
-                        navController.navigate(screen.name)
-                    },
-                    category = category
-                )
+                recentSecondaryButton?.let { recentSecondaryButton ->
+                    ProductListScreen(
+                        innerPadding = innerPadding,
+                        imageResId = recentImage,
+                        onNavigate = { screen ->
+                            navController.navigate(screen.name)
+                        },
+                        onItemClicked = {itemName ->
+                            sharedRecentProduct.setRecentProduct(itemName)
+                        },
+                        secondaryButton = recentSecondaryButton,
+                        category = category
+                    )
+                }
             }
             composable(KompassScreen.Search.name) {
                 SearchScreen(
@@ -242,9 +270,20 @@ private fun KompassApp(
                 )
             }
             composable(KompassScreen.DetailedSustainability.name) {
+                BackHandler(onBack = {
+                    navController.navigate(KompassScreen.ProductList.name) {
+                        // Clear the back stack to prevent returning to Detailed screen
+                        popUpTo(KompassScreen.ProductList.name) { inclusive = false }
+                    }
+                })
                 recentProduct?.let { recentProduct ->
                     DetailedSustainabilityScreen(
                         fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
                         innerPadding = innerPadding,
                         productImage = recentProduct.imageResId,
                         productName = recentProduct.name,
@@ -256,9 +295,20 @@ private fun KompassApp(
                 }
             }
             composable(KompassScreen.DetailedDimensions.name) {
+                BackHandler(onBack = {
+                    navController.navigate(KompassScreen.ProductList.name) {
+                        // Clear the back stack to prevent returning to Detailed screen
+                        popUpTo(KompassScreen.ProductList.name) { inclusive = false }
+                    }
+                })
                 recentProduct?.let { recentProduct ->
-                    DetailedBasicScreen(
+                    DetailedDimensionsScreen(
                         fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
                         innerPadding = innerPadding,
                         productImage = recentProduct.imageResId,
                         productName = recentProduct.name,
@@ -269,10 +319,96 @@ private fun KompassApp(
                     )
                 }
             }
+            composable(KompassScreen.DetailedContents.name) {
+                BackHandler(onBack = {
+                    navController.navigate(KompassScreen.ProductList.name) {
+                        // Clear the back stack to prevent returning to Detailed screen
+                        popUpTo(KompassScreen.ProductList.name) { inclusive = false }
+                    }
+                })
+                recentProduct?.let { recentProduct ->
+                    DetailedContentsScreen(
+                        fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
+                        innerPadding = innerPadding,
+                        productImage = recentProduct.imageResId,
+                        productName = recentProduct.name,
+                        productNumber = recentProduct.articleNr,
+                        productCategory = recentProduct.productDescription,
+                        productPrice = recentProduct.price,
+                        contentCards = recentProduct.contentsCards
+                    )
+                }
+            }
+            composable(KompassScreen.DetailedMaterials.name) {
+                BackHandler(onBack = {
+                    navController.navigate(KompassScreen.ProductList.name) {
+                        // Clear the back stack to prevent returning to Detailed screen
+                        popUpTo(KompassScreen.ProductList.name) { inclusive = false }
+                    }
+                })
+                recentProduct?.let { recentProduct ->
+                    DetailedMaterialsScreen(
+                        fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
+                        innerPadding = innerPadding,
+                        productImage = recentProduct.imageResId,
+                        productName = recentProduct.name,
+                        productNumber = recentProduct.articleNr,
+                        productCategory = recentProduct.productDescription,
+                        productPrice = recentProduct.price,
+                        materialsDescription = recentProduct.materialsDescription
+                    )
+                }
+            }
+            composable(KompassScreen.DetailedProductSpecifics.name) {
+                BackHandler(onBack = {
+                    navController.navigate(KompassScreen.ProductList.name) {
+                        // Clear the back stack to prevent returning to Detailed screen
+                        popUpTo(KompassScreen.ProductList.name) { inclusive = false }
+                    }
+                })
+                recentProduct?.let { recentProduct ->
+                    DetailedProductSpecificsScreen(
+                        fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
+                        innerPadding = innerPadding,
+                        productImage = recentProduct.imageResId,
+                        productName = recentProduct.name,
+                        productNumber = recentProduct.articleNr,
+                        productCategory = recentProduct.productDescription,
+                        productPrice = recentProduct.price,
+                        productSpecification = recentProduct.productSpecification
+                    )
+                }
+            }
             composable(KompassScreen.DetailedAvailability.name) {
                 recentProduct?.let { recentProduct ->
-                    DetailedLogisticsScreen(
+                    BackHandler(onBack = {
+                        navController.navigate(KompassScreen.ProductList.name) {
+                            // Clear the back stack to prevent returning to Detailed screen
+                            popUpTo(KompassScreen.ProductList.name) { inclusive = false }
+                        }
+                    })
+                    DetailedAvailabilityScreen(
                         fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
                         innerPadding = innerPadding,
                         productImage = recentProduct.imageResId,
                         productName = recentProduct.name,
@@ -286,6 +422,7 @@ private fun KompassApp(
         }
     }
 }
+
 fun initializePrimaryButtonItemMap(primaryButtonItemMap: MutableMap<Any, PrimaryButtonItem>){
     PrimaryButtonItem.getAllItems().forEach { item ->
         // Replace `item.description` with any unique key of your choice.
@@ -338,9 +475,14 @@ private fun NavBarButton(
 ) {
     Box(
         modifier = Modifier
-            .width(64.dp)
-            .height(52.dp)
-            .clickable { onClick() },
+            .width(86.dp)
+            .fillMaxHeight()
+            .clip(shape = RoundedCornerShape(40))
+            .clickable(
+                onClick = { onClick() },
+                indication = rememberRipple(color = IkeaYellow),
+                interactionSource = remember { MutableInteractionSource() }
+            ),
         contentAlignment = Alignment.Center
     ) {
         Image(

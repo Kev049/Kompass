@@ -2,6 +2,7 @@ package com.example.kompass
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.core.tween
@@ -253,6 +254,12 @@ private fun KompassApp(
                 )
             }
             composable(KompassScreen.DetailedSustainability.name) {
+                BackHandler(onBack = {
+                    navController.navigate(KompassScreen.ProductList.name) {
+                        // Clear the back stack to prevent returning to Detailed screen
+                        popUpTo(KompassScreen.ProductList.name) { inclusive = false }
+                    }
+                })
                 recentProduct?.let { recentProduct ->
                     DetailedSustainabilityScreen(
                         fontColor = Color.White,
@@ -272,6 +279,12 @@ private fun KompassApp(
                 }
             }
             composable(KompassScreen.DetailedDimensions.name) {
+                BackHandler(onBack = {
+                    navController.navigate(KompassScreen.ProductList.name) {
+                        // Clear the back stack to prevent returning to Detailed screen
+                        popUpTo(KompassScreen.ProductList.name) { inclusive = false }
+                    }
+                })
                 recentProduct?.let { recentProduct ->
                     DetailedDimensionsScreen(
                         fontColor = Color.White,
@@ -291,6 +304,12 @@ private fun KompassApp(
                 }
             }
             composable(KompassScreen.DetailedContents.name) {
+                BackHandler(onBack = {
+                    navController.navigate(KompassScreen.ProductList.name) {
+                        // Clear the back stack to prevent returning to Detailed screen
+                        popUpTo(KompassScreen.ProductList.name) { inclusive = false }
+                    }
+                })
                 recentProduct?.let { recentProduct ->
                     DetailedContentsScreen(
                         fontColor = Color.White,
@@ -310,6 +329,12 @@ private fun KompassApp(
                 }
             }
             composable(KompassScreen.DetailedMaterials.name) {
+                BackHandler(onBack = {
+                    navController.navigate(KompassScreen.ProductList.name) {
+                        // Clear the back stack to prevent returning to Detailed screen
+                        popUpTo(KompassScreen.ProductList.name) { inclusive = false }
+                    }
+                })
                 recentProduct?.let { recentProduct ->
                     DetailedMaterialsScreen(
                         fontColor = Color.White,
@@ -329,6 +354,12 @@ private fun KompassApp(
                 }
             }
             composable(KompassScreen.DetailedProductSpecifics.name) {
+                BackHandler(onBack = {
+                    navController.navigate(KompassScreen.ProductList.name) {
+                        // Clear the back stack to prevent returning to Detailed screen
+                        popUpTo(KompassScreen.ProductList.name) { inclusive = false }
+                    }
+                })
                 recentProduct?.let { recentProduct ->
                     DetailedProductSpecificsScreen(
                         fontColor = Color.White,
@@ -349,6 +380,12 @@ private fun KompassApp(
             }
             composable(KompassScreen.DetailedAvailability.name) {
                 recentProduct?.let { recentProduct ->
+                    BackHandler(onBack = {
+                        navController.navigate(KompassScreen.ProductList.name) {
+                            // Clear the back stack to prevent returning to Detailed screen
+                            popUpTo(KompassScreen.ProductList.name) { inclusive = false }
+                        }
+                    })
                     DetailedAvailabilityScreen(
                         fontColor = Color.White,
                         onNavigate = { screen ->
@@ -379,8 +416,8 @@ private fun KompassApp(
             }
         }
     }
-
 }
+
 fun initializePrimaryButtonItemMap(primaryButtonItemMap: MutableMap<Any, PrimaryButtonItem>){
     PrimaryButtonItem.getAllItems().forEach { item ->
         // Replace `item.description` with any unique key of your choice.

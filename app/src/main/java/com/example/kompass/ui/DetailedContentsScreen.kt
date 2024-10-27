@@ -56,7 +56,6 @@ fun DetailedContentsScreen(
             .fillMaxSize()
             .background(BgBlack)
             .padding(innerPadding),
-        verticalArrangement = Arrangement.Top
     ) {
         item {
             InfoBar(fontColor, productName, productNumber, productCategory, productPrice)

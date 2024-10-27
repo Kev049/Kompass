@@ -58,7 +58,6 @@ fun DetailedProductSpecificsScreen(
             .fillMaxSize()
             .background(BgBlack)
             .padding(innerPadding),
-        verticalArrangement = Arrangement.Top
     ) {
         item {
             InfoBar(fontColor, productName, productNumber, productCategory, productPrice)
@@ -112,8 +111,8 @@ private fun ProductSpecificationCard(
         ) {
             Text(
                 text = productSpecification,
-                color = Color.White,
-                fontSize = 18.sp,
+                color = Color.White.copy(alpha = 0.8f),
+                fontSize = 16.sp,
                 fontFamily = FontFamily(Font(R.font.noto_sans)),
                 modifier = Modifier
                     .padding(14.dp)

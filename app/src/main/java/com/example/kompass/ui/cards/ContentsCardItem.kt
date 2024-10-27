@@ -73,9 +73,9 @@ fun ContentsCardItem(
                 Row {
                     Text(
                         text = contentsCard.productLine,
-                        color = Color.White,
+                        color = Color.White.copy(alpha = 0.8f),
                         fontSize = 14.sp,
-                        fontFamily = FontFamily(Font(R.font.noto_sans_light)),
+                        fontFamily = FontFamily(Font(R.font.noto_sans_medium)),
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .wrapContentWidth()
@@ -85,9 +85,9 @@ fun ContentsCardItem(
                 Row {
                     Text(
                         text = contentsCard.dimensions,
-                        color = Color.White,
+                        color = Color.White.copy(alpha = 0.8f),
                         fontSize = 14.sp,
-                        fontFamily = FontFamily(Font(R.font.noto_sans_light)),
+                        fontFamily = FontFamily(Font(R.font.noto_sans_medium)),
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .wrapContentWidth()

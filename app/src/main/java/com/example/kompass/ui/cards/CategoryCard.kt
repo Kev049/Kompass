@@ -47,7 +47,7 @@ fun CategoryCard(
             .background(IkeaBlue, shape = RoundedCornerShape(12.dp))
             .clickable {
                 if (!openProductList) {
-                    onNavigate(screen, Category.NONE)
+                    onNavigate(screen, categoryData.category)
                 } else {
                     onNavigate(KompassScreen.ProductList, categoryData.category)
                 }

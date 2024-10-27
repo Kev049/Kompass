@@ -47,7 +47,6 @@ import com.example.kompass.ui.cards.SearchCardOverlay
 import com.example.kompass.ui.cards.SearchItemCard
 import com.example.kompass.ui.theme.BgBlack
 
-
 @Composable
 fun SearchScreen(
     innerPadding: PaddingValues,
@@ -58,7 +57,6 @@ fun SearchScreen(
     var searchQueryProduct by remember { mutableStateOf<ProductItem?>(null) }
     val allItems = SearchItemSource().loadSearchItems()
 
-    // Use the filter function
     val filteredResults = filterSearchItems(allItems, searchQueryString)
     var textFieldFocusState by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -153,7 +151,7 @@ fun SearchBar(
             textFieldValue = newValue
             onQueryChange(newValue.text)
         },
-        placeholder = { Text("Search for product or category...") },
+        placeholder = { Text("Search for products or categories...") },
         modifier = modifier
             .fillMaxWidth()
             .border(

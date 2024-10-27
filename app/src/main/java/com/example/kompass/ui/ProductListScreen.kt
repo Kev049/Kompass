@@ -27,11 +27,11 @@ import androidx.compose.ui.unit.sp
 import com.example.kompass.KompassScreen
 import com.example.kompass.R
 import com.example.kompass.SecondaryButtonItem
+import com.example.kompass.data.Datasource
 import com.example.kompass.data.SearchItemSource
 import com.example.kompass.types.Category
 import com.example.kompass.types.ProductItem
 import com.example.kompass.ui.cards.SearchItemCard
-import com.example.kompass.ui.cards.getDetailScreenForSecondaryButton
 
 @Composable
 fun ProductListScreen(
@@ -43,7 +43,7 @@ fun ProductListScreen(
     category: Category
 ) {
     val productItems = getSearchItemsByCategory(SearchItemSource().loadSearchItems(), category)
-    val secondaryButtonScreen = getDetailScreenForSecondaryButton(secondaryButton)
+    val secondaryButtonScreen = Datasource().getDetailScreenForSecondaryButton(secondaryButton)
     Log.d("Button", secondaryButtonScreen.toString())
 
     //val productItems = SearchItemSource().loadSearchItems()

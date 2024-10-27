@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.kompass.KompassScreen
 import com.example.kompass.R
 import com.example.kompass.ui.theme.BgBlack
 import com.example.kompass.ui.theme.IkeaBlue
@@ -37,6 +38,7 @@ import com.example.kompass.ui.theme.IkeaYellow
 @Composable
 fun DetailedSustainabilityScreen(
     fontColor: Color = Color.White,
+    onNavigate: (KompassScreen) -> Unit,
     innerPadding: PaddingValues,
     productImage: Int,
     productName: String,
@@ -53,7 +55,7 @@ fun DetailedSustainabilityScreen(
         verticalArrangement = Arrangement.Top
     ) {
         InfoBar(fontColor, productName, productNumber, productCategory, productPrice)
-        NavHeader(productImage, navCollection = { NavCollection3() })
+        NavHeader(productImage, navCollection = { NavCollection3(onNavigate) })
         ContentBody(fontColor, emissionAmount)
     }
 }
@@ -297,42 +299,26 @@ fun EmissionListItem(
 }
 
 @Composable
-fun NavCollection3() {
+fun NavCollection3(onNavigate: (KompassScreen) -> Unit) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(BgBlack, shape = RoundedCornerShape(15.dp)),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            NavButton(R.drawable.vector_left, {})
-            Image(
-                painter = painterResource(id = R.drawable.menu_main_sustainability),
-                contentDescription = "navigate",
-                modifier = Modifier.size(32.dp)
-            )
-            NavButton(R.drawable.vector_right, {})
+            SmallNavButton(R.drawable.menu_main_sustainability, IkeaYellow, ColorFilter.tint(IkeaBlue), onNavigate, KompassScreen.DetailedSustainability)
+            SmallNavButton(R.drawable.menu_sustainability_description, onNavigate = onNavigate, detailedScreen = KompassScreen.Home)
         }
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SmallNavButton(R.drawable.menu_main_sustainability, IkeaYellow, ColorFilter.tint(IkeaBlue))
-            SmallNavButton(R.drawable.menu_sustainability_description)
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            SmallNavButton(R.drawable.menu_basic_materials)
+            SmallNavButton(R.drawable.menu_basic_materials, onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedMaterials)
         }
     }
 }

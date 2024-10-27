@@ -49,8 +49,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.kompass.types.Category
 import com.example.kompass.ui.BasicInfoScreen
 import com.example.kompass.ui.CategoryScreen
-import com.example.kompass.ui.DetailedBasicScreen
-import com.example.kompass.ui.DetailedLogisticsScreen
+import com.example.kompass.ui.DetailedDimensionsScreen
+import com.example.kompass.ui.DetailedAvailabilityScreen
+import com.example.kompass.ui.DetailedContentsScreen
+import com.example.kompass.ui.DetailedMaterialsScreen
+import com.example.kompass.ui.DetailedProductSpecificsScreen
 import com.example.kompass.ui.DocumentsScreen
 import com.example.kompass.ui.LogisticsScreen
 import com.example.kompass.ui.ProductListScreen
@@ -71,6 +74,9 @@ enum class KompassScreen {
     Logistics,
     DetailedAvailability,
     DetailedDimensions,
+    DetailedMaterials,
+    DetailedContents,
+    DetailedProductSpecifics,
     DetailedSustainability,
     Sustainability,
     Documents,
@@ -210,7 +216,6 @@ private fun KompassApp(
                     }
                 )
             }
-
             //var subCategory
             composable(KompassScreen.ProductList.name){
                 recentSecondaryButton?.let { recentSecondaryButton ->
@@ -243,6 +248,11 @@ private fun KompassApp(
                 recentProduct?.let { recentProduct ->
                     DetailedSustainabilityScreen(
                         fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
                         innerPadding = innerPadding,
                         productImage = recentProduct.imageResId,
                         productName = recentProduct.name,
@@ -255,8 +265,13 @@ private fun KompassApp(
             }
             composable(KompassScreen.DetailedDimensions.name) {
                 recentProduct?.let { recentProduct ->
-                    DetailedBasicScreen(
+                    DetailedDimensionsScreen(
                         fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
                         innerPadding = innerPadding,
                         productImage = recentProduct.imageResId,
                         productName = recentProduct.name,
@@ -267,10 +282,72 @@ private fun KompassApp(
                     )
                 }
             }
+            composable(KompassScreen.DetailedContents.name) {
+                recentProduct?.let { recentProduct ->
+                    DetailedContentsScreen(
+                        fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
+                        innerPadding = innerPadding,
+                        productImage = recentProduct.imageResId,
+                        productName = recentProduct.name,
+                        productNumber = recentProduct.articleNr,
+                        productCategory = recentProduct.productDescription,
+                        productPrice = recentProduct.price,
+                        contentCards = recentProduct.contentsCards
+                    )
+                }
+            }
+            composable(KompassScreen.DetailedMaterials.name) {
+                recentProduct?.let { recentProduct ->
+                    DetailedMaterialsScreen(
+                        fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
+                        innerPadding = innerPadding,
+                        productImage = recentProduct.imageResId,
+                        productName = recentProduct.name,
+                        productNumber = recentProduct.articleNr,
+                        productCategory = recentProduct.productDescription,
+                        productPrice = recentProduct.price,
+                        materialsDescription = recentProduct.materialsDescription
+                    )
+                }
+            }
+            composable(KompassScreen.DetailedProductSpecifics.name) {
+                recentProduct?.let { recentProduct ->
+                    DetailedProductSpecificsScreen(
+                        fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
+                        innerPadding = innerPadding,
+                        productImage = recentProduct.imageResId,
+                        productName = recentProduct.name,
+                        productNumber = recentProduct.articleNr,
+                        productCategory = recentProduct.productDescription,
+                        productPrice = recentProduct.price,
+                        productSpecification = recentProduct.productSpecification
+                    )
+                }
+            }
             composable(KompassScreen.DetailedAvailability.name) {
                 recentProduct?.let { recentProduct ->
-                    DetailedLogisticsScreen(
+                    DetailedAvailabilityScreen(
                         fontColor = Color.White,
+                        onNavigate = { screen ->
+                            if(navController.currentDestination?.route !== screen.name){
+                                navController.navigate(screen.name)
+                            }
+                        },
                         innerPadding = innerPadding,
                         productImage = recentProduct.imageResId,
                         productName = recentProduct.name,

@@ -1,18 +1,16 @@
 package com.example.kompass.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,22 +21,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.kompass.KompassScreen
 import com.example.kompass.R
-import com.example.kompass.ui.theme.BgBlack
 import com.example.kompass.ui.theme.IkeaBlue
 import com.example.kompass.ui.theme.IkeaDarkBlue
 import com.example.kompass.ui.theme.IkeaYellow
 
 @Composable
-fun DetailedLogisticsScreen(
+fun DetailedAvailabilityScreen(
     fontColor: Color = Color.White,
+    onNavigate: (KompassScreen) -> Unit,
     innerPadding: PaddingValues,
     productImage: Int,
     productName: String,
@@ -54,8 +52,9 @@ fun DetailedLogisticsScreen(
     ) {
         item {
             InfoBar(fontColor, productName, productNumber, productCategory, productPrice)
-            NavHeader(productImage, navCollection = { NavCollection2() })
+            NavHeader(productImage, navCollection = { NavCollection2(onNavigate) })
             ContentBody(fontColor)
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }
@@ -75,7 +74,6 @@ private fun ContentBody(
             text = "Stores",
             color = textColor,
             fontSize = 25.sp,
-            fontWeight = FontWeight(700),
             fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
             textAlign = TextAlign.Center,
             modifier = Modifier
@@ -94,8 +92,8 @@ private fun StoreAvailabilityColumn() {
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .padding(5.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+            .padding(0.dp, 10.dp, 0.dp, 0.dp),
+        verticalArrangement = Arrangement.spacedBy(15.dp),
 
     ) {
         StoreBox(
@@ -147,7 +145,7 @@ private fun StoreBox(
             )
             Text(
                 text = storeLocation,
-                color = Color.Gray,
+                color = Color.White,
                 fontSize = 12.sp,
                 fontFamily = FontFamily(Font(R.font.noto_sans_light)),
                 textAlign = TextAlign.Center,
@@ -183,43 +181,27 @@ private fun StoreBox(
 }
 
 @Composable
-fun NavCollection2() {
+fun NavCollection2(onNavigate: (KompassScreen) -> Unit) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(BgBlack, shape = RoundedCornerShape(15.dp)),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            NavButton(R.drawable.vector_left, {})
-            Image(
-                painter = painterResource(id = R.drawable.menu_main_logistics),
-                contentDescription = "navigate",
-                modifier = Modifier.size(32.dp)
-            )
-            NavButton(R.drawable.vector_right, {})
+            SmallNavButton(R.drawable.menu_logistics_availability, IkeaYellow, ColorFilter.tint(IkeaBlue), onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedAvailability)
+            SmallNavButton(R.drawable.menu_logistics_location, onNavigate = onNavigate, detailedScreen = KompassScreen.Home)
         }
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SmallNavButton(R.drawable.menu_logistics_availability, IkeaYellow, ColorFilter.tint(IkeaBlue))
-            SmallNavButton(R.drawable.menu_logistics_location)
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            SmallNavButton(R.drawable.menu_logistics_delivery)
-            SmallNavButton(R.drawable.menu_logistics_history)
+            SmallNavButton(R.drawable.menu_logistics_delivery, onNavigate = onNavigate, detailedScreen = KompassScreen.Home)
+            SmallNavButton(R.drawable.menu_logistics_history, onNavigate = onNavigate, detailedScreen = KompassScreen.Home)
         }
     }
 }

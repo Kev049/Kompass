@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.kompass.KompassScreen
 import com.example.kompass.R
 import com.example.kompass.types.DimensionInfo
 import com.example.kompass.ui.theme.BgBlack
@@ -42,8 +43,9 @@ import com.example.kompass.ui.theme.IkeaDarkBlue
 import com.example.kompass.ui.theme.IkeaYellow
 
 @Composable
-fun DetailedBasicScreen(
+fun DetailedDimensionsScreen(
     fontColor: Color = Color.White,
+    onNavigate: (KompassScreen) -> Unit,
     innerPadding: PaddingValues,
     productImage: Int,
     productName: String,
@@ -54,12 +56,13 @@ fun DetailedBasicScreen(
 ) {
     Column(
         modifier = Modifier
+            .background(BgBlack)
             .fillMaxSize()
             .padding(innerPadding),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         InfoBar(fontColor, productName, productNumber, productCategory, productPrice)
-        NavHeader(productImage, navCollection = { NavCollection() })
+        NavHeader(productImage, navCollection = { NavCollection(onNavigate) })
         ContentBody(fontColor, dimensionInfo.length, dimensionInfo.width, dimensionInfo.height, dimensionInfo.mattressLength, dimensionInfo.mattressWidth)
     }
 }
@@ -80,7 +83,7 @@ private fun ContentBody(
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         Text(
-            text = "Mått",
+            text = "Measurements",
             color = textColor,
             fontSize = 24.sp,
             fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
@@ -173,7 +176,7 @@ fun NavHeader(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
+            .padding(horizontal = 15.dp)
             .background(IkeaDarkBlue, shape = RoundedCornerShape(10.dp)),
         horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
@@ -186,18 +189,20 @@ fun NavHeader(
         ) {
             Image(
                 painter = painterResource(productImage),
-                contentDescription = "placeholder",
+                contentDescription = "Product Image",
                 modifier = Modifier
                     .size(150.dp)
-                    .padding(5.dp),
+                    .padding(5.dp)
+                    .clip(RoundedCornerShape(10.dp)),
                 contentScale = ContentScale.Fit
             )
         }
-        Box(
+        Column(
             modifier = Modifier
                 .width(150.dp)
                 .height(200.dp)
-                .padding(vertical = 7.5.dp)
+                .padding(vertical = 20.dp),
+            verticalArrangement = Arrangement.Center
         ) {
             navCollection()
         }
@@ -215,7 +220,7 @@ fun InfoBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
+            .padding(20.dp, 20.dp, 20.dp, 0.dp)
             .height(75.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -229,7 +234,6 @@ fun InfoBar(
                 text = productName,
                 color = textColor,
                 fontSize = 20.sp,
-                fontWeight = FontWeight(700),
                 fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -240,7 +244,6 @@ fun InfoBar(
                 text = productNumber,
                 color = textColor,
                 fontSize = 18.sp,
-                fontWeight = FontWeight(700),
                 fontFamily = FontFamily(Font(R.font.noto_sans_light)),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -260,8 +263,7 @@ fun InfoBar(
                 text = productCategory,
                 color = textColor,
                 fontSize = 20.sp,
-                fontWeight = FontWeight(700),
-                fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
+                fontFamily = FontFamily(Font(R.font.noto_sans)),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .wrapContentWidth()
@@ -271,7 +273,6 @@ fun InfoBar(
                 text = "$productPrice:-",
                 color = textColor,
                 fontSize = 18.sp,
-                fontWeight = FontWeight(700),
                 fontFamily = FontFamily(Font(R.font.noto_sans_light)),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -284,25 +285,58 @@ fun InfoBar(
 }
 
 @Composable
-fun NavButton(
-    icon: Int,
-    onClick: () -> Unit
+fun NavCollection(onNavigate: (KompassScreen) -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            SmallNavButton(R.drawable.menu_basic_dimensions, IkeaYellow, ColorFilter.tint(IkeaBlue), onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedDimensions)
+            SmallNavButton(R.drawable.menu_basic_contents, onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedContents)
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            SmallNavButton(R.drawable.menu_basic_spec, onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedProductSpecifics)
+            SmallNavButton(R.drawable.menu_basic_materials, onNavigate = onNavigate, detailedScreen = KompassScreen.DetailedMaterials)
+        }
+    }
+}
+
+@Composable
+fun SmallNavButton(
+    img: Int,
+    color: Color = IkeaBlue,
+    iconColor: ColorFilter = ColorFilter.tint(Color.White),
+    onNavigate: (KompassScreen) -> Unit,
+    detailedScreen: KompassScreen
 ) {
     Box(
         modifier = Modifier
-            .width(50.dp)
-            .height(50.dp)
-            .clickable { onClick() },
+            .width(60.dp)
+            .height(60.dp)
+            .background(color, shape = RoundedCornerShape(10.dp))
+            .clickable { onNavigate(detailedScreen) },
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(id = icon),
-            contentDescription = "navigate",
-            modifier = Modifier.size(32.dp)
+            painter = painterResource(img),
+            contentDescription = "placeholder",
+            modifier = Modifier.size(50.dp),
+            contentScale = ContentScale.Fit,
+            colorFilter = iconColor
         )
     }
 }
 
+/*
 @Composable
 fun NavCollection() {
     Column(
@@ -318,14 +352,14 @@ fun NavCollection() {
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            NavButton(R.drawable.vector_left, {})
+            NavButton(R.drawable.vector_left) {}
             Image(
                 painter = painterResource(id = R.drawable.menu_main_info),
                 contentDescription = "navigate",
                 modifier = Modifier
                     .size(32.dp)
             )
-            NavButton(R.drawable.vector_right, {})
+            NavButton(R.drawable.vector_right) {}
         }
         Row(
             modifier = Modifier
@@ -345,27 +379,6 @@ fun NavCollection() {
         }
     }
 }
+ */
 
-@Composable
-fun SmallNavButton(
-    img: Int,
-    color: Color = IkeaBlue,
-    iconColor: ColorFilter = ColorFilter.tint(Color.White)
-) {
-    Box(
-        modifier = Modifier
-            .width(55.dp)
-            .height(55.dp)
-            .background(color, shape = RoundedCornerShape(10.dp)),
-        contentAlignment = Alignment.Center
-    ) {
-        Image(
-            painter = painterResource(img),
-            contentDescription = "placeholder",
-            modifier = Modifier.size(90.dp)
-                .padding(5.dp),
-            contentScale = ContentScale.Fit,
-            colorFilter = iconColor
-        )
-    }
-}
+

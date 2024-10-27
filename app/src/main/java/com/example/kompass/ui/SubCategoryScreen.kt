@@ -48,6 +48,7 @@ fun SubCategoryApp(
     onNavigate: (KompassScreen, Category) -> Unit
 ){
     val imageId = imageResId ?: R.drawable.navbar_home
+    //val subCategoryItems = CategorySource().loadCategories()
     val subCategoryItems = getSubCategoriesByCategory(CategorySource().loadSubCategories(), category)
     //val layoutDirection = LocalLayoutDirection.current
     println(category)

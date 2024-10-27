@@ -50,7 +50,6 @@ fun CategoryCard(
                     onNavigate(screen, Category.NONE)
                 } else {
                     onNavigate(KompassScreen.ProductList, categoryData.category)
-
                 }
             },
         contentAlignment = Alignment.Center

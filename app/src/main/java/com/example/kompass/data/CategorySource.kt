@@ -37,6 +37,7 @@ class CategorySource {
             CategoryData(R.drawable.categories_beds, Category.BEDS_AND_MATTRESSES_S_HEADBOARDS, Category.BEDS_AND_MATTRESSES_S_HEADBOARDS.toDisplayName()),
             CategoryData(R.drawable.categories_beds, Category.BEDS_AND_MATTRESSES_S_SLATS, Category.BEDS_AND_MATTRESSES_S_SLATS.toDisplayName()),
             CategoryData(R.drawable.categories_beds, Category.BEDS_AND_MATTRESSES_S_BEDROOM_FURNITURE_SETS, Category.BEDS_AND_MATTRESSES_S_BEDROOM_FURNITURE_SETS.toDisplayName()),
+            CategoryData(R.drawable.categories_beds, Category.BEDS_AND_MATTRESSES_S_BED_FRAMES, Category.BEDS_AND_MATTRESSES_S_BED_FRAMES.toDisplayName()),
             // divider, above: Category.BEDS_AND_MATTRESSES, below: Category.BATHROOM_FURNITURE
             CategoryData(R.drawable.categories_bathroom, Category.BATHROOM_FURNITURE_S_BATHROOM_SYSTEMS, Category.BATHROOM_FURNITURE_S_BATHROOM_SYSTEMS.toDisplayName()),
             CategoryData(R.drawable.categories_bathroom, Category.BATHROOM_FURNITURE_S_BATHROOM_SHELVING_UNITS, Category.BATHROOM_FURNITURE_S_BATHROOM_SHELVING_UNITS.toDisplayName()),

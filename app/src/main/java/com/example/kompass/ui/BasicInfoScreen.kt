@@ -61,7 +61,7 @@ fun PreviewBasicInfoScreen() {
     BasicInfoScreen(innerPadding = defaultPadding,
     onNavigate = {},
     onItemClicked = { item ->
-        println("Clicked on: ${item.description}")
+        //println("Clicked on: ${item.description}")
         }
     )
 }

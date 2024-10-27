@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.example.kompass.KompassScreen
 import com.example.kompass.R
 import com.example.kompass.SecondaryButtonItem
-import com.example.kompass.data.Datasource
+import com.example.kompass.data.CategorySource
 import com.example.kompass.data.SearchItemSource
 import com.example.kompass.types.Category
 import com.example.kompass.types.ProductItem
@@ -42,9 +42,10 @@ fun ProductListScreen(
     secondaryButton: SecondaryButtonItem,
     category: Category
 ) {
-    val productItems = getSearchItemsByCategory(SearchItemSource().loadSearchItems(), category)
-    val secondaryButtonScreen = Datasource().getDetailScreenForSecondaryButton(secondaryButton)
-    Log.d("Button", secondaryButtonScreen.toString())
+    //val productItems = getSearchItemsByCategory(SearchItemSource().loadSearchItems(), category)
+    val productItems = getSearchItemsBySubCategory(SearchItemSource().loadSearchItems(), category)
+    val secondaryButtonScreen = CategorySource().getDetailScreenForSecondaryButton(secondaryButton)
+    //Log.d("Button", secondaryButtonScreen.toString())
 
     //val productItems = SearchItemSource().loadSearchItems()
     val imageId = imageResId ?: R.drawable.navbar_home
@@ -59,7 +60,7 @@ fun ProductListScreen(
         ) {
             ProductHeader(
                 imageId,
-                headerText = category.toDisplayName()
+                headerText = getStringAfterDelimiter(category.toDisplayName())
             )
             // Add a divider below the header
             HorizontalDivider(
@@ -84,6 +85,7 @@ fun ProductList(
         contentPadding = PaddingValues(8.dp)
     ) {
         items(productItems) { productItem ->
+            //println(productItem)
             SearchItemCard(
                 searchItem = productItem,
                 onCardClick = { onNavigate(secondaryButtonScreen)

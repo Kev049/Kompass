@@ -1,5 +1,4 @@
 package com.example.kompass.ui.cards
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,7 +37,7 @@ import com.example.kompass.KompassScreen
 import com.example.kompass.PrimaryButtonItem
 import com.example.kompass.R
 import com.example.kompass.SecondaryButtonItem
-import com.example.kompass.data.Datasource
+import com.example.kompass.data.CategorySource
 import com.example.kompass.types.ProductItem
 import com.example.kompass.ui.SecondaryButton
 import com.example.kompass.ui.theme.IkeaBlue
@@ -252,11 +251,10 @@ private fun PlaceSecondaryButtons(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 rowItems.forEach { secondaryButtonButton ->
-                    val screen = Datasource().getDetailScreenForSecondaryButton(secondaryButtonButton)
+                    val screen = CategorySource().getDetailScreenForSecondaryButton(secondaryButtonButton)
                     SecondaryButton(secondaryButtonButton, {}, onNavigate = onNavigate, 140, 225, screen)
                 }
             }
         }
     }
 }
-

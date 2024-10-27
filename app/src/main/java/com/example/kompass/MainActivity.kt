@@ -35,7 +35,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -122,7 +124,7 @@ private fun KompassApp(
     val config = LocalConfiguration.current
     val screenWidth = config.screenWidthDp
     val screenHeight = config.screenHeightDp
-    var category = Category.NONE
+    var category by remember { mutableStateOf(Category.NONE) }
 
     Scaffold(
         containerColor = BgBlack,
@@ -220,7 +222,21 @@ private fun KompassApp(
                     screenWidth,
                     screenHeight,
                     imageResId = recentImage,
-                    onNavigate = { screen, _ ->
+                    onNavigate = { screen, categoryFromClick ->
+                        category = categoryFromClick
+                        navController.navigate(screen.name)
+                    }
+                )
+            }
+            composable(KompassScreen.SubCategory.name){
+                SubCategoryScreen(
+                    innerPadding = innerPadding,
+                    screenWidth,
+                    screenHeight,
+                    imageResId = recentImage,
+                    category = category, //category not updated here for some reason, prints as none
+                    onNavigate = { screen, categoryFromClick ->
+                        category = categoryFromClick
                         navController.navigate(screen.name)
                     }
                 )
@@ -402,18 +418,7 @@ private fun KompassApp(
                     )
                 }
             }
-            composable(KompassScreen.SubCategory.name){
-                SubCategoryScreen(
-                    innerPadding = innerPadding,
-                    screenWidth,
-                    screenHeight,
-                    imageResId = recentImage,
-                    onNavigate = { screen, categoryFromClick ->
-                        category = categoryFromClick
-                        navController.navigate(screen.name)
-                    }
-                )
-            }
+
         }
     }
 }

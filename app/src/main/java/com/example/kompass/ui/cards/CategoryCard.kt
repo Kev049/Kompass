@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.example.kompass.KompassScreen
 import com.example.kompass.types.Category
 import com.example.kompass.types.CategoryData
+import com.example.kompass.ui.getStringAfterDelimiter
 import com.example.kompass.ui.theme.IkeaBlue
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -76,8 +77,13 @@ fun CategoryCard(
                 contentScale = ContentScale.Fit
             )
             // Text
+            var cardText = categoryData.category.toDisplayName()
+
+            // Change name if its a subcategory
+            cardText = getStringAfterDelimiter(cardText)
+
             Text(
-                text = categoryData.category.toDisplayName(),
+                text = cardText,
                 color = Color.White,
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,

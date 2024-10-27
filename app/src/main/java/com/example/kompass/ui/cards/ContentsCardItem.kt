@@ -102,5 +102,5 @@ fun ContentsCardItem(
 @Preview(showBackground = true)
 @Composable
 fun PreviewContentsCard() {
-    ContentsCard("1 x Continental Bed", "140x200 cm", "SÄBOVIK", R.drawable.sabovik)
+    ContentsCard("1 x Continental Bed", "140x200 cm", "SÄBÖVIK", R.drawable.sabovik)
 }

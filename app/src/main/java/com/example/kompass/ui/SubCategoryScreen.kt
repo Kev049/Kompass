@@ -93,7 +93,9 @@ fun getSubCategoriesByCategory(
 fun getStringAfterDelimiter(input: String): String {
     val delimiter = " > "
     return if (input.contains(delimiter)) {
-        input.substringAfter(delimiter)
+        input
+            .substringAfter(delimiter)
+            .replaceFirstChar { it.uppercase() }
     } else {
         input // or you can return an empty string if preferred
     }

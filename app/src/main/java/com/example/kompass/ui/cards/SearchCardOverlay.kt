@@ -89,7 +89,7 @@ fun SearchCardOverlay(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp, 50.dp, 10.dp, 10.dp)
+            .padding(10.dp, 32.dp, 10.dp, 10.dp)
     ) {
         Box(
             modifier = Modifier
@@ -126,7 +126,7 @@ fun CardHeader(
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
-            .padding(horizontal = 15.dp, vertical = 5.dp),
+            .padding(horizontal = 20.dp, vertical = 5.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
@@ -138,7 +138,7 @@ fun CardHeader(
             Text(
                 text = productName,
                 color = Color.White,
-                fontSize = 18.sp,
+                fontSize = 28.sp,
                 fontFamily = FontFamily(Font(R.font.noto_sans_bold)),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -155,7 +155,7 @@ fun CardHeader(
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = "BACK",
+                text = "EXIT",
                 color = Color.White,
                 fontSize = 14.sp,
                 fontFamily = FontFamily(Font(R.font.noto_sans)),

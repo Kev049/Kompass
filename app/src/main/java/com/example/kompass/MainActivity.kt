@@ -544,8 +544,10 @@ fun PrimaryButton(
                     .padding(bottom = 8.dp),
                 contentScale = ContentScale.Fit
             )
+            var primButTest = primaryButtonItem.description
+            primButTest = primButTest.replace(" & ", "\n & ")
             Text(
-                text = primaryButtonItem.description,
+                text = primButTest,
                 color = Color.White,
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,

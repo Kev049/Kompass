@@ -72,8 +72,9 @@ fun CategoryCard(
                 painter = painterResource(id = categoryData.imageResId),
                 contentDescription = categoryData.description,
                 modifier = Modifier
+                    .padding(start = 5.dp)
                     .padding(4.dp)
-                    .width((cardWidth * 0.3).dp)
+                    .width((cardWidth * 0.3 - 4).dp)
                     .height((cardHeight * 0.6).dp),
                 contentScale = ContentScale.Fit
             )
@@ -82,10 +83,13 @@ fun CategoryCard(
 
             // Change name if its a subcategory
             cardText = getStringAfterDelimiter(cardText)
-            val formattedText = cardText.replace(" & ", "_&\n")
+            var formattedText = cardText.replace(" & ", "_&\n")
+            //println(formattedText)
+            if(formattedText == "Home improvement"){
+                formattedText = "Home improve-\nment"
+            }
             val moreFormattedText = formattedText.replace(" ", "\n")
             val eMoreFormattedText = moreFormattedText.replace("_", " ")
-
             Text(
                 text = eMoreFormattedText,
                 color = Color.White,

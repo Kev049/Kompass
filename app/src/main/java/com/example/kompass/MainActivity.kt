@@ -461,7 +461,7 @@ fun NavBarButtons(
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         NavBarButton(NavBarItem.Home) { onNavigate(KompassScreen.Home) }
-        NavBarButton(NavBarItem.QR) { onNavigate(KompassScreen.Home) }
+        NavBarButton(NavBarItem.Barcode) { onNavigate(KompassScreen.Home) }
         NavBarButton(NavBarItem.Search) { onNavigate(KompassScreen.Search) }
         NavBarButton(NavBarItem.User) { onNavigate(KompassScreen.Home) }
     }
@@ -544,8 +544,10 @@ fun PrimaryButton(
                     .padding(bottom = 8.dp),
                 contentScale = ContentScale.Fit
             )
+            var primButTest = primaryButtonItem.description
+            primButTest = primButTest.replace(" & ", "\n & ")
             Text(
-                text = primaryButtonItem.description,
+                text = primButTest,
                 color = Color.White,
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
@@ -560,7 +562,7 @@ fun PrimaryButton(
 
 sealed class NavBarItem(val icon: Int, val description: String) {
     data object Home : NavBarItem(R.drawable.navbar_home, "home")
-    data object QR : NavBarItem(R.drawable.navbar_qr, "qr")
+    data object Barcode : NavBarItem(R.drawable.navbar_barcode, "barcode")
     data object User : NavBarItem(R.drawable.navbar_user, "user")
     data object Search : NavBarItem(R.drawable.navbar_search, "search")
 }

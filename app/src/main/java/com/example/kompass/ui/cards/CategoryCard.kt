@@ -22,6 +22,7 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.kompass.KompassScreen
@@ -71,9 +72,10 @@ fun CategoryCard(
                 painter = painterResource(id = categoryData.imageResId),
                 contentDescription = categoryData.description,
                 modifier = Modifier
-                    .padding(2.dp)
-                    .width((cardWidth * 0.4).dp)
-                    .height((cardHeight * 0.8).dp),
+                    .padding(start = 5.dp)
+                    .padding(4.dp)
+                    .width((cardWidth * 0.3 - 4).dp)
+                    .height((cardHeight * 0.6).dp),
                 contentScale = ContentScale.Fit
             )
             // Text
@@ -81,15 +83,23 @@ fun CategoryCard(
 
             // Change name if its a subcategory
             cardText = getStringAfterDelimiter(cardText)
-
+            var formattedText = cardText.replace(" & ", "_&\n")
+            //println(formattedText)
+            if(formattedText == "Home improvement"){
+                formattedText = "Home improve-\nment"
+            }
+            val moreFormattedText = formattedText.replace(" ", "\n")
+            val eMoreFormattedText = moreFormattedText.replace("_", " ")
             Text(
-                text = cardText,
+                text = eMoreFormattedText,
                 color = Color.White,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 textAlign = TextAlign.Center,
+                //maxLines = 2,  // Restrict to one line
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .padding(2.dp)
-                    .width((cardWidth - 10).dp)
+                    .width((cardWidth - 4).dp)
                     .height(cardHeight.dp)
                     .wrapContentHeight(align = Alignment.CenterVertically)
             )

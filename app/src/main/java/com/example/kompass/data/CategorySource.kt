@@ -11,17 +11,18 @@ class CategorySource {
         return listOf(
             CategoryData(R.drawable.categories_bathroom, Category.BATHROOM_FURNITURE, Category.BATHROOM_FURNITURE.toDisplayName()),
             CategoryData(R.drawable.categories_beds, Category.BEDS_AND_MATTRESSES, Category.BEDS_AND_MATTRESSES.toDisplayName()),
-            CategoryData(R.drawable.categories_decoration, Category.DECORATION, Category.DECORATION.toDisplayName()),
+
             CategoryData(R.drawable.categories_home_improvement, Category.HOME_IMPROVEMENT, Category.HOME_IMPROVEMENT.toDisplayName()),
             CategoryData(R.drawable.categories_food, Category.FOOD_AND_DRINKS, Category.FOOD_AND_DRINKS.toDisplayName()),
             CategoryData(R.drawable.categories_furniture, Category.FURNITURE, Category.FURNITURE.toDisplayName()),
             CategoryData(R.drawable.categories_garden_furniture, Category.GARDEN_FURNITURE, Category.GARDEN_FURNITURE.toDisplayName()),
             CategoryData(R.drawable.categories_electronics, Category.HOME_ELECTRONICS, Category.HOME_ELECTRONICS.toDisplayName()),
-            CategoryData(R.drawable.categories_kitchen, Category.KITCHEN_AND_HOUSEHOLD_APPLIANCES, Category.KITCHEN_AND_HOUSEHOLD_APPLIANCES.toDisplayName()),
+            CategoryData(R.drawable.categories_kitchen, Category.KITCHEN_AND_APPLIANCES, Category.KITCHEN_AND_APPLIANCES.toDisplayName()),
             CategoryData(R.drawable.categories_kitchenware, Category.KITCHENWARE, Category.KITCHENWARE.toDisplayName()),
             CategoryData(R.drawable.categories_laundry, Category.LAUNDRY_AND_CLEANING, Category.LAUNDRY_AND_CLEANING.toDisplayName()),
             CategoryData(R.drawable.categories_lighting, Category.LIGHTING, Category.LIGHTING.toDisplayName()),
             CategoryData(R.drawable.categories_pets, Category.PETS, Category.PETS.toDisplayName()),
+            CategoryData(R.drawable.categories_decoration, Category.DECORATION, Category.DECORATION.toDisplayName()),
             CategoryData(R.drawable.categories_plants, Category.PLANTS_AND_CULTIVATION, Category.PLANTS_AND_CULTIVATION.toDisplayName()),
             CategoryData(R.drawable.categories_storage, Category.STORAGE, Category.STORAGE.toDisplayName()),
             CategoryData(R.drawable.categories_textiles, Category.TEXTILES, Category.TEXTILES.toDisplayName())

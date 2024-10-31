@@ -88,6 +88,9 @@ fun CategoryCard(
             if(formattedText == "Home improvement"){
                 formattedText = "Home improve-\nment"
             }
+            if(formattedText == "Bathroom accessories"){
+                formattedText = "Bathroom accessor-\nies"
+            }
             val moreFormattedText = formattedText.replace(" ", "\n")
             val eMoreFormattedText = moreFormattedText.replace("_", " ")
             Text(

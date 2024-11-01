@@ -1,12 +1,12 @@
 # IKEA Kompass - *Turn every customer query into a quick, seamless experience*
 
-### For more information about the project, please visit [our website](https://kompass-xi.vercel.app/).
+### For more information about the project, please visit [our website](https://ikeakompass-team17.vercel.app/).
 
 ## [Pitch Video 🎥](https://www.youtube.com/watch?v=oFawzp-6LYo&feature=youtu.be)
 
 ## [Pitch Deck 🚀](https://docs.google.com/presentation/d/e/2PACX-1vQkKkkUUICZ53g4VUixNr_EQwQ0z7eW6CIL3wNbbPtgSz-rha3t4i8eaz8snPuwIMGuJ2jmhpa6iByH/pub?start=false&loop=false&delayms=3000)
 
-## [Project Demo Video 📱](https://kompass-xi.vercel.app/demo_pitch)
+## [Project Demo Video 📱](https://ikeakompass-team17.vercel.app/demo_pitch#demo)
 
 ## Design thinking principles (DVF Framework)
 

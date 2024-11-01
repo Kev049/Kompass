@@ -6,7 +6,7 @@
 
 ## [Project Demo Video 🎥](https://kompass-xi.vercel.app/demo_pitch)
 
-## Design thinking principles (DFV Framework)
+## Design thinking principles (DVF Framework)
 
 ### Desirability
 
